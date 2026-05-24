@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cobros y Pagos — Sociedad Humanista Santa Martha</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --azul-principal: #3A8FC4;
+      --azul-suave:     #EBF4FB;
+      --azul-medio:     #2574A9;
+      --gris-texto:     #3D3D3D;
+      --gris-medio:     #7A8A99;
+      --gris-borde:     #D9E2EA;
+      --gris-fondo:     #F7F9FB;
+      --blanco:         #FFFFFF;
+      --verde:          #27ae60;
+      --verde-suave:    #eafaf1;
+      --rojo:           #e74c3c;
+      --rojo-suave:     #fdf0ef;
+      --amarillo:       #f39c12;
+      --amarillo-suave: #fef9e7;
+      --mp-azul:        #009EE3;
+      --oxxo-rojo:      #DA291C;
+      --sombra-card:    0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--gris-fondo);
+      color: var(--gris-texto);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,h2,h3,h4,h5 { font-family: 'Lora', serif; font-weight: 600; }
+
+    /* ── NAVBAR ── */
+    .navbar-sh {
+      background-color: var(--blanco);
+      border-bottom: 1px solid var(--gris-borde);
+      position: sticky; top: 0; z-index: 1000;
+      padding: 0.6rem 1.5rem;
+      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    }
+    .navbar-sh .navbar-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .navbar-sh .navbar-brand img { height: 42px; }
+    .navbar-sh .brand-text { line-height: 1.2; }
+    .navbar-sh .brand-text strong { display:block; font-size:0.82rem; font-weight:700; color:var(--gris-texto); letter-spacing:0.5px; text-transform:uppercase; }
+    .navbar-sh .brand-text span { font-size:0.72rem; color:var(--gris-medio); }
+    .navbar-sh .nav-link { color:var(--gris-texto) !important; font-size:0.75rem; font-weight:500; padding:0.4rem 0.55rem !important; border-radius:6px; transition:background 0.2s,color 0.2s; }
+    .navbar-sh .nav-link:hover { background-color:var(--azul-suave); color:var(--azul-principal) !important; }
+    .navbar-sh .nav-link.active { color:var(--azul-principal) !important; background-color:var(--azul-suave); }
+    .navbar-sh .nav-link-cerrar { color:#c0392b !important; border:1px solid #e74c3c; border-radius:6px; }
+    .navbar-sh .nav-link-cerrar:hover { background-color:#fdf0ef !important; color:#c0392b !important; border-color:#c0392b; }
+    .navbar-toggler { border:1px solid var(--gris-borde); padding:5px 9px; }
+    .navbar-toggler:focus { box-shadow:none; }
+    .navbar-toggler-icon { background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(58,143,196,1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+
+    @media (max-width:576px) {
+      .navbar-sh .brand-text { display:none; }
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, var(--azul-principal) 0%, var(--azul-medio) 100%);
+      padding: 36px 20px 32px;
+      text-align: center;
+      color: var(--blanco);
+    }
+    .page-header h1 { color: var(--blanco); font-size: clamp(1.2rem, 4vw, 1.6rem); margin-bottom: 6px; }
+    .page-header p { font-size: 0.88rem; opacity: 0.85; margin: 0; }
+    .page-header .header-icon {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .page-header .header-icon i { font-size: 1.7rem; color: var(--blanco); }
+
+    /* ── SECCIÓN BASE ── */
+    .cobros-section { padding: 36px 16px 56px; }
+
+    .seccion-titulo { margin-bottom: 20px; }
+    .seccion-titulo h2 { font-size: clamp(1rem, 3vw, 1.15rem); color: var(--gris-texto); margin-bottom: 4px; }
+    .seccion-titulo p { font-size: 0.85rem; color: var(--gris-medio); }
+    .linea-azul { width: 36px; height: 3px; background-color: var(--azul-principal); border-radius: 2px; margin: 8px 0 0; }
+
+    /* ── CARDS DE RESUMEN ── */
+    .resumen-card {
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      border-radius: 12px;
+      padding: 20px 16px;
+      box-shadow: var(--sombra-card);
+      text-align: center;
+      height: 100%;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .resumen-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(58,143,196,0.12); }
+    .resumen-card .r-icon {
+      width: 46px; height: 46px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 10px;
+    }
+    .resumen-card .r-icon i { font-size: 1.2rem; }
+    .resumen-card .r-valor { font-size: clamp(1.2rem, 4vw, 1.6rem); font-weight: 700; font-family: 'Inter', sans-serif; margin-bottom: 4px; }
+    .resumen-card .r-label { font-size: 0.75rem; color: var(--gris-medio); line-height: 1.3; }
+
+    .r-azul .r-icon { background: var(--azul-suave); }
+    .r-azul .r-icon i { color: var(--azul-principal); }
+    .r-azul .r-valor { color: var(--azul-principal); }
+
+    .r-verde .r-icon { background: var(--verde-suave); }
+    .r-verde .r-icon i { color: var(--verde); }
+    .r-verde .r-valor { color: var(--verde); }
+
+    .r-amarillo .r-icon { background: var(--amarillo-suave); }
+    .r-amarillo .r-icon i { color: var(--amarillo); }
+    .r-amarillo .r-valor { color: var(--amarillo); }
+
+    .r-rojo .r-icon { background: var(--rojo-suave); }
+    .r-rojo .r-icon i { color: var(--rojo); }
+    .r-rojo .r-valor { color: var(--rojo); }
+
+    /* ── ESTADO DEL CONTRATO ── */
+    .contrato-card {
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      border-radius: 12px;
+      padding: 24px 20px;
+      box-shadow: var(--sombra-card);
+      border-top: 3px solid var(--azul-principal);
+      flex: 1;
+    }
+    .badge-estado {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 50px;
+      font-size: 0.8rem; font-weight: 600;
+    }
+    .badge-activo { background: var(--verde-suave); color: var(--verde); }
+    .badge-pendiente { background: var(--amarillo-suave); color: var(--amarillo); }
+    .badge-vencido { background: var(--rojo-suave); color: var(--rojo); }
+
+    .contrato-dato { border-bottom: 1px solid var(--gris-borde); padding: 10px 0; }
+    .contrato-dato:last-child { border-bottom: none; }
+    .contrato-dato .dato-label { font-size: 0.75rem; color: var(--gris-medio); margin-bottom: 2px; }
+    .contrato-dato .dato-valor { font-size: 0.9rem; font-weight: 600; color: var(--gris-texto); }
+
+    /* ── MENSUALIDADES ── */
+    .mensualidades-card {
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--sombra-card);
+    }
+    .mes-item {
+      display: flex; align-items: center;
+      padding: 11px 0; border-bottom: 1px solid var(--gris-borde);
+      gap: 10px; flex-wrap: nowrap;
+    }
+    .mes-item:last-child { border-bottom: none; }
+    .mes-info { flex: 1; min-width: 0; }
+    .mes-info .mes-nombre { font-size: 0.86rem; font-weight: 600; color: var(--gris-texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mes-info .mes-fecha { font-size: 0.75rem; color: var(--gris-medio); }
+    .mes-monto { font-size: 0.9rem; font-weight: 700; color: var(--gris-texto); white-space: nowrap; }
+    .mes-badge { font-size: 0.7rem; font-weight: 600; padding: 3px 9px; border-radius: 50px; white-space: nowrap; flex-shrink: 0; }
+    .mes-pagado { background: var(--verde-suave); color: var(--verde); }
+    .mes-pendiente { background: var(--amarillo-suave); color: var(--amarillo); }
+    .mes-vencido { background: var(--rojo-suave); color: var(--rojo); }
+
+    /* ── HISTORIAL DE PAGOS ── */
+    .historial-card {
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      border-radius: 12px;
+      box-shadow: var(--sombra-card);
+      overflow: hidden;
+    }
+    .historial-card .card-header-sh {
+      background: var(--azul-suave);
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--gris-borde);
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .historial-card .card-header-sh h5 { font-size: 0.9rem; margin: 0; color: var(--gris-texto); }
+    .table-historial { margin: 0; }
+    .table-historial thead th { font-size: 0.75rem; color: var(--gris-medio); font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; background: var(--gris-fondo); border-color: var(--gris-borde); padding: 10px 14px; white-space: nowrap; }
+    .table-historial tbody td { font-size: 0.83rem; color: var(--gris-texto); border-color: var(--gris-borde); padding: 10px 14px; vertical-align: middle; }
+    .table-historial tbody tr:hover { background-color: var(--azul-suave); }
+
+    /* ── BOTONES ── */
+    .btn-sh-primary {
+      background-color: var(--azul-principal); color: var(--blanco);
+      border: none; border-radius: 8px; padding: 10px 18px;
+      font-size: 0.85rem; font-weight: 600;
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      transition: background 0.2s, transform 0.15s;
+      text-decoration: none; cursor: pointer; width: 100%;
+    }
+    .btn-sh-primary:hover { background-color: var(--azul-medio); transform: translateY(-1px); color: var(--blanco); }
+
+    .btn-sh-outline {
+      background-color: transparent; color: var(--azul-principal);
+      border: 1px solid var(--azul-principal); border-radius: 8px; padding: 7px 14px;
+      font-size: 0.8rem; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: background 0.2s; text-decoration: none; cursor: pointer; white-space: nowrap;
+    }
+    .btn-sh-outline:hover { background-color: var(--azul-suave); color: var(--azul-principal); }
+
+    /* ── DESCARGAR RECIBOS ── */
+    .recibo-item {
+      display: flex; align-items: center;
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      border-radius: 10px; padding: 14px 16px;
+      box-shadow: var(--sombra-card);
+      transition: border-color 0.2s;
+      gap: 12px;
+    }
+    .recibo-item:hover { border-color: var(--azul-principal); }
+    .recibo-item .recibo-icon { width: 40px; height: 40px; border-radius: 8px; background: var(--azul-suave); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .recibo-item .recibo-icon i { font-size: 1.1rem; color: var(--azul-principal); }
+    .recibo-item .recibo-info { flex: 1; min-width: 0; }
+    .recibo-item .recibo-info .r-titulo { font-size: 0.86rem; font-weight: 600; color: var(--gris-texto); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .recibo-item .recibo-info .r-meta { font-size: 0.75rem; color: var(--gris-medio); }
+
+    /* ── MÉTODOS DE PAGO ── */
+    .pago-section-card {
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      border-radius: 12px;
+      box-shadow: var(--sombra-card);
+      overflow: hidden;
+    }
+
+    /* Tabs de métodos */
+    .metodos-tabs {
+      display: flex;
+      border-bottom: 2px solid var(--gris-borde);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .metodos-tabs::-webkit-scrollbar { display: none; }
+
+    .tab-metodo {
+      flex: 1; min-width: 100px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 16px 10px; gap: 6px;
+      cursor: pointer; border: none; background: transparent;
+      border-bottom: 3px solid transparent; margin-bottom: -2px;
+      transition: background 0.2s, border-color 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .tab-metodo:hover { background: var(--gris-fondo); }
+    .tab-metodo.activo { border-bottom-color: var(--azul-principal); background: var(--azul-suave); }
+    .tab-metodo .tab-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .tab-metodo .tab-label { font-size: 0.75rem; font-weight: 600; color: var(--gris-texto); line-height: 1.2; text-align: center; }
+    .tab-metodo.activo .tab-label { color: var(--azul-principal); }
+
+    /* Paneles */
+    .pago-panel { display: none; padding: 28px 24px; }
+    .pago-panel.activo { display: block; }
+
+    /* Mercado Pago */
+    .mp-card {
+      background: linear-gradient(135deg, #009EE3 0%, #0077B6 100%);
+      border-radius: 12px; padding: 28px 24px; color: white; text-align: center;
+    }
+    .mp-card .mp-logo { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+    .mp-card .mp-logo span { color: #A3D9F5; }
+    .mp-card p { font-size: 0.85rem; opacity: 0.9; margin-bottom: 20px; }
+    .mp-monto { font-size: 2rem; font-weight: 700; margin-bottom: 6px; }
+    .mp-concepto { font-size: 0.8rem; opacity: 0.75; margin-bottom: 24px; }
+    .btn-mp {
+      background: #FFDF00; color: #333; border: none; border-radius: 50px;
+      padding: 14px 32px; font-size: 0.95rem; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;
+      width: 100%; justify-content: center; max-width: 320px;
+    }
+    .btn-mp:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+    .mp-seguro { font-size: 0.75rem; opacity: 0.7; margin-top: 12px; }
+
+    /* Transferencia */
+    .transferencia-info {
+      background: var(--azul-suave);
+      border: 1px solid var(--gris-borde);
+      border-radius: 10px; padding: 20px;
+      margin-bottom: 20px;
+    }
+    .banco-dato { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--gris-borde); gap: 12px; flex-wrap: wrap; }
+    .banco-dato:last-child { border-bottom: none; }
+    .banco-dato .b-label { font-size: 0.78rem; color: var(--gris-medio); font-weight: 500; flex-shrink: 0; }
+    .banco-dato .b-valor { font-size: 0.88rem; font-weight: 700; color: var(--gris-texto); word-break: break-all; }
+    .banco-dato .b-valor.copiable { color: var(--azul-principal); cursor: pointer; display: flex; align-items: center; gap: 5px; }
+    .banco-dato .b-valor.copiable:hover { text-decoration: underline; }
+    .alerta-referencia {
+      background: var(--amarillo-suave); border: 1px solid #f6c96b;
+      border-radius: 8px; padding: 12px 16px;
+      display: flex; gap: 10px; align-items: flex-start; margin-top: 16px;
+    }
+    .alerta-referencia i { color: var(--amarillo); font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+    .alerta-referencia span { font-size: 0.8rem; color: #7a5c00; line-height: 1.5; }
+
+    /* Ficha Oxxo */
+    .oxxo-card {
+      border: 2px dashed #DA291C; border-radius: 12px; overflow: hidden;
+    }
+    .oxxo-header {
+      background: #DA291C; padding: 16px 20px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .oxxo-header .oxxo-logo { font-size: 1.4rem; font-weight: 900; color: white; letter-spacing: -1px; font-family: 'Inter', sans-serif; }
+    .oxxo-header .oxxo-titulo { color: white; font-size: 0.85rem; font-weight: 600; line-height: 1.3; }
+    .oxxo-body { padding: 20px; }
+    .oxxo-barcode {
+      background: var(--gris-fondo); border: 1px solid var(--gris-borde);
+      border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 16px;
+    }
+    .oxxo-barcode .barcode-numero { font-size: clamp(0.95rem, 3vw, 1.2rem); font-weight: 700; letter-spacing: 3px; color: var(--gris-texto); font-family: monospace; word-break: break-all; }
+    .oxxo-barcode .barcode-visual { margin: 12px 0; display: flex; justify-content: center; gap: 2px; align-items: flex-end; }
+    .oxxo-barcode .barcode-visual span { background: var(--gris-texto); border-radius: 1px; width: 3px; }
+    .oxxo-instrucciones { list-style: none; padding: 0; margin: 0; }
+    .oxxo-instrucciones li { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--gris-borde); font-size: 0.82rem; color: var(--gris-texto); }
+    .oxxo-instrucciones li:last-child { border-bottom: none; }
+    .oxxo-instrucciones li .paso-num { width: 22px; height: 22px; border-radius: 50%; background: #DA291C; color: white; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .btn-oxxo {
+      background: #DA291C; color: white; border: none; border-radius: 8px;
+      padding: 12px 20px; font-size: 0.88rem; font-weight: 600;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      cursor: pointer; width: 100%; margin-top: 16px;
+      transition: background 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .btn-oxxo:hover { background: #b71c1c; }
+
+    /* ── FOOTER ── */
+    .footer-sh { background-color:var(--blanco); border-top:1px solid var(--gris-borde); padding:28px 20px; text-align:center; }
+    .footer-sh .footer-logo img { height:34px; opacity:0.7; margin-bottom:10px; }
+    .footer-sh p { font-size:0.8rem; color:var(--gris-medio); margin-bottom:4px; }
+    .footer-sh a { color:var(--azul-principal); text-decoration:none; }
+    .footer-sh a:hover { text-decoration:underline; }
+    .footer-divider { width:36px; height:2px; background-color:var(--gris-borde); border-radius:2px; margin:12px auto; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 767px) {
+      .cobros-section { padding: 24px 12px 48px; }
+      .contrato-card { padding: 18px 16px; }
+      .mensualidades-card { padding: 16px; }
+      .pago-panel { padding: 20px 16px; }
+      .mp-card { padding: 22px 16px; }
+      .tab-metodo { min-width: 85px; padding: 12px 8px; }
+      .table-historial thead th,
+      .table-historial tbody td { padding: 8px 10px; }
+    }
+
+    @media (max-width: 400px) {
+      .mes-monto { display: none; }
+      .oxxo-barcode .barcode-numero { font-size: 0.82rem; letter-spacing: 1px; }
+    }
+
+    /* Toast copiado */
+    .toast-copiado {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: #222; color: white; padding: 10px 20px; border-radius: 50px;
+      font-size: 0.82rem; z-index: 9999; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .toast-copiado.visible { opacity: 1; }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-sh">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="site.html">
+        <img src="logo.png" alt="Logo Sociedad Humanista Santa Martha"/>
+        <div class="brand-text">
+          <strong>Sociedad Humanista</strong>
+          <span>Santa Martha S.A. de C.V.</span>
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="menuPrincipal">
+        <ul class="navbar-nav gap-1 py-2 py-lg-0">
+          <li class="nav-item"><a class="nav-link" href="misDatos.html"><i class="bi bi-person me-1"></i>Mis datos</a></li>
+          <li class="nav-item"><a class="nav-link active" href="cobros.html"><i class="bi bi-credit-card me-1"></i>Cobros</a></li>
+          <li class="nav-item"><a class="nav-link" href="planFunerario.html"><i class="bi bi-file-earmark-text me-1"></i>Mi plan funerario</a></li>
+          <li class="nav-item"><a class="nav-link" href="informacion.html"><i class="bi bi-info-circle me-1"></i>Información</a></li>
+          <li class="nav-item"><a class="nav-link" href="notificaciones.html"><i class="bi bi-bell me-1"></i>Notificaciones</a></li>
+          <li class="nav-item"><a class="nav-link" href="panelAdministrativo.html"><i class="bi bi-people me-1"></i>Movimientos</a></li>
+          <li class="nav-item"><a class="nav-link" href="beneficiarios.html"><i class="bi bi-people me-1"></i>Beneficiarios</a></li>
+          <li class="nav-item ms-1"><a class="nav-link nav-link-cerrar" href="index.html"><i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="header-icon"><i class="bi bi-credit-card"></i></div>
+    <h1>Cobros y Pagos</h1>
+    <p>Consulte, gestione y realice sus pagos desde un solo lugar</p>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <section class="cobros-section">
+    <div class="container-lg">
+
+      <!-- ── RESUMEN ── -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="resumen-card r-azul">
+            <div class="r-icon"><i class="bi bi-calendar3"></i></div>
+            <div class="r-valor">$350</div>
+            <div class="r-label">Mensualidad actual</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="resumen-card r-verde">
+            <div class="r-icon"><i class="bi bi-check-circle"></i></div>
+            <div class="r-valor">1</div>
+            <div class="r-label">Pagos realizados</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="resumen-card r-amarillo">
+            <div class="r-icon"><i class="bi bi-clock"></i></div>
+            <div class="r-valor">1</div>
+            <div class="r-label">Pago pendiente</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="resumen-card r-rojo">
+            <div class="r-icon"><i class="bi bi-exclamation-circle"></i></div>
+            <div class="r-valor">$0</div>
+            <div class="r-label">Saldo vencido</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ESTADO DEL CONTRATO + MENSUALIDADES ── -->
+      <div class="row g-4 mb-4">
+
+        <!-- Estado del contrato -->
+        <div class="col-12 col-lg-5 d-flex flex-column">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-file-earmark-check me-2" style="color:var(--azul-principal)"></i>Estado del Contrato</h2>
+            <div class="linea-azul"></div>
+          </div>
+          <div class="contrato-card">
+            <div class="mb-3">
+              <span class="badge-estado badge-activo"><i class="bi bi-circle-fill" style="font-size:0.45rem"></i> Contrato Activo</span>
+            </div>
+            <div class="contrato-dato">
+              <div class="dato-label">Número de contrato</div>
+              <div class="dato-valor">SHM-2023-00842</div>
+            </div>
+            <div class="contrato-dato">
+              <div class="dato-label">Titular</div>
+              <div class="dato-valor">Juan Carlos Ramírez López</div>
+            </div>
+            <div class="contrato-dato">
+              <div class="dato-label">Plan contratado</div>
+              <div class="dato-valor">Plan Familiar Plus</div>
+            </div>
+            <div class="contrato-dato">
+              <div class="dato-label">Fecha de inicio</div>
+              <div class="dato-valor">15 de enero, 2023</div>
+            </div>
+            <div class="contrato-dato">
+              <div class="dato-label">Próximo cobro</div>
+              <div class="dato-valor" style="color:var(--amarillo)">15 de agosto, 2026</div>
+            </div>
+            <div class="contrato-dato">
+              <div class="dato-label">Monto mensual</div>
+              <div class="dato-valor" style="color:var(--azul-principal); font-size:1.05rem">$350.00 MXN</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mensualidades -->
+        <div class="col-12 col-lg-7">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-calendar-check me-2" style="color:var(--azul-principal)"></i>Mensualidades</h2>
+            <div class="linea-azul"></div>
+          </div>
+            <div class="mensualidades-card">
+              <div class="mes-item">
+                <div class="mes-info">
+                  <div class="mes-nombre">Agosto 2026</div>
+                  <div class="mes-fecha">Vence: 15 ago 2026</div>
+                </div>
+                <div class="mes-monto">$350.00</div>
+                <span class="mes-badge mes-pendiente"><i class="bi bi-clock me-1"></i>Pendiente</span>
+              </div>
+              <div class="mes-item">
+                <div class="mes-info">
+                  <div class="mes-nombre">Julio 2026</div>
+                  <div class="mes-fecha">Pagado: 12 jul 2026</div>
+                </div>
+                <div class="mes-monto">$350.00</div>
+                <span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+              </div>
+              <div class="mes-item">
+                <div class="mes-info">
+                  <div class="mes-nombre">Junio 2026</div>
+                  <div class="mes-fecha">Pagado: 10 jun 2026</div>
+                </div>
+                <div class="mes-monto">$350.00</div>
+                <span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+              </div>
+              <div class="mes-item">
+                <div class="mes-info">
+                  <div class="mes-nombre">Mayo 2026</div>
+                  <div class="mes-fecha">Pagado: 14 may 2026</div>
+                </div>
+                <div class="mes-monto">$350.00</div>
+                <span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+              </div>
+              <div class="mes-item">
+                <div class="mes-info">
+                  <div class="mes-nombre">Abril 2026</div>
+                  <div class="mes-fecha">Pagado: 15 abr 2026</div>
+                </div>
+                <div class="mes-monto">$350.00</div>
+                <span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+              </div>
+              <div class="mes-item">
+                <div class="mes-info">
+                  <div class="mes-nombre">Marzo 2026</div>
+                  <div class="mes-fecha">Pagado: 13 mar 2026</div>
+                </div>
+                <div class="mes-monto">$350.00</div>
+                <span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+              </div>
+  
+              <!-- Mensualidades adicionales (ocultas por defecto) -->
+              <div id="mensualidades-extra" style="display:none;">
+                <div class="mes-item">
+                  <div class="mes-info">
+                    <div class="mes-nombre">Febrero 2026</div>
+                    <div class="mes-fecha">Pagado: 12 feb 2026</div>
+                  </div>
+                  <div class="mes-monto">$350.00</div>
+                  <span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+                </div>
+                <div class="mes-item">
+                  <div class="mes-info">
+                    <div class="mes-nombre">Enero 2026</div>
+                    <div class="mes-fecha">Pagado: 14 ene 2026</div>
+                  </div>
+                  <div class="mes-monto">$350.00</div>
+                  <span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+                </div>
+                <div class="mes-item">
+                  <div class="mes-info">
+                    <div class="mes-nombre">Diciembre 2025</div>
+                    <div class="mes-fecha">Pagado: 13 dic 2025</div>
+                  </div>
+                  <div class="mes-monto">$350.00</div>
+                  <span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+                </div>
+                <div class="mes-item">
+                  <div class="mes-info">
+                    <div class="mes-nombre">Noviembre 2025</div>
+                    <div class="mes-fecha">Pagado: 11 nov 2025</div>
+                  </div>
+                  <div class="mes-monto">$350.00</div>
+                  <span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+                </div>
+                <div class="mes-item">
+                  <div class="mes-info">
+                    <div class="mes-nombre">Octubre 2025</div>
+                    <div class="mes-fecha">Pagado: 15 oct 2025</div>
+                  </div>
+                  <div class="mes-monto">$350.00</div>
+                  <span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+                </div>
+              </div>
+  
+              <!-- Botón mostrar/ocultar mensualidades -->
+              <div class="pt-2">
+                <button class="btn-sh-outline w-100 justify-content-center" id="btn-toggle-mensualidades" onclick="toggleMensualidades()">
+                  <i class="bi bi-calendar3 me-1"></i> Mostrar todas las mensualidades
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <!-- ── REALIZAR PAGO ── -->
+      <div class="mb-4">
+        <div class="seccion-titulo">
+          <h2><i class="bi bi-wallet2 me-2" style="color:var(--verde)"></i>Realizar Pago</h2>
+          <div class="linea-azul" style="background:var(--verde)"></div>
+        </div>
+
+        <div class="pago-section-card">
+
+          <!-- Tabs -->
+          <div class="metodos-tabs">
+            <button class="tab-metodo activo" onclick="cambiarTab('mp', this)">
+              <div class="tab-icon" style="background:#E3F4FD">
+                <i class="bi bi-phone" style="color:var(--mp-azul); font-size:1.2rem"></i>
+              </div>
+              <span class="tab-label">Mercado<br>Pago</span>
+            </button>
+            <button class="tab-metodo" onclick="cambiarTab('transferencia', this)">
+              <div class="tab-icon" style="background:var(--azul-suave)">
+                <i class="bi bi-bank" style="color:var(--azul-principal); font-size:1.2rem"></i>
+              </div>
+              <span class="tab-label">Transferencia<br>bancaria</span>
+            </button>
+            <button class="tab-metodo" onclick="cambiarTab('oxxo', this)">
+              <div class="tab-icon" style="background:#fdecea">
+                <i class="bi bi-shop" style="color:var(--oxxo-rojo); font-size:1.2rem"></i>
+              </div>
+              <span class="tab-label">Ficha<br>Oxxo</span>
+            </button>
+          </div>
+
+          <!-- Panel: Mercado Pago -->
+          <div class="pago-panel activo" id="panel-mp">
+            <div class="mp-card">
+              <div class="mp-logo">mercado<span>pago</span></div>
+              <div class="mp-monto">$350.00 MXN</div>
+              <div class="mp-concepto">Mensualidad Agosto 2026 — SHM-2023-00842</div>
+              <p>Paga de forma rápida y segura con tu cuenta Mercado Pago, tarjeta de crédito o débito.</p>
+              <button class="btn-mp">
+                <i class="bi bi-bag-check-fill"></i> Pagar con Mercado Pago
+              </button>
+              <div class="mp-seguro"><i class="bi bi-shield-lock me-1"></i>Pago protegido con encriptación SSL</div>
+            </div>
+            <div class="mt-3 d-flex flex-wrap gap-2 justify-content-center">
+              <span style="font-size:0.75rem; color:var(--gris-medio); display:flex; align-items:center; gap:5px;"><i class="bi bi-credit-card"></i> Tarjeta de crédito</span>
+              <span style="font-size:0.75rem; color:var(--gris-medio); display:flex; align-items:center; gap:5px;"><i class="bi bi-credit-card-2-front"></i> Tarjeta de débito</span>
+              <span style="font-size:0.75rem; color:var(--gris-medio); display:flex; align-items:center; gap:5px;"><i class="bi bi-phone"></i> Cuenta MP</span>
+              <span style="font-size:0.75rem; color:var(--gris-medio); display:flex; align-items:center; gap:5px;"><i class="bi bi-qr-code"></i> CoDi / SPEI</span>
+            </div>
+          </div>
+
+          <!-- Panel: Transferencia -->
+          <div class="pago-panel" id="panel-transferencia">
+            <p style="font-size:0.85rem; color:var(--gris-medio); margin-bottom:20px;">
+              Realice su transferencia a la siguiente cuenta y envíenos el comprobante por WhatsApp.
+            </p>
+            <div class="transferencia-info">
+              <div class="banco-dato">
+                <span class="b-label">Banco</span>
+                <span class="b-valor">BBVA México</span>
+              </div>
+              <div class="banco-dato">
+                <span class="b-label">Beneficiario</span>
+                <span class="b-valor">Soc. Humanista Santa Martha S.A. de C.V.</span>
+              </div>
+              <div class="banco-dato">
+                <span class="b-label">Número de cuenta</span>
+                <span class="b-valor copiable" onclick="copiar('1234567890', this)">
+                  1234567890 <i class="bi bi-copy" style="font-size:0.8rem"></i>
+                </span>
+              </div>
+              <div class="banco-dato">
+                <span class="b-label">CLABE interbancaria</span>
+                <span class="b-valor copiable" onclick="copiar('012345678901234567', this)">
+                  012345678901234567 <i class="bi bi-copy" style="font-size:0.8rem"></i>
+                </span>
+              </div>
+              <div class="banco-dato">
+                <span class="b-label">Monto</span>
+                <span class="b-valor" style="color:var(--verde)">$350.00 MXN</span>
+              </div>
+              <div class="banco-dato">
+                <span class="b-label">Referencia</span>
+                <span class="b-valor">SHM-2023-00842</span>
+              </div>
+            </div>
+            <!--
+            <div class="alerta-referencia">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+              <span><strong>Importante:</strong> Indique como referencia su número de contrato <strong>SHM-2023-00842</strong> para identificar su pago correctamente.</span>
+            </div>
+            -->
+            <div class="mt-3">
+              <a href="https://api.whatsapp.com/send?phone=5217821574801&text=Hola,%20adjunto%20comprobante%20de%20pago%20del%20contrato%20SHM-2023-00842"
+                 target="_blank" class="btn-sh-primary" style="max-width:320px; margin:0 auto; display:flex; text-decoration:none;">
+                <i class="bi bi-whatsapp"></i> Enviar comprobante por WhatsApp
+              </a>
+            </div>
+          </div>
+
+          <!-- Panel: Oxxo -->
+          <div class="pago-panel" id="panel-oxxo">
+            <p style="font-size:0.85rem; color:var(--gris-medio); margin-bottom:20px;">
+              Pague en efectivo en cualquier tienda Oxxo del país. Presente la siguiente ficha al cajero.
+            </p>
+            <div class="oxxo-card">
+              <div class="oxxo-header">
+                <div class="oxxo-logo">OXXO</div>
+                <div class="oxxo-titulo">
+                  Ficha de pago<br>
+                  <span style="font-size:0.78rem; opacity:0.85">Sociedad Humanista Santa Martha</span>
+                </div>
+                <div style="margin-left:auto; text-align:right; color:white;">
+                  <div style="font-size:0.72rem; opacity:0.8">Monto a pagar</div>
+                  <div style="font-size:1.3rem; font-weight:800">$350.00</div>
+                </div>
+              </div>
+              <div class="oxxo-body">
+                <div class="oxxo-barcode">
+                  <div style="font-size:0.72rem; color:var(--gris-medio); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Número de referencia</div>
+                  <!-- Barras decorativas -->
+                  <div class="barcode-visual">
+                    <script>
+                      const alturas = [28,18,32,22,28,14,32,20,26,16,30,24,28,18,32,22,28,14,32,20,26,16,30,24,28,18,32,22,28,14,32,20,26,16,30,24,28,18,32];
+                      document.write(alturas.map(h => `<span style="height:${h}px"></span>`).join(''));
+                    </script>
+                  </div>
+                  <div class="barcode-numero">8523 6974 1023 8523 6974</div>
+                </div>
+                <ul class="oxxo-instrucciones">
+                  <li>
+                    <span class="paso-num">1</span>
+                    <span>Acuda a la tienda Oxxo más cercana y diga al cajero que realizará un pago de servicio.</span>
+                  </li>
+                  <li>
+                    <span class="paso-num">2</span>
+                    <span>Proporcione el número de referencia o muestre esta pantalla al cajero para escanear el código.</span>
+                  </li>
+                  <li>
+                    <span class="paso-num">3</span>
+                    <span>Pague en efectivo el monto de <strong>$350.00 MXN</strong> más la comisión Oxxo aplicable.</span>
+                  </li>
+                  <li>
+                    <span class="paso-num">4</span>
+                    <span>Conserve su ticket como comprobante. El pago se reflejará en un plazo de 24 a 48 horas.</span>
+                  </li>
+                </ul>
+                <button class="btn-oxxo" onclick="window.print()">
+                  <i class="bi bi-printer"></i> Imprimir / Guardar ficha
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── HISTORIAL DE PAGOS ── -->
+      <div class="mb-4">
+        <div class="seccion-titulo">
+          <h2><i class="bi bi-clock-history me-2" style="color:var(--azul-principal)"></i>Historial de Pagos</h2>
+          <div class="linea-azul"></div>
+        </div>
+        <div class="historial-card">
+          <div class="card-header-sh">
+            <h5><i class="bi bi-table me-2"></i>Todos los movimientos</h5>
+            <button class="btn-sh-outline"><i class="bi bi-funnel"></i> Filtrar</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-historial table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Folio</th>
+                  <th>Fecha</th>
+                  <th>Concepto</th>
+                  <th>Monto</th>
+                  <th>Método</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span style="color:var(--azul-principal); font-weight:600">#00118</span></td>
+                  <td>12 jul 2026</td>
+                  <td>Mensualidad Julio 2026</td>
+                  <td><strong>$350.00</strong></td>
+                  <td><i class="bi bi-phone me-1"></i>Mercado Pago</td>
+                  <td><span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span></td>
+                </tr>
+                <tr>
+                  <td><span style="color:var(--azul-principal); font-weight:600">#00105</span></td>
+                  <td>10 jun 2026</td>
+                  <td>Mensualidad Junio 2026</td>
+                  <td><strong>$350.00</strong></td>
+                  <td><i class="bi bi-bank me-1"></i>Transferencia</td>
+                  <td><span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span></td>
+                </tr>
+                <tr>
+                  <td><span style="color:var(--azul-principal); font-weight:600">#00092</span></td>
+                  <td>14 may 2026</td>
+                  <td>Mensualidad Mayo 2026</td>
+                  <td><strong>$350.00</strong></td>
+                  <td><i class="bi bi-shop me-1"></i>Oxxo</td>
+                  <td><span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span></td>
+                </tr>
+                <tr>
+                  <td><span style="color:var(--azul-principal); font-weight:600">#00079</span></td>
+                  <td>15 abr 2026</td>
+                  <td>Mensualidad Abril 2026</td>
+                  <td><strong>$350.00</strong></td>
+                  <td><i class="bi bi-phone me-1"></i>Mercado Pago</td>
+                  <td><span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span></td>
+                </tr>
+                <tr>
+                  <td><span style="color:var(--azul-principal); font-weight:600">#00066</span></td>
+                  <td>13 mar 2026</td>
+                  <td>Mensualidad Marzo 2026</td>
+                  <td><strong>$350.00</strong></td>
+                  <td><i class="bi bi-bank me-1"></i>Transferencia</td>
+                  <td><span class="mes-badge mes-pagado"><i class="bi bi-check me-1"></i>Pagado</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DESCARGAR RECIBOS ── -->
+      <div class="mb-4">
+        <div class="seccion-titulo">
+          <h2><i class="bi bi-download me-2" style="color:var(--azul-principal)"></i>Descargar Recibos</h2>
+          <div class="linea-azul"></div>
+        </div>
+        <div class="row g-3">
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="recibo-item">
+              <div class="recibo-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+              <div class="recibo-info">
+                <div class="r-titulo">Recibo Julio 2026</div>
+                <div class="r-meta">Folio #00118 · $350.00 · PDF</div>
+              </div>
+              <button class="btn-sh-outline"><i class="bi bi-download"></i></button>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="recibo-item">
+              <div class="recibo-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+              <div class="recibo-info">
+                <div class="r-titulo">Recibo Junio 2026</div>
+                <div class="r-meta">Folio #00105 · $350.00 · PDF</div>
+              </div>
+              <button class="btn-sh-outline"><i class="bi bi-download"></i></button>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="recibo-item">
+              <div class="recibo-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+              <div class="recibo-info">
+                <div class="r-titulo">Recibo Mayo 2026</div>
+                <div class="r-meta">Folio #00092 · $350.00 · PDF</div>
+              </div>
+              <button class="btn-sh-outline"><i class="bi bi-download"></i></button>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="recibo-item">
+              <div class="recibo-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+              <div class="recibo-info">
+                <div class="r-titulo">Recibo Abril 2026</div>
+                <div class="r-meta">Folio #00079 · $350.00 · PDF</div>
+              </div>
+              <button class="btn-sh-outline"><i class="bi bi-download"></i></button>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="recibo-item">
+              <div class="recibo-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+              <div class="recibo-info">
+                <div class="r-titulo">Recibo Marzo 2026</div>
+                <div class="r-meta">Folio #00066 · $350.00 · PDF</div>
+              </div>
+              <button class="btn-sh-outline"><i class="bi bi-download"></i></button>
+            </div>
+          </div>
+
+          <!-- Recibos adicionales (ocultos por defecto) -->
+          <div id="recibos-extra" class="row g-3 w-100 mx-0" style="display:none !important">
+            <div class="col-12 col-sm-6 col-lg-4">
+              <div class="recibo-item">
+                <div class="recibo-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                <div class="recibo-info">
+                  <div class="r-titulo">Recibo Febrero 2026</div>
+                  <div class="r-meta">Folio #00054 · $350.00 · PDF</div>
+                </div>
+                <button class="btn-sh-outline"><i class="bi bi-download"></i></button>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4">
+              <div class="recibo-item">
+                <div class="recibo-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                <div class="recibo-info">
+                  <div class="r-titulo">Recibo Enero 2026</div>
+                  <div class="r-meta">Folio #00041 · $350.00 · PDF</div>
+                </div>
+                <button class="btn-sh-outline"><i class="bi bi-download"></i></button>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4">
+              <div class="recibo-item">
+                <div class="recibo-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                <div class="recibo-info">
+                  <div class="r-titulo">Recibo Diciembre 2025</div>
+                  <div class="r-meta">Folio #00029 · $350.00 · PDF</div>
+                </div>
+                <button class="btn-sh-outline"><i class="bi bi-download"></i></button>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4">
+              <div class="recibo-item">
+                <div class="recibo-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                <div class="recibo-info">
+                  <div class="r-titulo">Recibo Noviembre 2025</div>
+                  <div class="r-meta">Folio #00017 · $350.00 · PDF</div>
+                </div>
+                <button class="btn-sh-outline"><i class="bi bi-download"></i></button>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4">
+              <div class="recibo-item">
+                <div class="recibo-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                <div class="recibo-info">
+                  <div class="r-titulo">Recibo Octubre 2025</div>
+                  <div class="r-meta">Folio #00005 · $350.00 · PDF</div>
+                </div>
+                <button class="btn-sh-outline"><i class="bi bi-download"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="recibo-item" id="btn-ver-recibos" style="justify-content:center; border-style:dashed; cursor:pointer; min-height:72px;" onclick="toggleRecibos()">
+              <div style="text-align:center; color:var(--gris-medio);" id="ver-recibos-content">
+                <i class="bi bi-archive" style="font-size:1.3rem; display:block; margin-bottom:5px;"></i>
+                <span style="font-size:0.8rem;">Ver todos los recibos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer-sh">
+    <div class="footer-logo"><img src="Logo.png" alt="Logo"/></div>
+    <p><strong style="color:var(--gris-texto)">Sociedad Humanista Santa Martha S.A. de C.V.</strong></p>
+    <div class="footer-divider"></div>
+    <p>
+      <a href="mailto:contacto@santamartha.com.mx"><i class="bi bi-envelope me-1"></i>contacto@santamartha.com.mx</a>
+      &nbsp;&nbsp;
+      <a href="tel:+521234567890"><i class="bi bi-telephone me-1"></i>(123) 456-7890</a>
+    </p>
+    <p class="mt-2">© 2026 Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- Toast copiado -->
+  <div class="toast-copiado" id="toastCopiado">✓ Copiado al portapapeles</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleMensualidades() {
+      const extra = document.getElementById('mensualidades-extra');
+      const btn   = document.getElementById('btn-toggle-mensualidades');
+      const visible = extra.style.display !== 'none';
+      if (visible) {
+        extra.style.display = 'none';
+        btn.innerHTML = '<i class="bi bi-calendar3 me-1"></i> Mostrar todas las mensualidades';
+      } else {
+        extra.style.display = 'block';
+        btn.innerHTML = '<i class="bi bi-chevron-up me-1"></i> Ocultar mensualidades anteriores';
+      }
+    }
+
+    function cambiarTab(panel, btn) {
+      document.querySelectorAll('.tab-metodo').forEach(t => t.classList.remove('activo'));
+      document.querySelectorAll('.pago-panel').forEach(p => p.classList.remove('activo'));
+      btn.classList.add('activo');
+      document.getElementById('panel-' + panel).classList.add('activo');
+    }
+
+    function copiar(texto, el) {
+      navigator.clipboard.writeText(texto).then(() => {
+        const toast = document.getElementById('toastCopiado');
+        toast.classList.add('visible');
+        setTimeout(() => toast.classList.remove('visible'), 2000);
+      });
+    }
+
+    function toggleRecibos() {
+      const extra = document.getElementById('recibos-extra');
+      const btn   = document.getElementById('btn-ver-recibos');
+      const content = document.getElementById('ver-recibos-content');
+      const visible = extra.style.display !== 'none' && extra.style.display !== '';
+      if (visible) {
+        extra.style.display = 'none';
+        content.innerHTML = '<i class="bi bi-archive" style="font-size:1.3rem; display:block; margin-bottom:5px;"></i><span style="font-size:0.8rem;">Ver todos los recibos</span>';
+      } else {
+        extra.style.removeProperty('display');
+        extra.style.display = 'flex';
+        extra.style.flexWrap = 'wrap';
+        content.innerHTML = '<i class="bi bi-chevron-up" style="font-size:1.3rem; display:block; margin-bottom:5px;"></i><span style="font-size:0.8rem;">Ocultar recibos</span>';
+        extra.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  </script>
+
+</body>
+</html>

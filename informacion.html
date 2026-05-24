@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Información — Sociedad Humanista Santa Martha</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --azul-principal: #3A8FC4;
+      --azul-suave:     #EBF4FB;
+      --azul-medio:     #2574A9;
+      --gris-texto:     #3D3D3D;
+      --gris-medio:     #7A8A99;
+      --gris-borde:     #D9E2EA;
+      --gris-fondo:     #F7F9FB;
+      --blanco:         #FFFFFF;
+      --verde:          #1e8449;
+      --verde-suave:    #eafaf1;
+      --amarillo:       #b7950b;
+      --amarillo-suave: #fef9e7;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--gris-fondo);
+      color: var(--gris-texto);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,h2,h3,h4,h5 { font-family: 'Lora', serif; font-weight: 600; }
+
+    /* ── NAVBAR ── */
+    .navbar-sh {
+      background-color: var(--blanco);
+      border-bottom: 1px solid var(--gris-borde);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 0.6rem 1.5rem;
+      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    }
+    .navbar-sh .navbar-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .navbar-sh .navbar-brand img { height: 42px; }
+    .navbar-sh .brand-text { line-height: 1.2; }
+    .navbar-sh .brand-text strong { display:block; font-size:0.82rem; font-weight:700; color:var(--gris-texto); letter-spacing:0.5px; text-transform:uppercase; }
+    .navbar-sh .brand-text span { font-size:0.72rem; color:var(--gris-medio); }
+    .navbar-sh .nav-link { color:var(--gris-texto) !important; font-size:0.75rem; font-weight:500; padding:0.4rem 0.55rem !important; border-radius:6px; transition:background 0.2s,color 0.2s; }
+    .navbar-sh .nav-link:hover { background-color:var(--azul-suave); color:var(--azul-principal) !important; }
+    .navbar-sh .nav-link.active { color:var(--azul-principal) !important; background-color:var(--azul-suave); }
+    .navbar-sh .nav-link-cerrar { color:#c0392b !important; border:1px solid #e74c3c; border-radius:6px; }
+    .navbar-sh .nav-link-cerrar:hover { background-color:#fdf0ef !important; color:#c0392b !important; border-color:#c0392b; }
+    .navbar-toggler { border:1px solid var(--gris-borde); padding:5px 9px; }
+    .navbar-toggler:focus { box-shadow:none; }
+    .navbar-toggler-icon { background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(58,143,196,1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+    @media (max-width:576px) { .navbar-sh .brand-text { display:none; } }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-principal) 60%, #5aaed4 100%);
+      padding: 40px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .page-header .header-icon {
+      width: 64px; height: 64px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      border: 2px solid rgba(255,255,255,0.25);
+    }
+    .page-header .header-icon i { font-size: 1.7rem; color: var(--blanco); }
+    .page-header h1 { color: var(--blanco); font-size: clamp(1.15rem, 4vw, 1.55rem); margin-bottom: 6px; position: relative; }
+    .page-header p { font-size: 0.88rem; color: rgba(255,255,255,0.85); margin: 0; position: relative; }
+
+    /* ── CONTENIDO ── */
+    .info-section { padding: 36px 16px 56px; }
+
+    .seccion-titulo { margin-bottom: 20px; }
+    .seccion-titulo h2 { font-size: clamp(1rem, 3vw, 1.15rem); color: var(--gris-texto); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .linea-azul { width: 36px; height: 3px; background-color: var(--azul-principal); border-radius: 2px; margin: 8px 0 0; }
+
+    /* ── INFO CARD ── */
+    .info-card {
+      background: var(--blanco);
+      border-radius: 14px;
+      border: 1px solid var(--gris-borde);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+      padding: 24px;
+      height: auto;
+    }
+    .info-card .card-section-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gris-texto);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--gris-borde);
+    }
+
+    /* ── QUÉ ES ── */
+    .prevision-intro {
+      background: var(--blanco);
+      border-radius: 14px;
+      border: 1px solid var(--gris-borde);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+      padding: 32px;
+      border-left: 4px solid var(--azul-principal);
+    }
+    .prevision-intro .pi-lead {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--azul-medio);
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+    .prevision-intro p {
+      font-size: 0.92rem;
+      color: var(--gris-texto);
+      margin-bottom: 12px;
+    }
+    .prevision-intro p:last-child { margin-bottom: 0; }
+
+    /* ── BENEFICIOS ── */
+    .beneficio-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--gris-borde);
+    }
+    .beneficio-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .beneficio-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .beneficio-icon i { font-size: 1.1rem; }
+    .beneficio-item .ben-titulo { font-size: 0.88rem; font-weight: 700; color: var(--gris-texto); margin-bottom: 2px; }
+    .beneficio-item .ben-desc   { font-size: 0.78rem; color: var(--gris-medio); line-height: 1.4; }
+
+    /* ── FAQ ── */
+    .faq-accordion .accordion-button {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--gris-texto);
+      background: var(--blanco);
+      padding: 14px 18px;
+      box-shadow: none;
+    }
+    .faq-accordion .accordion-button:not(.collapsed) {
+      color: var(--azul-principal);
+      background: var(--azul-suave);
+    }
+    .faq-accordion .accordion-button::after {
+      filter: none;
+    }
+    .faq-accordion .accordion-item {
+      border: 1px solid var(--gris-borde);
+      border-radius: 10px !important;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .faq-accordion .accordion-body {
+      font-size: 0.85rem;
+      color: var(--gris-texto);
+      padding: 14px 18px;
+      background: var(--gris-fondo);
+      line-height: 1.65;
+    }
+
+    /* ── PROCEDIMIENTOS ── */
+    .paso-item {
+      display: flex;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--gris-borde);
+    }
+    .paso-item:last-child { border-bottom: none; }
+    .paso-numero {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--azul-principal);
+      color: var(--blanco);
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    .paso-item .paso-titulo { font-size: 0.88rem; font-weight: 700; color: var(--gris-texto); margin-bottom: 2px; }
+    .paso-item .paso-desc   { font-size: 0.78rem; color: var(--gris-medio); line-height: 1.4; }
+
+    /* ── REQUISITOS ── */
+    .requisito-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--gris-borde);
+      font-size: 0.86rem;
+    }
+    .requisito-item:last-child { border-bottom: none; }
+    .requisito-item i { color: var(--azul-principal); margin-top: 3px; flex-shrink: 0; }
+    .req-titulo { font-weight: 600; color: var(--gris-texto); }
+    .req-detalle { font-size: 0.76rem; color: var(--gris-medio); }
+
+    /* ── DOCUMENTOS ── */
+    .doc-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 16px;
+      border: 1px solid var(--gris-borde);
+      border-radius: 10px;
+      background: var(--blanco);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      margin-bottom: 10px;
+    }
+    .doc-item:hover {
+      border-color: var(--azul-principal);
+      box-shadow: 0 2px 12px rgba(58,143,196,0.1);
+    }
+    .doc-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .doc-icon i { font-size: 1.3rem; }
+    .doc-item .doc-info { flex: 1; min-width: 0; }
+    .doc-item .doc-nombre { font-size: 0.86rem; font-weight: 600; color: var(--gris-texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .doc-item .doc-meta   { font-size: 0.74rem; color: var(--gris-medio); }
+    .doc-item .doc-dl     { font-size: 0.75rem; font-weight: 600; color: var(--azul-principal); white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+    .doc-item:hover .doc-dl { color: var(--azul-medio); }
+
+    /* PDF rojo, Word azul, Excel verde */
+    .doc-pdf   { background: #fdecea; }
+    .doc-pdf i { color: #c0392b; }
+    .doc-word  { background: #ebf3fb; }
+    .doc-word i{ color: var(--azul-principal); }
+    .doc-xls   { background: var(--verde-suave); }
+    .doc-xls i { color: var(--verde); }
+
+    /* ── BOTÓN OUTLINE ── */
+    .btn-sh-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 20px;
+      border: 1.5px solid var(--azul-principal);
+      border-radius: 50px;
+      background: transparent;
+      color: var(--azul-principal);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+    .btn-sh-outline:hover { background: var(--azul-suave); color: var(--azul-principal); }
+
+    /* ── FOOTER ── */
+    .footer-sh { background-color:var(--blanco); border-top:1px solid var(--gris-borde); padding:28px 20px; text-align:center; }
+    .footer-sh .footer-logo img { height:34px; opacity:0.7; margin-bottom:10px; }
+    .footer-sh p { font-size:0.8rem; color:var(--gris-medio); margin-bottom:4px; }
+    .footer-sh a { color:var(--azul-principal); text-decoration:none; }
+    .footer-sh a:hover { text-decoration:underline; }
+    .footer-divider { width:36px; height:2px; background-color:var(--gris-borde); border-radius:2px; margin:12px auto; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════ -->
+  <nav class="navbar navbar-expand-lg navbar-sh">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="site.html">
+        <img src="logo.png" alt="Logo"/>
+        <div class="brand-text">
+          <strong>Sociedad Humanista</strong>
+          <span>Santa Martha S.A. de C.V.</span>
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav align-items-lg-center gap-1">
+          <li class="nav-item"><a class="nav-link" href="misDatos.html"><i class="bi bi-house me-1"></i>Mis datos</a></li>
+          <li class="nav-item"><a class="nav-link" href="cobros.html"><i class="bi bi-credit-card me-1"></i>Cobros</a></li>
+          <li class="nav-item"><a class="nav-link" href="planFunerario.html"><i class="bi bi-file-earmark-heart me-1"></i>Mi plan funerario</a></li>
+          <li class="nav-item"><a class="nav-link active" href="informacion.html"><i class="bi bi-info-circle me-1"></i>Información</a></li>
+          <li class="nav-item"><a class="nav-link" href="notificaciones.html"><i class="bi bi-bell me-1"></i>Notificaciones</a></li>
+          <li class="nav-item"><a class="nav-link" href="panelAdministrativo.html"><i class="bi bi-arrow-left-right me-1"></i>Movimientos</a></li>
+          <li class="nav-item"><a class="nav-link" href="beneficiarios.html"><i class="bi bi-people me-1"></i>Beneficiarios</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="nav-link nav-link-cerrar" href="index.html"><i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+       PAGE HEADER
+  ══════════════════════════════════════ -->
+  <div class="page-header">
+    <div class="header-icon"><i class="bi bi-info-circle"></i></div>
+    <h1>Módulo de Información</h1>
+    <p>Sociedad Humanista Santa Martha — Todo lo que necesita saber sobre su plan de previsión funeraria</p>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CONTENIDO
+  ══════════════════════════════════════ -->
+  <section class="info-section">
+    <div class="container-lg">
+
+      <!-- ① QUÉ ES LA PREVISIÓN FUNERARIA -->
+      <div class="row g-4 mb-4">
+        <div class="col-12">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-question-circle" style="color:var(--azul-principal)"></i> ¿Qué es la Previsión Funeraria?</h2>
+            <div class="linea-azul"></div>
+          </div>
+          <div class="prevision-intro">
+            <p class="pi-lead">
+              La previsión funeraria es un servicio de planificación anticipada que le permite garantizar una despedida digna para usted o sus seres queridos, sin que su familia tenga que enfrentar gastos inesperados en un momento de dolor.
+            </p>
+            <p>
+              A través de un contrato de previsión, usted cubre de manera mensual los costos de los servicios funerarios a precios actuales, protegiéndose de la inflación y asegurando que todos los trámites y servicios queden acordados con anticipación.
+            </p>
+            <p>
+              En <strong>Sociedad Humanista Santa Martha</strong> contamos con más de 20 años de experiencia brindando este servicio con calidad humana, discreción y profesionalismo. Nuestros planes están diseñados para adaptarse a las necesidades y posibilidades de cada familia.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ② BENEFICIOS -->
+      <div class="row g-4 mb-4">
+        <div class="col-12">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-award" style="color:var(--azul-principal)"></i> Beneficios</h2>
+            <div class="linea-azul"></div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="info-card">
+            <div class="beneficio-item">
+              <div class="beneficio-icon" style="background:#ebf3fb">
+                <i class="bi bi-shield-check" style="color:var(--azul-principal)"></i>
+              </div>
+              <div>
+                <div class="ben-titulo">Protección financiera</div>
+                <div class="ben-desc">Congele el precio de los servicios al valor actual y evite el impacto de la inflación en los costos funerarios futuros.</div>
+              </div>
+            </div>
+            <div class="beneficio-item">
+              <div class="beneficio-icon" style="background:var(--verde-suave)">
+                <i class="bi bi-heart" style="color:var(--verde)"></i>
+              </div>
+              <div>
+                <div class="ben-titulo">Tranquilidad para su familia</div>
+                <div class="ben-desc">Sus seres queridos no tendrán que tomar decisiones difíciles en momentos de duelo; todo estará previsto.</div>
+              </div>
+            </div>
+            <div class="beneficio-item">
+              <div class="beneficio-icon" style="background:#fef3e2">
+                <i class="bi bi-cash-coin" style="color:#e67e22"></i>
+              </div>
+              <div>
+                <div class="ben-titulo">Pagos accesibles</div>
+                <div class="ben-desc">Mensualidades fijas y asequibles desde $350 MXN, sin intereses y con múltiples métodos de pago disponibles.</div>
+              </div>
+            </div>
+            <div class="beneficio-item">
+              <div class="beneficio-icon" style="background:#f4ecfb">
+                <i class="bi bi-person-check" style="color:#8e44ad"></i>
+              </div>
+              <div>
+                <div class="ben-titulo">Atención personalizada</div>
+                <div class="ben-desc">Un asesor dedicado le acompañará durante todo el proceso, desde la contratación hasta la prestación del servicio.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="info-card">
+            <div class="beneficio-item">
+              <div class="beneficio-icon" style="background:var(--azul-suave)">
+                <i class="bi bi-geo-alt" style="color:var(--azul-principal)"></i>
+              </div>
+              <div>
+                <div class="ben-titulo">Traslado sin costo adicional</div>
+                <div class="ben-desc">Incluimos el traslado local del fallecido dentro del área metropolitana sin cargos extras en los planes completos.</div>
+              </div>
+            </div>
+            <div class="beneficio-item">
+              <div class="beneficio-icon" style="background:var(--verde-suave)">
+                <i class="bi bi-file-earmark-text" style="color:var(--verde)"></i>
+              </div>
+              <div>
+                <div class="ben-titulo">Asesoría legal incluida</div>
+                <div class="ben-desc">Orientación para la tramitación de actas, permisos de inhumación y demás documentos legales necesarios.</div>
+              </div>
+            </div>
+            <div class="beneficio-item">
+              <div class="beneficio-icon" style="background:#fdecea">
+                <i class="bi bi-building" style="color:#c0392b"></i>
+              </div>
+              <div>
+                <div class="ben-titulo">Sala velatoria garantizada</div>
+                <div class="ben-desc">Disponibilidad garantizada de sala velatoria con capacidad para familiares y amigos, equipada con todos los servicios.</div>
+              </div>
+            </div>
+            <div class="beneficio-item">
+              <div class="beneficio-icon" style="background:var(--amarillo-suave)">
+                <i class="bi bi-clock-history" style="color:var(--amarillo)"></i>
+              </div>
+              <div>
+                <div class="ben-titulo">Disponibilidad 24/7</div>
+                <div class="ben-desc">Contamos con servicio de atención las 24 horas, los 365 días del año para cuando más nos necesite.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ③ PREGUNTAS FRECUENTES -->
+      <div class="row g-4 mb-4">
+        <div class="col-12">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-chat-left-dots" style="color:var(--azul-principal)"></i> Preguntas Frecuentes</h2>
+            <div class="linea-azul"></div>
+          </div>
+          <div class="accordion faq-accordion" id="faqAccordion">
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  ¿En qué momento puedo usar los servicios contratados?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Los servicios están disponibles una vez que el contrato esté activo y al corriente en sus pagos. No existe un período de espera mínimo; sin embargo, en caso de fallecimiento durante los primeros 90 días se aplican condiciones especiales. Contáctenos para más información.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  ¿Qué sucede si me atraso en los pagos?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Un atraso de hasta 30 días no suspende su contrato. Si el atraso supera los 60 días el plan entra en suspensión temporal y deberá ponerse al corriente para reactivarlo. No se aplican intereses moratorios, pero sí puede afectar la vigencia acumulada del plan.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  ¿Puedo incluir a más de un beneficiario?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Sí. Dependiendo del plan contratado puede registrar hasta 4 beneficiarios. El beneficiario principal recibe el 100% de la cobertura; en planes familiares los porcentajes se distribuyen entre los beneficiarios registrados.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  ¿Puedo cancelar o transferir mi contrato?
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  El contrato puede transferirse a un familiar directo sin costo. La cancelación está permitida con un preaviso de 30 días; el saldo pagado acumulado puede aplicarse como crédito en un nuevo contrato o en servicios de la empresa, según las condiciones del plan.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                  ¿Cómo se activa el servicio en caso de fallecimiento?
+                </button>
+              </h2>
+              <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  El beneficiario o familiar debe comunicarse al número de atención 24 horas: <strong>782 157 4801</strong>. Nuestro equipo le guiará paso a paso. Es necesario presentar el acta de defunción, identificación del solicitante y número de contrato.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                  ¿Los precios están garantizados contra la inflación?
+                </button>
+              </h2>
+              <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                  Sí. Una vez firmado el contrato, el costo total de los servicios queda fijo al precio vigente en la fecha de contratación. Usted no pagará diferencias de precio independientemente del tiempo transcurrido, siempre que el contrato esté activo y al corriente.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ④ PROCEDIMIENTOS -->
+      <div class="row g-4 mb-4">
+        <div class="col-12 col-lg-6">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-list-check" style="color:var(--azul-principal)"></i> Procedimiento de Contratación</h2>
+            <div class="linea-azul"></div>
+          </div>
+          <div class="info-card">
+            <div class="paso-item">
+              <div class="paso-numero">1</div>
+              <div>
+                <div class="paso-titulo">Solicitud inicial</div>
+                <div class="paso-desc">Contáctenos por WhatsApp, teléfono o visítenos en nuestras oficinas para solicitar información sobre los planes disponibles.</div>
+              </div>
+            </div>
+            <div class="paso-item">
+              <div class="paso-numero">2</div>
+              <div>
+                <div class="paso-titulo">Asesoría personalizada</div>
+                <div class="paso-desc">Un asesor le explicará los planes, coberturas, servicios incluidos y condiciones, adaptándose a sus necesidades y presupuesto.</div>
+              </div>
+            </div>
+            <div class="paso-item">
+              <div class="paso-numero">3</div>
+              <div>
+                <div class="paso-titulo">Selección de plan y beneficiarios</div>
+                <div class="paso-desc">Elija el plan que mejor se adapte a usted e indique los beneficiarios que desea registrar en el contrato.</div>
+              </div>
+            </div>
+            <div class="paso-item">
+              <div class="paso-numero">4</div>
+              <div>
+                <div class="paso-titulo">Firma de contrato</div>
+                <div class="paso-desc">Revisión y firma del contrato en nuestras oficinas o mediante firma digital. Se entrega copia del contrato al titular.</div>
+              </div>
+            </div>
+            <div class="paso-item">
+              <div class="paso-numero">5</div>
+              <div>
+                <div class="paso-titulo">Activación del plan</div>
+                <div class="paso-desc">Con el primer pago registrado, su plan queda activo y disponible. Recibirá acceso a este portal para gestionar su cuenta.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-hospital" style="color:var(--azul-principal)"></i> Procedimiento de Uso del Servicio</h2>
+            <div class="linea-azul"></div>
+          </div>
+          <div class="info-card">
+            <div class="paso-item">
+              <div class="paso-numero">1</div>
+              <div>
+                <div class="paso-titulo">Notificación inmediata</div>
+                <div class="paso-desc">Llamar al número de emergencias 24h: <strong>782 157 4801</strong> para iniciar la activación del servicio.</div>
+              </div>
+            </div>
+            <div class="paso-item">
+              <div class="paso-numero">2</div>
+              <div>
+                <div class="paso-titulo">Verificación del contrato</div>
+                <div class="paso-desc">Nuestro equipo verificará el número de contrato, vigencia y beneficiarios registrados para proceder.</div>
+              </div>
+            </div>
+            <div class="paso-item">
+              <div class="paso-numero">3</div>
+              <div>
+                <div class="paso-titulo">Traslado y preparación</div>
+                <div class="paso-desc">Se coordina el traslado del fallecido y la preparación conforme a los servicios incluidos en el plan.</div>
+              </div>
+            </div>
+            <div class="paso-item">
+              <div class="paso-numero">4</div>
+              <div>
+                <div class="paso-titulo">Velación e inhumación/cremación</div>
+                <div class="paso-desc">Coordinación de sala velatoria, horarios y el tipo de servicio final (inhumación o cremación) según el plan.</div>
+              </div>
+            </div>
+            <div class="paso-item">
+              <div class="paso-numero">5</div>
+              <div>
+                <div class="paso-titulo">Trámites y cierre</div>
+                <div class="paso-desc">Apoyo con trámites legales, entrega de documentos y seguimiento post-servicio a la familia.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑤ REQUISITOS -->
+      <div class="row g-4 mb-4">
+        <div class="col-12">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-clipboard-check" style="color:var(--azul-principal)"></i> Requisitos</h2>
+            <div class="linea-azul"></div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 d-flex flex-column">
+          <div class="info-card" style="flex:1; height:auto;">
+            <div class="card-section-title">
+              <i class="bi bi-person-badge" style="color:var(--azul-principal)"></i> Para contratar un plan
+            </div>
+            <div class="requisito-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <div>
+                <div class="req-titulo">Identificación oficial vigente</div>
+                <div class="req-detalle">INE/IFE, Pasaporte o Cédula Profesional del titular.</div>
+              </div>
+            </div>
+            <div class="requisito-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <div>
+                <div class="req-titulo">CURP del titular</div>
+                <div class="req-detalle">Clave Única de Registro de Población del contratante.</div>
+              </div>
+            </div>
+            <div class="requisito-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <div>
+                <div class="req-titulo">Comprobante de domicilio</div>
+                <div class="req-detalle">Recibo de luz, agua o teléfono con antigüedad no mayor a 3 meses.</div>
+              </div>
+            </div>
+            <div class="requisito-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <div>
+                <div class="req-titulo">Datos de beneficiarios</div>
+                <div class="req-detalle">Nombre completo, parentesco y CURP de cada beneficiario a registrar.</div>
+              </div>
+            </div>
+            <div class="requisito-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <div>
+                <div class="req-titulo">Primer pago</div>
+                <div class="req-detalle">Pago de la primera mensualidad para la activación del contrato.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="info-card">
+            <div class="card-section-title">
+              <i class="bi bi-file-medical" style="color:#c0392b"></i> Para activar el servicio (fallecimiento)
+            </div>
+            <div class="requisito-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <div>
+                <div class="req-titulo">Acta o certificado de defunción</div>
+                <div class="req-detalle">Emitido por el médico o autoridad competente.</div>
+              </div>
+            </div>
+            <div class="requisito-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <div>
+                <div class="req-titulo">Identificación del solicitante</div>
+                <div class="req-detalle">INE/IFE vigente del beneficiario o familiar que solicita el servicio.</div>
+              </div>
+            </div>
+            <div class="requisito-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <div>
+                <div class="req-titulo">Número de contrato</div>
+                <div class="req-detalle">Disponible en este portal o en el documento de contrato impreso.</div>
+              </div>
+            </div>
+            <div class="requisito-item">
+              <i class="bi bi-check-circle-fill"></i>
+              <div>
+                <div class="req-titulo">Contrato al corriente</div>
+                <div class="req-detalle">El plan debe estar activo y sin adeudos para la prestación plena de los servicios.</div>
+              </div>
+            </div>
+            <div class="requisito-item">
+              <i class="bi bi-info-circle-fill" style="color:var(--amarillo)"></i>
+              <div>
+                <div class="req-titulo">Permiso de inhumación (opcional)</div>
+                <div class="req-detalle">Nuestro equipo le apoya en la gestión de este trámite ante el registro civil.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑥ DOCUMENTOS DESCARGABLES -->
+      <div class="row g-4 mb-2">
+        <div class="col-12">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-download" style="color:var(--azul-principal)"></i> Documentos Descargables</h2>
+            <div class="linea-azul"></div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <a href="Contrato.pdf" target="_blank" rel="noopener noreferrer" class="doc-item">
+            <div class="doc-icon doc-pdf"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+            <div class="doc-info">
+              <div class="doc-nombre">Contrato de Previsión Funeraria</div>
+              <div class="doc-meta">PDF · 248 KB · Actualizado jun 2025</div>
+            </div>
+            <div class="doc-dl"><i class="bi bi-download"></i> Descargar</div>
+          </a>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <a href="Reglamento.pdf" target="_blank" rel="noopener noreferrer" class="doc-item">
+            <div class="doc-icon doc-pdf"><i class="bi bi-file-earmark-pdf-fill"></i></div>
+            <div class="doc-info">
+              <div class="doc-nombre">Reglamento de Servicios Funerarios</div>
+              <div class="doc-meta">PDF · 512 KB · Actualizado ene 2026</div>
+            </div>
+            <div class="doc-dl"><i class="bi bi-download"></i> Descargar</div>
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /container-lg -->
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════ -->
+  <footer class="footer-sh">
+    <div class="footer-logo"><img src="logo.png" alt="Logo"/></div>
+    <p><strong style="color:var(--gris-texto)">Sociedad Humanista Santa Martha S.A. de C.V.</strong></p>
+    <div class="footer-divider"></div>
+    <p>¿Necesita ayuda? <a href="https://api.whatsapp.com/send?phone=5217821574801" target="_blank">Contáctenos por WhatsApp</a></p>
+    <p class="mt-2">© 2026 Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

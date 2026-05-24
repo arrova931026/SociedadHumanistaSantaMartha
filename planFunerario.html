@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Plan Funerario — Sociedad Humanista Santa Martha</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --azul-principal: #3A8FC4;
+      --azul-suave:     #EBF4FB;
+      --azul-medio:     #2574A9;
+      --gris-texto:     #3D3D3D;
+      --gris-medio:     #7A8A99;
+      --gris-borde:     #D9E2EA;
+      --gris-fondo:     #F7F9FB;
+      --blanco:         #FFFFFF;
+      --verde:          #27ae60;
+      --verde-suave:    #eafaf1;
+      --rojo:           #e74c3c;
+      --rojo-suave:     #fdf0ef;
+      --amarillo:       #f39c12;
+      --amarillo-suave: #fef9e7;
+      --morado:         #8e44ad;
+      --morado-suave:   #f5eef8;
+      --sombra-card:    0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--gris-fondo);
+      color: var(--gris-texto);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,h2,h3,h4,h5 { font-family: 'Lora', serif; font-weight: 600; }
+
+    /* ── NAVBAR ── */
+    .navbar-sh {
+      background-color: var(--blanco);
+      border-bottom: 1px solid var(--gris-borde);
+      position: sticky; top: 0; z-index: 1000;
+      padding: 0.6rem 1.5rem;
+      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    }
+    .navbar-sh .navbar-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .navbar-sh .navbar-brand img { height: 42px; }
+    .navbar-sh .brand-text { line-height: 1.2; }
+    .navbar-sh .brand-text strong { display:block; font-size:0.82rem; font-weight:700; color:var(--gris-texto); letter-spacing:0.5px; text-transform:uppercase; }
+    .navbar-sh .brand-text span { font-size:0.72rem; color:var(--gris-medio); }
+    .navbar-sh .nav-link { color:var(--gris-texto) !important; font-size:0.75rem; font-weight:500; padding:0.4rem 0.55rem !important; border-radius:6px; transition:background 0.2s,color 0.2s; }
+    .navbar-sh .nav-link:hover { background-color:var(--azul-suave); color:var(--azul-principal) !important; }
+    .navbar-sh .nav-link.active { color:var(--azul-principal) !important; background-color:var(--azul-suave); }
+    .navbar-sh .nav-link-cerrar { color:#c0392b !important; border:1px solid #e74c3c; border-radius:6px; }
+    .navbar-sh .nav-link-cerrar:hover { background-color:#fdf0ef !important; color:#c0392b !important; border-color:#c0392b; }
+    .navbar-toggler { border:1px solid var(--gris-borde); padding:5px 9px; }
+    .navbar-toggler:focus { box-shadow:none; }
+    .navbar-toggler-icon { background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(58,143,196,1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+
+    @media (max-width:576px) {
+      .navbar-sh .brand-text { display:none; }
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, var(--azul-principal) 0%, var(--azul-medio) 100%);
+      padding: 36px 20px 32px;
+      text-align: center;
+      color: var(--blanco);
+    }
+    .page-header h1 { color: var(--blanco); font-size: clamp(1.2rem, 4vw, 1.6rem); margin-bottom: 6px; }
+    .page-header p { font-size: 0.88rem; opacity: 0.85; margin: 0; }
+    .page-header .header-icon {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+    }
+    .page-header .header-icon i { font-size: 1.7rem; color: var(--blanco); }
+
+    /* ── SECCIÓN BASE ── */
+    .plan-section { padding: 36px 16px 56px; }
+
+    .seccion-titulo { margin-bottom: 20px; }
+    .seccion-titulo h2 { font-size: clamp(1rem, 3vw, 1.15rem); color: var(--gris-texto); margin-bottom: 4px; }
+    .seccion-titulo p { font-size: 0.85rem; color: var(--gris-medio); }
+    .linea-azul { width: 36px; height: 3px; background-color: var(--azul-principal); border-radius: 2px; margin: 8px 0 0; }
+
+    /* ── BADGE ESTADO ── */
+    .badge-estado {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 50px;
+      font-size: 0.8rem; font-weight: 600;
+    }
+    .badge-activo   { background: var(--verde-suave);    color: var(--verde); }
+    .badge-pendiente{ background: var(--amarillo-suave); color: var(--amarillo); }
+    .badge-vencido  { background: var(--rojo-suave);     color: var(--rojo); }
+
+    /* ── TARJETA PLAN ── */
+    .plan-hero-card {
+      background: linear-gradient(135deg, var(--azul-principal) 0%, var(--azul-medio) 100%);
+      border-radius: 16px;
+      padding: 28px 24px;
+      color: var(--blanco);
+      box-shadow: 0 8px 32px rgba(58,143,196,0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .plan-hero-card::before {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+    }
+    .plan-hero-card::after {
+      content: '';
+      position: absolute; bottom: -60px; left: -20px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .plan-hero-card .plan-tipo-label {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; opacity: 0.75; margin-bottom: 6px;
+    }
+    .plan-hero-card .plan-nombre {
+      font-family: 'Lora', serif; font-size: clamp(1.3rem, 4vw, 1.8rem);
+      font-weight: 600; margin-bottom: 4px;
+    }
+    .plan-hero-card .plan-contrato {
+      font-size: 0.82rem; opacity: 0.8; margin-bottom: 20px;
+    }
+    .plan-hero-card .plan-datos-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; position: relative; z-index: 1;
+    }
+    .plan-hero-card .plan-dato {
+      background: rgba(255,255,255,0.12);
+      border-radius: 10px; padding: 12px 14px;
+      backdrop-filter: blur(4px);
+    }
+    .plan-hero-card .plan-dato .pd-label {
+      font-size: 0.7rem; opacity: 0.75; margin-bottom: 3px; font-weight: 500;
+    }
+    .plan-hero-card .plan-dato .pd-valor {
+      font-size: 0.92rem; font-weight: 700;
+    }
+    .plan-badge-activo {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35);
+      padding: 4px 12px; border-radius: 50px;
+      font-size: 0.78rem; font-weight: 600; color: white;
+      margin-bottom: 16px;
+    }
+    .plan-badge-activo i { font-size: 0.45rem; }
+
+    /* ── CARD GENÉRICA ── */
+    .info-card {
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      border-radius: 12px;
+      padding: 22px 20px;
+      box-shadow: var(--sombra-card);
+      flex: 1;
+    }
+    .info-card .card-section-title {
+      font-size: 0.82rem; font-weight: 700; color: var(--gris-medio);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 14px; display: flex; align-items: center; gap: 7px;
+    }
+    .info-card .card-section-title i { font-size: 1rem; }
+
+    /* ── DATO FILA ── */
+    .dato-fila {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 9px 0; border-bottom: 1px solid var(--gris-borde); gap: 12px;
+    }
+    .dato-fila:last-child { border-bottom: none; }
+    .dato-fila .df-label { font-size: 0.8rem; color: var(--gris-medio); flex-shrink: 0; }
+    .dato-fila .df-valor { font-size: 0.88rem; font-weight: 600; color: var(--gris-texto); text-align: right; }
+
+    /* ── COBERTURA ── */
+    .cobertura-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--gris-borde);
+    }
+    .cobertura-item:last-child { border-bottom: none; }
+    .cobertura-item .cob-icon {
+      width: 38px; height: 38px; border-radius: 8px;
+      background: var(--azul-suave);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .cobertura-item .cob-icon i { font-size: 1rem; color: var(--azul-principal); }
+    .cobertura-item .cob-info { flex: 1; min-width: 0; }
+    .cobertura-item .cob-info .cob-nombre { font-size: 0.86rem; font-weight: 600; color: var(--gris-texto); }
+    .cobertura-item .cob-info .cob-detalle { font-size: 0.75rem; color: var(--gris-medio); }
+    .cobertura-item .cob-monto { font-size: 0.9rem; font-weight: 700; color: var(--azul-principal); white-space: nowrap; }
+
+    /* ── SERVICIOS INCLUIDOS ── */
+    .servicio-chip {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      border-radius: 10px; padding: 12px 14px;
+      box-shadow: var(--sombra-card);
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .servicio-chip:hover { border-color: var(--azul-principal); transform: translateY(-2px); }
+    .servicio-chip .sc-icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .servicio-chip .sc-icon i { font-size: 1.15rem; }
+    .servicio-chip .sc-info .sc-nombre { font-size: 0.86rem; font-weight: 600; color: var(--gris-texto); margin-bottom: 1px; }
+    .servicio-chip .sc-info .sc-desc { font-size: 0.74rem; color: var(--gris-medio); line-height: 1.3; }
+    .servicio-chip .sc-check {
+      margin-left: auto; width: 24px; height: 24px; border-radius: 50%;
+      background: var(--verde-suave); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .servicio-chip .sc-check i { font-size: 0.75rem; color: var(--verde); font-weight: 700; }
+    .servicio-chip.no-incluido { opacity: 0.55; }
+    .servicio-chip.no-incluido .sc-check { background: var(--rojo-suave); }
+    .servicio-chip.no-incluido .sc-check i { color: var(--rojo); }
+
+    /* ── BENEFICIARIOS ── */
+    .beneficiario-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid var(--gris-borde);
+    }
+    .beneficiario-item:last-child { border-bottom: none; }
+    .beneficiario-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--azul-suave);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      font-size: 1rem; color: var(--azul-principal); font-weight: 700;
+    }
+    .beneficiario-item .ben-info { flex: 1; min-width: 0; }
+    .beneficiario-item .ben-nombre { font-size: 0.88rem; font-weight: 600; color: var(--gris-texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .beneficiario-item .ben-parentesco { font-size: 0.75rem; color: var(--gris-medio); }
+    .ben-porcentaje {
+      font-size: 0.82rem; font-weight: 700;
+      background: var(--azul-suave); color: var(--azul-principal);
+      padding: 3px 10px; border-radius: 50px; white-space: nowrap;
+    }
+    .ben-primario {
+      font-size: 0.7rem; font-weight: 600;
+      background: var(--verde-suave); color: var(--verde);
+      padding: 2px 8px; border-radius: 50px; white-space: nowrap;
+    }
+
+    /* ── VIGENCIA ── */
+    .vigencia-barra-wrap {
+      margin: 16px 0 8px;
+    }
+    .vigencia-barra-labels {
+      display: flex; justify-content: space-between;
+      font-size: 0.74rem; color: var(--gris-medio); margin-bottom: 6px;
+    }
+    .vigencia-barra {
+      width: 100%; height: 10px; border-radius: 5px;
+      background: var(--gris-borde); overflow: hidden;
+    }
+    .vigencia-barra-fill {
+      height: 100%; border-radius: 5px;
+      background: linear-gradient(90deg, var(--azul-principal), var(--verde));
+      transition: width 1s ease;
+    }
+    .vigencia-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px;
+    }
+    .vigencia-stat {
+      background: var(--gris-fondo); border: 1px solid var(--gris-borde);
+      border-radius: 10px; padding: 12px; text-align: center;
+    }
+    .vigencia-stat .vs-valor { font-size: 1.1rem; font-weight: 700; color: var(--azul-principal); font-family: 'Inter', sans-serif; }
+    .vigencia-stat .vs-label { font-size: 0.72rem; color: var(--gris-medio); line-height: 1.3; }
+
+    /* ── PAGOS PENDIENTES ── */
+    .pago-alerta-card {
+      background: var(--amarillo-suave);
+      border: 1px solid #f6c96b;
+      border-left: 4px solid var(--amarillo);
+      border-radius: 12px; padding: 20px;
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .pago-alerta-card .pa-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--amarillo); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .pago-alerta-card .pa-icon i { font-size: 1.2rem; color: white; }
+    .pago-alerta-card .pa-body { flex: 1; }
+    .pago-alerta-card .pa-titulo { font-size: 0.9rem; font-weight: 700; color: #7a5c00; margin-bottom: 4px; }
+    .pago-alerta-card .pa-detalle { font-size: 0.82rem; color: #7a5c00; margin-bottom: 12px; line-height: 1.5; }
+
+    .pago-ok-card {
+      background: var(--verde-suave);
+      border: 1px solid #a9dfbf;
+      border-left: 4px solid var(--verde);
+      border-radius: 12px; padding: 20px;
+      display: flex; gap: 14px; align-items: center;
+    }
+    .pago-ok-card .po-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--verde); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .pago-ok-card .po-icon i { font-size: 1.2rem; color: white; }
+    .pago-ok-card .po-titulo { font-size: 0.9rem; font-weight: 700; color: #1e8449; margin-bottom: 2px; }
+    .pago-ok-card .po-detalle { font-size: 0.82rem; color: #1e8449; }
+
+    .pagos-mini-table { margin-top: 16px; }
+    .pagos-mini-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 14px; border-radius: 8px; margin-bottom: 6px;
+      background: var(--blanco); border: 1px solid var(--gris-borde);
+    }
+    .pagos-mini-row .pmr-mes { font-size: 0.84rem; font-weight: 600; color: var(--gris-texto); }
+    .pagos-mini-row .pmr-fecha { font-size: 0.75rem; color: var(--gris-medio); }
+    .pagos-mini-row .pmr-monto { font-size: 0.86rem; font-weight: 700; color: var(--gris-texto); }
+    .pmr-badge { font-size: 0.7rem; font-weight: 600; padding: 3px 9px; border-radius: 50px; white-space: nowrap; }
+    .pmr-pagado   { background: var(--verde-suave);    color: var(--verde); }
+    .pmr-pendiente{ background: var(--amarillo-suave); color: var(--amarillo); }
+
+    /* ── BOTONES ── */
+    .btn-sh-primary {
+      background-color: var(--azul-principal); color: var(--blanco);
+      border: none; border-radius: 8px; padding: 10px 18px;
+      font-size: 0.85rem; font-weight: 600;
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      transition: background 0.2s, transform 0.15s;
+      text-decoration: none; cursor: pointer;
+    }
+    .btn-sh-primary:hover { background-color: var(--azul-medio); transform: translateY(-1px); color: var(--blanco); }
+
+    .btn-sh-outline {
+      background-color: transparent; color: var(--azul-principal);
+      border: 1px solid var(--azul-principal); border-radius: 8px; padding: 8px 16px;
+      font-size: 0.82rem; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: background 0.2s; text-decoration: none; cursor: pointer; white-space: nowrap;
+    }
+    .btn-sh-outline:hover { background-color: var(--azul-suave); color: var(--azul-principal); }
+
+    .btn-amarillo {
+      background-color: var(--amarillo); color: white;
+      border: none; border-radius: 8px; padding: 10px 18px;
+      font-size: 0.85rem; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 7px;
+      transition: background 0.2s, transform 0.15s;
+      text-decoration: none; cursor: pointer;
+    }
+    .btn-amarillo:hover { background-color: #d68910; transform: translateY(-1px); color: white; }
+
+    /* ── FOOTER ── */
+    .footer-sh { background-color:var(--blanco); border-top:1px solid var(--gris-borde); padding:28px 20px; text-align:center; }
+    .footer-sh .footer-logo img { height:34px; opacity:0.7; margin-bottom:10px; }
+    .footer-sh p { font-size:0.8rem; color:var(--gris-medio); margin-bottom:4px; }
+    .footer-sh a { color:var(--azul-principal); text-decoration:none; }
+    .footer-sh a:hover { text-decoration:underline; }
+    .footer-divider { width:36px; height:2px; background-color:var(--gris-borde); border-radius:2px; margin:12px auto; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 767px) {
+      .plan-section { padding: 24px 12px 48px; }
+      .plan-hero-card .plan-datos-grid { grid-template-columns: 1fr 1fr; }
+      .vigencia-stats { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 400px) {
+      .plan-hero-card .plan-datos-grid { grid-template-columns: 1fr; }
+      .vigencia-stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-sh">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="site.html">
+        <img src="logo.png" alt="Logo Sociedad Humanista Santa Martha"/>
+        <div class="brand-text">
+          <strong>Sociedad Humanista</strong>
+          <span>Santa Martha S.A. de C.V.</span>
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="menuPrincipal">
+        <ul class="navbar-nav gap-1 py-2 py-lg-0">
+          <li class="nav-item"><a class="nav-link" href="misDatos.html"><i class="bi bi-person me-1"></i>Mis datos</a></li>
+          <li class="nav-item"><a class="nav-link" href="cobros.html"><i class="bi bi-credit-card me-1"></i>Cobros</a></li>
+          <li class="nav-item"><a class="nav-link active" href="planFunerario.html"><i class="bi bi-file-earmark-text me-1"></i>Mi plan funerario</a></li>
+          <li class="nav-item"><a class="nav-link" href="informacion.html"><i class="bi bi-info-circle me-1"></i>Información</a></li>
+          <li class="nav-item"><a class="nav-link" href="notificaciones.html"><i class="bi bi-bell me-1"></i>Notificaciones</a></li>
+          <li class="nav-item"><a class="nav-link" href="panelAdministrativo.html"><i class="bi bi-people me-1"></i>Movimientos</a></li>
+          <li class="nav-item"><a class="nav-link" href="beneficiarios.html"><i class="bi bi-people me-1"></i>Beneficiarios</a></li>
+          <li class="nav-item ms-1"><a class="nav-link nav-link-cerrar" href="index.html"><i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="header-icon"><i class="bi bi-file-earmark-heart"></i></div>
+    <h1>Mi Plan Funerario</h1>
+    <p>Consulte los detalles, cobertura y servicios de su plan de previsión</p>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <section class="plan-section">
+    <div class="container-lg">
+
+      <!-- ── TARJETA PRINCIPAL DEL PLAN ── -->
+      <div class="row g-4 mb-4">
+        <div class="col-12 col-lg-7">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-file-earmark-text me-2" style="color:var(--azul-principal)"></i>Tipo de Plan</h2>
+            <div class="linea-azul"></div>
+          </div>
+          <div class="plan-hero-card">
+            <div class="plan-badge-activo">
+              <i class="bi bi-circle-fill"></i> Plan Activo
+            </div>
+            <div class="plan-tipo-label">Plan de Previsión Funeraria</div>
+            <div class="plan-nombre">Plan Familiar Plus</div>
+            <div class="plan-contrato">Contrato N.° SHM-2023-00842</div>
+            <div class="plan-datos-grid">
+              <div class="plan-dato">
+                <div class="pd-label"><i class="bi bi-person me-1"></i>Titular</div>
+                <div class="pd-valor">María Luisa López Pérez</div>
+              </div>
+              <div class="plan-dato">
+                <div class="pd-label"><i class="bi bi-people me-1"></i>Beneficiarios</div>
+                <div class="pd-valor">3 personas</div>
+              </div>
+              <div class="plan-dato">
+                <div class="pd-label"><i class="bi bi-calendar-check me-1"></i>Fecha de inicio</div>
+                <div class="pd-valor">15 ene 2023</div>
+              </div>
+              <div class="plan-dato">
+                <div class="pd-label"><i class="bi bi-shield-check me-1"></i>Cobertura</div>
+                <div class="pd-valor">$45,000 MXN</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vigencia -->
+        <div class="col-12 col-lg-5 d-flex flex-column">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-hourglass-split me-2" style="color:var(--azul-principal)"></i>Vigencia</h2>
+            <div class="linea-azul"></div>
+          </div>
+          <div class="info-card">
+            <div class="dato-fila">
+              <span class="df-label">Fecha de inicio</span>
+              <span class="df-valor">15 de enero, 2023</span>
+            </div>
+            <div class="dato-fila">
+              <span class="df-label">Fecha de vencimiento</span>
+              <span class="df-valor">15 de enero, 2043</span>
+            </div>
+            <div class="dato-fila">
+              <span class="df-label">Duración total</span>
+              <span class="df-valor">20 años</span>
+            </div>
+            <div class="dato-fila">
+              <span class="df-label">Estado</span>
+              <span class="df-valor"><span class="badge-estado badge-activo"><i class="bi bi-circle-fill" style="font-size:0.45rem"></i> Vigente</span></span>
+            </div>
+            <div class="vigencia-barra-wrap">
+              <div class="vigencia-barra-labels">
+                <span>Ene 2023</span>
+                <span id="pct-label">16% completado</span>
+                <span>Ene 2043</span>
+              </div>
+              <div class="vigencia-barra">
+                <div class="vigencia-barra-fill" id="vigencia-fill" style="width: 16%"></div>
+              </div>
+            </div>
+            <div class="vigencia-stats">
+              <div class="vigencia-stat">
+                <div class="vs-valor">3</div>
+                <div class="vs-label">Años transcurridos</div>
+              </div>
+              <div class="vigencia-stat">
+                <div class="vs-valor">17</div>
+                <div class="vs-label">Años restantes</div>
+              </div>
+              <div class="vigencia-stat">
+                <div class="vs-valor">40</div>
+                <div class="vs-label">Mensualidades pagadas</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── COBERTURA + BENEFICIARIOS ── -->
+      <div class="row g-4 mb-4">
+
+        <!-- Cobertura -->
+        <div class="col-12 col-lg-6 d-flex flex-column">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-shield-check me-2" style="color:var(--azul-principal)"></i>Cobertura</h2>
+            <div class="linea-azul"></div>
+          </div>
+          <div class="info-card">
+            <div class="card-section-title">
+              <i class="bi bi-list-check" style="color:var(--azul-principal)"></i> Montos cubiertos por el plan
+            </div>
+            <div class="cobertura-item">
+              <div class="cob-icon"><i class="bi bi-house-heart"></i></div>
+              <div class="cob-info">
+                <div class="cob-nombre">Servicios funerarios</div>
+                <div class="cob-detalle">Cobertura integral del evento</div>
+              </div>
+              <div class="cob-monto">$30,000</div>
+            </div>
+            <div class="cobertura-item">
+              <div class="cob-icon"><i class="bi bi-truck"></i></div>
+              <div class="cob-info">
+                <div class="cob-nombre">Traslado</div>
+                <div class="cob-detalle">Nacional hasta 500 km</div>
+              </div>
+              <div class="cob-monto">$8,000</div>
+            </div>
+            <div class="cobertura-item">
+              <div class="cob-icon"><i class="bi bi-file-earmark-text"></i></div>
+              <div class="cob-info">
+                <div class="cob-nombre">Asesoría legal</div>
+                <div class="cob-detalle">Trámites y documentación</div>
+              </div>
+              <div class="cob-monto">$5,000</div>
+            </div>
+            <div class="cobertura-item">
+              <div class="cob-icon"><i class="bi bi-heart-pulse"></i></div>
+              <div class="cob-info">
+                <div class="cob-nombre">Gastos adicionales</div>
+                <div class="cob-detalle">Imprevistos y extras</div>
+              </div>
+              <div class="cob-monto">$2,000</div>
+            </div>
+            <div style="margin-top:16px; padding:12px 14px; background:var(--azul-suave); border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.84rem; font-weight:600; color:var(--azul-medio);">Cobertura total del plan</span>
+              <span style="font-size:1.1rem; font-weight:800; color:var(--azul-principal); font-family:'Inter',sans-serif;">$45,000 MXN</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Beneficiarios -->
+        <div class="col-12 col-lg-6 d-flex flex-column">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-people me-2" style="color:var(--azul-principal)"></i>Beneficiarios</h2>
+            <div class="linea-azul"></div>
+          </div>
+          <div class="info-card">
+            <div class="card-section-title">
+              <i class="bi bi-person-check" style="color:var(--azul-principal)"></i> Personas designadas
+            </div>
+
+            <div class="beneficiario-item">
+              <div class="beneficiario-avatar">MR</div>
+              <div class="ben-info">
+                <div class="ben-nombre">María Elena Ramírez López</div>
+                <div class="ben-parentesco"><i class="bi bi-person-heart me-1"></i>Cónyuge</div>
+              </div>
+              <span class="ben-porcentaje">50%</span>
+              <span class="ben-primario ms-2">Principal</span>
+            </div>
+
+            <div class="beneficiario-item">
+              <div class="beneficiario-avatar">JR</div>
+              <div class="ben-info">
+                <div class="ben-nombre">Jorge Luis Ramírez Torres</div>
+                <div class="ben-parentesco"><i class="bi bi-person me-1"></i>Hijo</div>
+              </div>
+              <span class="ben-porcentaje">30%</span>
+            </div>
+
+            <div class="beneficiario-item">
+              <div class="beneficiario-avatar">AR</div>
+              <div class="ben-info">
+                <div class="ben-nombre">Ana Sofía Ramírez Torres</div>
+                <div class="ben-parentesco"><i class="bi bi-person me-1"></i>Hija</div>
+              </div>
+              <span class="ben-porcentaje">20%</span>
+            </div>
+
+            <div style="margin-top:16px;">
+              <a href="#" class="btn-sh-outline w-100 justify-content-center">
+                <i class="bi bi-pencil"></i> Actualizar beneficiarios
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SERVICIOS INCLUIDOS ── -->
+      <div class="mb-4">
+        <div class="seccion-titulo">
+          <h2><i class="bi bi-check2-circle me-2" style="color:var(--azul-principal)"></i>Servicios Incluidos</h2>
+          <div class="linea-azul"></div>
+          <p class="mt-1">Los siguientes servicios están cubiertos por su Plan Familiar Plus</p>
+        </div>
+        <div class="row g-3">
+
+          <div class="col-12 col-sm-6 col-xl-4">
+            <div class="servicio-chip">
+              <div class="sc-icon" style="background:#eafaf1;">
+                <i class="bi bi-box-seam" style="color:var(--verde);"></i>
+              </div>
+              <div class="sc-info">
+                <div class="sc-nombre">Ataúd</div>
+                <div class="sc-desc">Selección del modelo incluido en el plan</div>
+              </div>
+              <div class="sc-check"><i class="bi bi-check-lg"></i></div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-4">
+            <div class="servicio-chip">
+              <div class="sc-icon" style="background:#fdf0ef;">
+                <i class="bi bi-fire" style="color:var(--rojo);"></i>
+              </div>
+              <div class="sc-info">
+                <div class="sc-nombre">Cremación</div>
+                <div class="sc-desc">Servicio completo de cremación e incineración</div>
+              </div>
+              <div class="sc-check"><i class="bi bi-check-lg"></i></div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-4">
+            <div class="servicio-chip">
+              <div class="sc-icon" style="background:#f5eef8;">
+                <i class="bi bi-geo-alt" style="color:var(--morado);"></i>
+              </div>
+              <div class="sc-info">
+                <div class="sc-nombre">Inhumación</div>
+                <div class="sc-desc">Sepultura en panteón convenido con el plan</div>
+              </div>
+              <div class="sc-check"><i class="bi bi-check-lg"></i></div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-4">
+            <div class="servicio-chip">
+              <div class="sc-icon" style="background:var(--azul-suave);">
+                <i class="bi bi-house-door" style="color:var(--azul-principal);"></i>
+              </div>
+              <div class="sc-info">
+                <div class="sc-nombre">Sala velatoria</div>
+                <div class="sc-desc">Hasta 24 hrs en instalaciones equipadas</div>
+              </div>
+              <div class="sc-check"><i class="bi bi-check-lg"></i></div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-4">
+            <div class="servicio-chip">
+              <div class="sc-icon" style="background:#fef9e7;">
+                <i class="bi bi-truck" style="color:var(--amarillo);"></i>
+              </div>
+              <div class="sc-info">
+                <div class="sc-nombre">Traslado</div>
+                <div class="sc-desc">Nacional hasta 500 km con unidad especializada</div>
+              </div>
+              <div class="sc-check"><i class="bi bi-check-lg"></i></div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-4">
+            <div class="servicio-chip">
+              <div class="sc-icon" style="background:var(--verde-suave);">
+                <i class="bi bi-briefcase" style="color:var(--verde);"></i>
+              </div>
+              <div class="sc-info">
+                <div class="sc-nombre">Asesoría legal</div>
+                <div class="sc-desc">Gestión de trámites, acta de defunción y más</div>
+              </div>
+              <div class="sc-check"><i class="bi bi-check-lg"></i></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── PAGOS PENDIENTES ── -->
+      <div class="mb-4">
+        <div class="seccion-titulo">
+          <h2><i class="bi bi-credit-card me-2" style="color:var(--amarillo)"></i>Pagos Pendientes</h2>
+          <div class="linea-azul" style="background:var(--amarillo)"></div>
+        </div>
+
+        <!-- Alerta de pago pendiente -->
+        <div class="pago-alerta-card mb-3">
+          <div class="pa-icon"><i class="bi bi-exclamation-lg"></i></div>
+          <div class="pa-body">
+            <div class="pa-titulo">Tiene 1 pago pendiente</div>
+            <div class="pa-detalle">
+              La mensualidad de <strong>Agosto 2026</strong> por <strong>$350.00 MXN</strong> vence el
+              <strong>15 de agosto, 2026</strong>. Realice su pago a tiempo para mantener su plan activo.
+            </div>
+            <a href="cobros.html" class="btn-amarillo">
+              <i class="bi bi-credit-card"></i> Ir a Cobros y Pagos
+            </a>
+          </div>
+        </div>
+
+        <!-- Historial reciente -->
+        <div class="info-card">
+          <div class="card-section-title">
+            <i class="bi bi-clock-history" style="color:var(--azul-principal)"></i> Últimos movimientos
+          </div>
+          <div class="pagos-mini-table">
+            <div class="pagos-mini-row">
+              <div>
+                <div class="pmr-mes">Agosto 2026</div>
+                <div class="pmr-fecha">Vence: 15 ago 2026</div>
+              </div>
+              <div class="pmr-monto">$350.00</div>
+              <span class="pmr-badge pmr-pendiente"><i class="bi bi-clock me-1"></i>Pendiente</span>
+            </div>
+            <div class="pagos-mini-row">
+              <div>
+                <div class="pmr-mes">Julio 2026</div>
+                <div class="pmr-fecha">Pagado: 12 jul 2026</div>
+              </div>
+              <div class="pmr-monto">$350.00</div>
+              <span class="pmr-badge pmr-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+            </div>
+            <div class="pagos-mini-row">
+              <div>
+                <div class="pmr-mes">Junio 2026</div>
+                <div class="pmr-fecha">Pagado: 10 jun 2026</div>
+              </div>
+              <div class="pmr-monto">$350.00</div>
+              <span class="pmr-badge pmr-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+            </div>
+            <div class="pagos-mini-row">
+              <div>
+                <div class="pmr-mes">Mayo 2026</div>
+                <div class="pmr-fecha">Pagado: 14 may 2026</div>
+              </div>
+              <div class="pmr-monto">$350.00</div>
+              <span class="pmr-badge pmr-pagado"><i class="bi bi-check me-1"></i>Pagado</span>
+            </div>
+          </div>
+          <div class="mt-3">
+            <a href="cobros.html" class="btn-sh-outline">
+              <i class="bi bi-list-ul"></i> Ver historial completo
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer-sh">
+    <div class="footer-logo"><img src="Logo.png" alt="Logo"/></div>
+    <p><strong style="color:var(--gris-texto)">Sociedad Humanista Santa Martha S.A. de C.V.</strong></p>
+    <div class="footer-divider"></div>
+    <p>
+      <a href="mailto:contacto@santamartha.com.mx"><i class="bi bi-envelope me-1"></i>contacto@santamartha.com.mx</a>
+      &nbsp;&nbsp;
+      <a href="tel:+521234567890"><i class="bi bi-telephone me-1"></i>(123) 456-7890</a>
+    </p>
+    <p class="mt-2">© 2026 Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Calcular porcentaje de vigencia dinámicamente
+    (function () {
+      const inicio    = new Date('2023-01-15');
+      const fin       = new Date('2043-01-15');
+      const hoy       = new Date();
+      const total     = fin - inicio;
+      const transcurrido = hoy - inicio;
+      const pct = Math.min(100, Math.max(0, Math.round((transcurrido / total) * 100)));
+      document.getElementById('vigencia-fill').style.width = pct + '%';
+      document.getElementById('pct-label').textContent = pct + '% completado';
+    })();
+  </script>
+
+</body>
+</html>

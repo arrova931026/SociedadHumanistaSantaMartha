@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel Administrativo — Sociedad Humanista Santa Martha</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --azul-principal: #3A8FC4;
+      --azul-suave:     #EBF4FB;
+      --azul-medio:     #2574A9;
+      --gris-texto:     #3D3D3D;
+      --gris-medio:     #7A8A99;
+      --gris-borde:     #D9E2EA;
+      --gris-fondo:     #F7F9FB;
+      --blanco:         #FFFFFF;
+      --verde:          #1e8449;
+      --verde-suave:    #eafaf1;
+      --amarillo:       #b7950b;
+      --amarillo-suave: #fef9e7;
+      --rojo:           #c0392b;
+      --rojo-suave:     #fdecea;
+      --naranja:        #d35400;
+      --naranja-suave:  #fef0e6;
+      --morado:         #7d3c98;
+      --morado-suave:   #f5eef8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--gris-fondo);
+      color: var(--gris-texto);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,h2,h3,h4,h5 { font-family: 'Lora', serif; font-weight: 600; }
+
+    /* ── NAVBAR ── */
+    .navbar-sh {
+      background-color: var(--blanco);
+      border-bottom: 1px solid var(--gris-borde);
+      position: sticky; top: 0; z-index: 1000;
+      padding: 0.6rem 1.5rem;
+      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    }
+    .navbar-sh .navbar-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .navbar-sh .navbar-brand img { height: 42px; }
+    .navbar-sh .brand-text { line-height: 1.2; }
+    .navbar-sh .brand-text strong { display:block; font-size:0.82rem; font-weight:700; color:var(--gris-texto); letter-spacing:0.5px; text-transform:uppercase; }
+    .navbar-sh .brand-text span { font-size:0.72rem; color:var(--gris-medio); }
+    .navbar-sh .nav-link { color:var(--gris-texto) !important; font-size:0.75rem; font-weight:500; padding:0.4rem 0.55rem !important; border-radius:6px; transition:background 0.2s,color 0.2s; }
+    .navbar-sh .nav-link:hover { background-color:var(--azul-suave); color:var(--azul-principal) !important; }
+    .navbar-sh .nav-link.active { color:var(--azul-principal) !important; background-color:var(--azul-suave); }
+    .navbar-sh .nav-link-cerrar { color:#c0392b !important; border:1px solid #e74c3c; border-radius:6px; }
+    .navbar-sh .nav-link-cerrar:hover { background-color:#fdf0ef !important; color:#c0392b !important; border-color:#c0392b; }
+    .navbar-toggler { border:1px solid var(--gris-borde); padding:5px 9px; }
+    .navbar-toggler:focus { box-shadow:none; }
+    .navbar-toggler-icon { background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(58,143,196,1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+    @media (max-width:576px) { .navbar-sh .brand-text { display:none; } }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, #1a3a5c 0%, var(--azul-medio) 55%, var(--azul-principal) 100%);
+      padding: 36px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .page-header .header-icon {
+      width:64px; height:64px; background:rgba(255,255,255,0.15);
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      margin:0 auto 14px; border:2px solid rgba(255,255,255,0.25);
+    }
+    .page-header .header-icon i { font-size:1.7rem; color:var(--blanco); }
+    .page-header h1 { color:var(--blanco); font-size:clamp(1.15rem,4vw,1.55rem); margin-bottom:6px; position:relative; }
+    .page-header p  { font-size:0.88rem; color:rgba(255,255,255,0.85); margin:0; position:relative; }
+    .admin-badge {
+      display:inline-block; background:rgba(255,255,255,0.2);
+      color:var(--blanco); font-size:0.72rem; font-weight:700;
+      padding:3px 12px; border-radius:50px; border:1px solid rgba(255,255,255,0.3);
+      margin-bottom:10px; letter-spacing:1px; text-transform:uppercase;
+      position:relative;
+    }
+
+    /* ── SECCIÓN ── */
+    .admin-section { padding: 36px 16px 56px; }
+
+    .seccion-titulo { margin-bottom: 20px; }
+    .seccion-titulo h2 { font-size:clamp(1rem,3vw,1.15rem); color:var(--gris-texto); margin-bottom:4px; display:flex; align-items:center; gap:8px; }
+    .linea-azul { width:36px; height:3px; background-color:var(--azul-principal); border-radius:2px; margin:8px 0 0; }
+
+    /* ── KPI CARDS ── */
+    .kpi-card {
+      background:var(--blanco); border-radius:14px;
+      border:1px solid var(--gris-borde);
+      box-shadow:0 2px 16px rgba(0,0,0,0.05);
+      padding:20px 22px;
+      display:flex; align-items:center; gap:16px;
+      transition:transform 0.2s, box-shadow 0.2s;
+      height:100%;
+    }
+    .kpi-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(58,143,196,0.12); }
+    .kpi-icon {
+      width:52px; height:52px; border-radius:12px;
+      display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .kpi-icon i { font-size:1.4rem; }
+    .kpi-valor { font-size:clamp(1.3rem,4vw,1.7rem); font-weight:700; font-family:'Inter',sans-serif; line-height:1.1; margin-bottom:3px; }
+    .kpi-label { font-size:0.74rem; color:var(--gris-medio); line-height:1.3; }
+    .kpi-delta { font-size:0.72rem; font-weight:600; display:flex; align-items:center; gap:3px; margin-top:4px; }
+    .delta-pos { color:var(--verde); }
+    .delta-neg { color:var(--rojo); }
+
+    .kpi-azul   .kpi-icon { background:var(--azul-suave); }
+    .kpi-azul   .kpi-icon i { color:var(--azul-principal); }
+    .kpi-azul   .kpi-valor { color:var(--azul-principal); }
+
+    .kpi-verde  .kpi-icon { background:var(--verde-suave); }
+    .kpi-verde  .kpi-icon i { color:var(--verde); }
+    .kpi-verde  .kpi-valor { color:var(--verde); }
+
+    .kpi-amarillo .kpi-icon { background:var(--amarillo-suave); }
+    .kpi-amarillo .kpi-icon i { color:var(--amarillo); }
+    .kpi-amarillo .kpi-valor { color:var(--amarillo); }
+
+    .kpi-rojo   .kpi-icon { background:var(--rojo-suave); }
+    .kpi-rojo   .kpi-icon i { color:var(--rojo); }
+    .kpi-rojo   .kpi-valor { color:var(--rojo); }
+
+    .kpi-naranja .kpi-icon { background:var(--naranja-suave); }
+    .kpi-naranja .kpi-icon i { color:var(--naranja); }
+    .kpi-naranja .kpi-valor { color:var(--naranja); }
+
+    .kpi-morado .kpi-icon { background:var(--morado-suave); }
+    .kpi-morado .kpi-icon i { color:var(--morado); }
+    .kpi-morado .kpi-valor { color:var(--morado); }
+
+    /* ── INFO CARD GENÉRICA ── */
+    .info-card {
+      background:var(--blanco); border-radius:14px;
+      border:1px solid var(--gris-borde);
+      box-shadow:0 2px 16px rgba(0,0,0,0.05);
+      padding:24px; height:auto;
+    }
+    .card-section-title {
+      font-size:0.88rem; font-weight:700; color:var(--gris-texto);
+      display:flex; align-items:center; gap:8px;
+      margin-bottom:16px; padding-bottom:12px;
+      border-bottom:1px solid var(--gris-borde);
+    }
+
+    /* ── TABLA ── */
+    .tabla-admin thead th {
+      font-size:0.73rem; color:var(--gris-medio); font-weight:700;
+      text-transform:uppercase; letter-spacing:0.5px;
+      background:var(--gris-fondo); border-color:var(--gris-borde);
+      padding:10px 14px; white-space:nowrap;
+    }
+    .tabla-admin tbody td {
+      font-size:0.83rem; color:var(--gris-texto);
+      border-color:var(--gris-borde); padding:10px 14px; vertical-align:middle;
+    }
+    .tabla-admin tbody tr:hover { background:var(--azul-suave); }
+
+    /* ── BADGES ── */
+    .badge-estado {
+      font-size:0.7rem; font-weight:700; padding:3px 10px;
+      border-radius:50px; white-space:nowrap;
+    }
+    .badge-activo    { background:var(--verde-suave);    color:var(--verde); }
+    .badge-pendiente { background:var(--amarillo-suave); color:var(--amarillo); }
+    .badge-vencido   { background:var(--rojo-suave);     color:var(--rojo); }
+    .badge-nuevo     { background:var(--azul-suave);     color:var(--azul-principal); }
+    .badge-renovado  { background:var(--morado-suave);   color:var(--morado); }
+    .badge-servicio  { background:var(--naranja-suave);  color:var(--naranja); }
+
+    /* ── MÓDULO NAV TABS ── */
+    .modulo-tabs {
+      display:flex; gap:6px; flex-wrap:wrap;
+      padding:16px; border-bottom:1px solid var(--gris-borde);
+      background:var(--gris-fondo); border-radius:14px 14px 0 0;
+    }
+    .mod-tab {
+      display:flex; align-items:center; gap:7px;
+      padding:8px 16px; border-radius:8px;
+      border:1px solid var(--gris-borde); background:var(--blanco);
+      font-size:0.8rem; font-weight:600; color:var(--gris-texto);
+      cursor:pointer; transition:all 0.2s; text-decoration:none;
+    }
+    .mod-tab:hover { border-color:var(--azul-principal); color:var(--azul-principal); background:var(--azul-suave); }
+    .mod-tab.activo { background:var(--azul-principal); border-color:var(--azul-principal); color:var(--blanco); }
+    .mod-tab i { font-size:0.95rem; }
+    .mod-content { display:none; }
+    .mod-content.activo { display:block; }
+
+    /* ── FORMULARIO ALTA ── */
+    .form-label-sh { font-size:0.8rem; font-weight:600; color:var(--gris-texto); margin-bottom:4px; }
+    .form-control-sh {
+      border:1px solid var(--gris-borde); border-radius:8px;
+      padding:9px 13px; font-size:0.86rem; color:var(--gris-texto);
+      background:var(--blanco); transition:border-color 0.2s, box-shadow 0.2s;
+      width:100%;
+    }
+    .form-control-sh:focus {
+      border-color:var(--azul-principal);
+      box-shadow:0 0 0 3px rgba(58,143,196,0.15); outline:none;
+    }
+    .form-select-sh {
+      border:1px solid var(--gris-borde); border-radius:8px;
+      padding:9px 13px; font-size:0.86rem; color:var(--gris-texto);
+      background:var(--blanco); width:100%;
+      appearance:auto; transition:border-color 0.2s;
+    }
+    .form-select-sh:focus { border-color:var(--azul-principal); outline:none; box-shadow:0 0 0 3px rgba(58,143,196,0.15); }
+
+    /* ── BOTONES ── */
+    .btn-sh-primary {
+      display:inline-flex; align-items:center; gap:7px;
+      padding:9px 22px; border-radius:50px;
+      background:var(--azul-principal); color:var(--blanco);
+      font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600;
+      border:none; text-decoration:none; transition:background 0.2s, transform 0.15s;
+      cursor:pointer;
+    }
+    .btn-sh-primary:hover { background:var(--azul-medio); transform:translateY(-1px); color:var(--blanco); }
+
+    .btn-sh-outline {
+      display:inline-flex; align-items:center; gap:7px;
+      padding:9px 20px; border:1.5px solid var(--azul-principal);
+      border-radius:50px; background:transparent; color:var(--azul-principal);
+      font-family:'Inter',sans-serif; font-size:0.85rem; font-weight:600;
+      text-decoration:none; transition:background 0.2s, color 0.2s; cursor:pointer;
+    }
+    .btn-sh-outline:hover { background:var(--azul-suave); color:var(--azul-principal); }
+
+    .btn-sh-danger {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:6px 14px; border-radius:50px;
+      background:var(--rojo-suave); color:var(--rojo);
+      font-family:'Inter',sans-serif; font-size:0.78rem; font-weight:600;
+      border:1px solid #f1948a; text-decoration:none; cursor:pointer;
+      transition:background 0.2s;
+    }
+    .btn-sh-danger:hover { background:#fad7d3; }
+
+    .btn-sh-success {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:6px 14px; border-radius:50px;
+      background:var(--verde-suave); color:var(--verde);
+      font-family:'Inter',sans-serif; font-size:0.78rem; font-weight:600;
+      border:1px solid #a9dfbf; text-decoration:none; cursor:pointer;
+      transition:background 0.2s;
+    }
+    .btn-sh-success:hover { background:#d5f5e3; }
+
+    /* ── ITEM MOROSO ── */
+    .moroso-item {
+      display:flex; align-items:center; gap:14px;
+      padding:13px 0; border-bottom:1px solid var(--gris-borde);
+    }
+    .moroso-item:last-child { border-bottom:none; }
+    .moroso-avatar {
+      width:40px; height:40px; border-radius:50%;
+      background:var(--rojo-suave); color:var(--rojo);
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.8rem; font-weight:700; flex-shrink:0;
+    }
+    .moroso-info { flex:1; min-width:0; }
+    .moroso-nombre { font-size:0.86rem; font-weight:600; color:var(--gris-texto); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .moroso-detalle { font-size:0.74rem; color:var(--gris-medio); }
+    .moroso-monto { font-size:0.9rem; font-weight:700; color:var(--rojo); white-space:nowrap; }
+
+    /* ── SERVICIO ITEM ── */
+    .servicio-item {
+      display:flex; align-items:center; gap:14px;
+      padding:13px 0; border-bottom:1px solid var(--gris-borde);
+    }
+    .servicio-item:last-child { border-bottom:none; }
+    .servicio-icon-wrap {
+      width:40px; height:40px; border-radius:10px;
+      background:var(--naranja-suave);
+      display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .servicio-icon-wrap i { font-size:1.1rem; color:var(--naranja); }
+    .servicio-info { flex:1; min-width:0; }
+    .servicio-nombre { font-size:0.86rem; font-weight:600; color:var(--gris-texto); }
+    .servicio-detalle { font-size:0.74rem; color:var(--gris-medio); }
+
+    /* ── REPORTE ITEM ── */
+    .reporte-item {
+      display:flex; align-items:center; gap:14px;
+      padding:12px 16px; border:1px solid var(--gris-borde);
+      border-radius:10px; background:var(--blanco);
+      transition:border-color 0.2s, box-shadow 0.2s;
+      text-decoration:none; margin-bottom:10px; cursor:pointer;
+    }
+    .reporte-item:hover { border-color:var(--azul-principal); box-shadow:0 2px 12px rgba(58,143,196,0.1); }
+    .reporte-icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .reporte-icon i { font-size:1.2rem; }
+    .reporte-info { flex:1; min-width:0; }
+    .reporte-nombre { font-size:0.86rem; font-weight:600; color:var(--gris-texto); }
+    .reporte-desc { font-size:0.74rem; color:var(--gris-medio); }
+    .reporte-dl { font-size:0.75rem; font-weight:600; color:var(--azul-principal); white-space:nowrap; display:flex; align-items:center; gap:4px; }
+
+    /* ── BARRA PROGRESO ── */
+    .progreso-wrap { margin-bottom:14px; }
+    .progreso-label { display:flex; justify-content:space-between; font-size:0.76rem; color:var(--gris-medio); margin-bottom:4px; }
+    .progreso-bar { height:8px; background:var(--gris-borde); border-radius:50px; overflow:hidden; }
+    .progreso-fill { height:100%; border-radius:50px; transition:width 0.6s ease; }
+
+    /* ── FOOTER ── */
+    .footer-sh { background-color:var(--blanco); border-top:1px solid var(--gris-borde); padding:28px 20px; text-align:center; }
+    .footer-sh p { font-size:0.8rem; color:var(--gris-medio); margin-bottom:4px; }
+    .footer-sh a { color:var(--azul-principal); text-decoration:none; }
+    .footer-sh a:hover { text-decoration:underline; }
+    .footer-divider { width:36px; height:2px; background-color:var(--gris-borde); border-radius:2px; margin:12px auto; }
+    .footer-sh .footer-logo img { height:34px; opacity:0.7; margin-bottom:10px; }
+
+    /* ── TOAST ── */
+    .toast-sh {
+      position:fixed; bottom:24px; right:24px; z-index:9999;
+      background:var(--gris-texto); color:var(--blanco);
+      padding:11px 20px; border-radius:10px; font-size:0.84rem;
+      font-weight:500; box-shadow:0 4px 20px rgba(0,0,0,0.15);
+      opacity:0; pointer-events:none; transition:opacity 0.3s;
+    }
+    .toast-sh.show { opacity:1; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════ -->
+  <nav class="navbar navbar-expand-lg navbar-sh">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="logo.png" alt="Logo"/>
+        <div class="brand-text">
+          <strong>Sociedad Humanista</strong>
+          <span>Santa Martha S.A. de C.V.</span>
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav align-items-lg-center gap-1">
+          <li class="nav-item"><a class="nav-link" href="misDatos.html"><i class="bi bi-house me-1"></i>Mis datos</a></li>
+          <li class="nav-item"><a class="nav-link" href="cobros.html"><i class="bi bi-credit-card me-1"></i>Cobros</a></li>
+          <li class="nav-item"><a class="nav-link" href="planFunerario.html"><i class="bi bi-file-earmark-heart me-1"></i>Mi plan funerario</a></li>
+          <li class="nav-item"><a class="nav-link" href="informacion.html"><i class="bi bi-info-circle me-1"></i>Información</a></li>
+          <li class="nav-item"><a class="nav-link" href="notificaciones.html"><i class="bi bi-bell me-1"></i>Notificaciones</a></li>
+          <li class="nav-item"><a class="nav-link active" href="panelAdministrativo.html"><i class="bi bi-arrow-left-right me-1"></i>Movimientos</a></li>
+          <li class="nav-item"><a class="nav-link" href="beneficiarios.html"><i class="bi bi-people me-1"></i>Beneficiarios</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="nav-link nav-link-cerrar" href="index.html"><i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+       PAGE HEADER
+  ══════════════════════════════════════ -->
+  <div class="page-header">
+    <div class="admin-badge"><i class="bi bi-shield-lock me-1"></i>Acceso Administrativo</div>
+    <div class="header-icon"><i class="bi bi-speedometer2"></i></div>
+    <h1>Panel Administrativo</h1>
+    <p>Sociedad Humanista Santa Martha — Gestión interna de socios, cobros y servicios funerarios</p>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CONTENIDO
+  ══════════════════════════════════════ -->
+  <section class="admin-section">
+    <div class="container-lg">
+
+      <!-- ① KPIs GENERALES -->
+      <div class="row g-3 mb-4">
+        <div class="col-12">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-graph-up" style="color:var(--azul-principal)"></i> Resumen General</h2>
+            <div class="linea-azul"></div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 d-flex">
+          <div class="kpi-card kpi-verde w-100">
+            <div class="kpi-icon"><i class="bi bi-currency-dollar"></i></div>
+            <div>
+              <div class="kpi-valor">$87,850</div>
+              <div class="kpi-label">Ingresos mensuales</div>
+              <div class="kpi-delta delta-pos"><i class="bi bi-arrow-up-short"></i>+12% vs mes anterior</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 d-flex">
+          <div class="kpi-card kpi-azul w-100">
+            <div class="kpi-icon"><i class="bi bi-file-earmark-check"></i></div>
+            <div>
+              <div class="kpi-valor">251</div>
+              <div class="kpi-label">Contratos activos</div>
+              <div class="kpi-delta delta-pos"><i class="bi bi-arrow-up-short"></i>+3 este mes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 d-flex">
+          <div class="kpi-card kpi-amarillo w-100">
+            <div class="kpi-icon"><i class="bi bi-clock-history"></i></div>
+            <div>
+              <div class="kpi-valor">34</div>
+              <div class="kpi-label">Pagos pendientes</div>
+              <div class="kpi-delta delta-neg"><i class="bi bi-arrow-up-short"></i>+5 vs mes anterior</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 d-flex">
+          <div class="kpi-card kpi-rojo w-100">
+            <div class="kpi-icon"><i class="bi bi-exclamation-triangle"></i></div>
+            <div>
+              <div class="kpi-valor">18</div>
+              <div class="kpi-label">Socios morosos</div>
+              <div class="kpi-delta delta-neg"><i class="bi bi-arrow-up-short"></i>+2 este mes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 d-flex">
+          <div class="kpi-card kpi-morado w-100">
+            <div class="kpi-icon"><i class="bi bi-arrow-repeat"></i></div>
+            <div>
+              <div class="kpi-valor">9</div>
+              <div class="kpi-label">Renovaciones pendientes</div>
+              <div class="kpi-delta delta-pos"><i class="bi bi-arrow-down-short"></i>-2 vs mes anterior</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2 d-flex">
+          <div class="kpi-card kpi-naranja w-100">
+            <div class="kpi-icon"><i class="bi bi-tools"></i></div>
+            <div>
+              <div class="kpi-valor">4</div>
+              <div class="kpi-label">Servicios en proceso</div>
+              <div class="kpi-delta delta-pos"><i class="bi bi-dash"></i>Sin cambios</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ② BARRAS DE PROGRESO MENSUAL -->
+      <div class="row g-4 mb-4">
+        <div class="col-12 col-lg-6 d-flex flex-column">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-bar-chart-line" style="color:var(--azul-principal)"></i> Cumplimiento Mensual</h2>
+            <div class="linea-azul"></div>
+          </div>
+          <div class="info-card" style="flex:1;">
+            <div class="progreso-wrap">
+              <div class="progreso-label"><span>Cobros realizados</span><span>214 / 251</span></div>
+              <div class="progreso-bar"><div class="progreso-fill" style="width:85%; background:var(--verde);"></div></div>
+            </div>
+            <div class="progreso-wrap">
+              <div class="progreso-label"><span>Meta de ingresos ($90,000)</span><span>$87,850 / $90,000</span></div>
+              <div class="progreso-bar"><div class="progreso-fill" style="width:98%; background:var(--azul-principal);"></div></div>
+            </div>
+            <div class="progreso-wrap">
+              <div class="progreso-label"><span>Recuperación de cartera vencida</span><span>62%</span></div>
+              <div class="progreso-bar"><div class="progreso-fill" style="width:62%; background:var(--amarillo);"></div></div>
+            </div>
+            <div class="progreso-wrap">
+              <div class="progreso-label"><span>Renovaciones completadas</span><span>3 / 12</span></div>
+              <div class="progreso-bar"><div class="progreso-fill" style="width:25%; background:var(--morado);"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Últimos ingresos -->
+        <div class="col-12 col-lg-6 d-flex flex-column">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-receipt" style="color:var(--azul-principal)"></i> Últimos Ingresos Registrados</h2>
+            <div class="linea-azul"></div>
+          </div>
+          <div class="info-card" style="flex:1; padding:0; overflow:hidden;">
+            <div class="table-responsive">
+              <table class="table tabla-admin mb-0">
+                <thead>
+                  <tr>
+                    <th>Socio</th>
+                    <th>Contrato</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>María L. Pérez</strong></td>
+                    <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2023-00842</span></td>
+                    <td><strong style="color:var(--verde)">$350.00</strong></td>
+                    <td>12 jun 2026</td>
+                    <td><span class="badge-estado badge-activo">Pagado</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>José R. García</strong></td>
+                    <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2022-00614</span></td>
+                    <td><strong style="color:var(--verde)">$350.00</strong></td>
+                    <td>11 jun 2026</td>
+                    <td><span class="badge-estado badge-activo">Pagado</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Ana M. Torres</strong></td>
+                    <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2024-01021</span></td>
+                    <td><strong style="color:var(--verde)">$350.00</strong></td>
+                    <td>10 jun 2026</td>
+                    <td><span class="badge-estado badge-activo">Pagado</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Carlos E. Ruiz</strong></td>
+                    <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2021-00388</span></td>
+                    <td><strong style="color:var(--amarillo)">$350.00</strong></td>
+                    <td>09 jun 2026</td>
+                    <td><span class="badge-estado badge-pendiente">Pendiente</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Laura G. Méndez</strong></td>
+                    <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2020-00201</span></td>
+                    <td><strong style="color:var(--verde)">$700.00</strong></td>
+                    <td>08 jun 2026</td>
+                    <td><span class="badge-estado badge-activo">2 meses</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ③ MÓDULOS PRINCIPALES (TABS) -->
+      <div class="row g-4 mb-4">
+        <div class="col-12">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-grid-1x2" style="color:var(--azul-principal)"></i> Módulos de Gestión</h2>
+            <div class="linea-azul"></div>
+          </div>
+
+          <!-- TAB BAR -->
+          <div class="modulo-tabs" id="moduloTabs">
+            <a class="mod-tab activo" onclick="cambiarTab('alta')"    id="tab-alta">    <i class="bi bi-person-plus"></i>    Alta de Socios</a>
+            <a class="mod-tab"        onclick="cambiarTab('cobranza')" id="tab-cobranza"><i class="bi bi-cash-stack"></i>     Cobranza</a>
+            <a class="mod-tab"        onclick="cambiarTab('morosidad')"id="tab-morosidad"><i class="bi bi-exclamation-triangle"></i>Morosidad</a>
+            <a class="mod-tab"        onclick="cambiarTab('servicios')"id="tab-servicios"><i class="bi bi-tools"></i>         Servicios Funerarios</a>
+            <a class="mod-tab"        onclick="cambiarTab('reportes')" id="tab-reportes"><i class="bi bi-file-earmark-bar-graph"></i>Reportes</a>
+          </div>
+
+          <!-- ── TAB: ALTA DE SOCIOS ── -->
+          <div class="info-card" style="border-radius:0 0 14px 14px; border-top:none;">
+
+            <div id="mod-alta" class="mod-content activo">
+              <div class="card-section-title">
+                <i class="bi bi-person-plus" style="color:var(--azul-principal)"></i> Registro de Nuevo Socio
+              </div>
+              <form onsubmit="registrarSocio(event)">
+                <div class="row g-3">
+                  <div class="col-12 col-md-4">
+                    <label class="form-label-sh">Nombre(s) *</label>
+                    <input type="text" class="form-control-sh" placeholder="Ej. María Luisa" required/>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label-sh">Apellido Paterno *</label>
+                    <input type="text" class="form-control-sh" placeholder="Ej. López" required/>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label-sh">Apellido Materno</label>
+                    <input type="text" class="form-control-sh" placeholder="Ej. Pérez"/>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label-sh">CURP *</label>
+                    <input type="text" class="form-control-sh" placeholder="LOPM801215MDFPRS06" maxlength="18" style="text-transform:uppercase" required/>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label-sh">Teléfono *</label>
+                    <input type="tel" class="form-control-sh" placeholder="782 157 4801" required/>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label-sh">Correo Electrónico</label>
+                    <input type="email" class="form-control-sh" placeholder="correo@ejemplo.com"/>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label-sh">Domicilio *</label>
+                    <input type="text" class="form-control-sh" placeholder="Calle, número, colonia" required/>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <label class="form-label-sh">Tipo de Plan *</label>
+                    <select class="form-select-sh" required>
+                      <option value="">Seleccionar…</option>
+                      <option>Plan Básico — $350/mes</option>
+                      <option>Plan Familiar — $650/mes</option>
+                      <option>Plan Premium — $950/mes</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <label class="form-label-sh">Método de Pago</label>
+                    <select class="form-select-sh">
+                      <option>Efectivo</option>
+                      <option>Mercado Pago</option>
+                      <option>Transferencia</option>
+                      <option>Ficha Oxxo</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label-sh">Observaciones</label>
+                    <textarea class="form-control-sh" rows="2" placeholder="Notas adicionales…" style="resize:vertical;"></textarea>
+                  </div>
+                  <div class="col-12 d-flex gap-3 flex-wrap pt-2">
+                    <button type="submit" class="btn-sh-primary"><i class="bi bi-person-check"></i> Registrar Socio</button>
+                    <button type="reset"  class="btn-sh-outline"><i class="bi bi-arrow-counterclockwise"></i> Limpiar</button>
+                  </div>
+                </div>
+              </form>
+
+              <!-- Socios recientes -->
+              <div class="card-section-title mt-4">
+                <i class="bi bi-people" style="color:var(--azul-principal)"></i> Socios Registrados Recientemente
+              </div>
+              <div class="table-responsive">
+                <table class="table tabla-admin mb-0">
+                  <thead>
+                    <tr><th>Nombre</th><th>Contrato</th><th>Plan</th><th>Alta</th><th>Estado</th><th>Acción</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Roberto S. Díaz</strong></td>
+                      <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2026-01105</span></td>
+                      <td>Plan Básico</td><td>05 jun 2026</td>
+                      <td><span class="badge-estado badge-nuevo">Nuevo</span></td>
+                      <td><a href="#" class="btn-sh-outline" style="padding:4px 12px;font-size:0.75rem;"><i class="bi bi-eye"></i> Ver</a></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Lucía F. Vargas</strong></td>
+                      <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2026-01104</span></td>
+                      <td>Plan Familiar</td><td>01 jun 2026</td>
+                      <td><span class="badge-estado badge-nuevo">Nuevo</span></td>
+                      <td><a href="#" class="btn-sh-outline" style="padding:4px 12px;font-size:0.75rem;"><i class="bi bi-eye"></i> Ver</a></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Marco A. Herrera</strong></td>
+                      <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2026-01103</span></td>
+                      <td>Plan Premium</td><td>28 may 2026</td>
+                      <td><span class="badge-estado badge-activo">Activo</span></td>
+                      <td><a href="#" class="btn-sh-outline" style="padding:4px 12px;font-size:0.75rem;"><i class="bi bi-eye"></i> Ver</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- ── TAB: COBRANZA ── -->
+            <div id="mod-cobranza" class="mod-content">
+              <div class="card-section-title">
+                <i class="bi bi-cash-stack" style="color:var(--azul-principal)"></i> Gestión de Cobranza
+              </div>
+              <div class="row g-3 mb-4">
+                <div class="col-12 col-md-4">
+                  <label class="form-label-sh">Buscar socio / contrato</label>
+                  <input type="text" class="form-control-sh" placeholder="Nombre o No. de contrato…"/>
+                </div>
+                <div class="col-12 col-md-3">
+                  <label class="form-label-sh">Mes</label>
+                  <select class="form-select-sh">
+                    <option>Junio 2026</option><option>Mayo 2026</option>
+                    <option>Abril 2026</option><option>Marzo 2026</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-3">
+                  <label class="form-label-sh">Estado</label>
+                  <select class="form-select-sh">
+                    <option value="">Todos</option>
+                    <option>Pagado</option><option>Pendiente</option><option>Vencido</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-2 d-flex align-items-end">
+                  <button class="btn-sh-primary w-100" style="justify-content:center;"><i class="bi bi-search"></i> Buscar</button>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table tabla-admin mb-0">
+                  <thead>
+                    <tr><th>Socio</th><th>Contrato</th><th>Mensualidad</th><th>Monto</th><th>Vencimiento</th><th>Estado</th><th>Acción</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>María L. Pérez</strong></td>
+                      <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2023-00842</span></td>
+                      <td>Agosto 2026</td><td>$350.00</td><td>15 ago 2026</td>
+                      <td><span class="badge-estado badge-pendiente">Pendiente</span></td>
+                      <td class="d-flex gap-1 flex-wrap">
+                        <button class="btn-sh-success" onclick="mostrarToast('Pago registrado ✓')"><i class="bi bi-check2"></i> Pagar</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Carlos E. Ruiz</strong></td>
+                      <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2021-00388</span></td>
+                      <td>Junio 2026</td><td>$350.00</td><td>15 jun 2026</td>
+                      <td><span class="badge-estado badge-vencido">Vencido</span></td>
+                      <td class="d-flex gap-1 flex-wrap">
+                        <button class="btn-sh-danger" onclick="mostrarToast('Recordatorio enviado')"><i class="bi bi-whatsapp"></i> Recordar</button>
+                        <button class="btn-sh-success" onclick="mostrarToast('Pago registrado ✓')"><i class="bi bi-check2"></i> Pagar</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Ana M. Torres</strong></td>
+                      <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2024-01021</span></td>
+                      <td>Junio 2026</td><td>$350.00</td><td>15 jun 2026</td>
+                      <td><span class="badge-estado badge-activo">Pagado</span></td>
+                      <td><a href="#" class="btn-sh-outline" style="padding:4px 12px;font-size:0.75rem;"><i class="bi bi-download"></i> Recibo</a></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Laura G. Méndez</strong></td>
+                      <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2020-00201</span></td>
+                      <td>Julio 2026</td><td>$350.00</td><td>15 jul 2026</td>
+                      <td><span class="badge-estado badge-pendiente">Pendiente</span></td>
+                      <td class="d-flex gap-1 flex-wrap">
+                        <button class="btn-sh-success" onclick="mostrarToast('Pago registrado ✓')"><i class="bi bi-check2"></i> Pagar</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- ── TAB: MOROSIDAD ── -->
+            <div id="mod-morosidad" class="mod-content">
+              <div class="card-section-title">
+                <i class="bi bi-exclamation-triangle" style="color:var(--rojo)"></i> Socios con Morosidad
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="kpi-card kpi-rojo">
+                    <div class="kpi-icon"><i class="bi bi-people"></i></div>
+                    <div><div class="kpi-valor">18</div><div class="kpi-label">Socios morosos</div></div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="kpi-card kpi-amarillo">
+                    <div class="kpi-icon"><i class="bi bi-currency-dollar"></i></div>
+                    <div><div class="kpi-valor">$6,300</div><div class="kpi-label">Total adeudado</div></div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="kpi-card kpi-naranja">
+                    <div class="kpi-icon"><i class="bi bi-calendar-x"></i></div>
+                    <div><div class="kpi-valor">67 días</div><div class="kpi-label">Mora promedio</div></div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3">
+                  <div class="kpi-card kpi-verde">
+                    <div class="kpi-icon"><i class="bi bi-check-circle"></i></div>
+                    <div><div class="kpi-valor">$3,850</div><div class="kpi-label">Recuperado este mes</div></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="moroso-item">
+                <div class="moroso-avatar">CR</div>
+                <div class="moroso-info">
+                  <div class="moroso-nombre">Carlos E. Ruiz — SHM-2021-00388</div>
+                  <div class="moroso-detalle">3 mensualidades vencidas · Último pago: 15 mar 2026 · 92 días de mora</div>
+                </div>
+                <div class="moroso-monto me-3">$1,050</div>
+                <button class="btn-sh-danger" onclick="mostrarToast('Aviso enviado por WhatsApp')"><i class="bi bi-whatsapp"></i> Avisar</button>
+              </div>
+              <div class="moroso-item">
+                <div class="moroso-avatar">PL</div>
+                <div class="moroso-info">
+                  <div class="moroso-nombre">Pedro L. Sánchez — SHM-2019-00122</div>
+                  <div class="moroso-detalle">2 mensualidades vencidas · Último pago: 15 abr 2026 · 61 días de mora</div>
+                </div>
+                <div class="moroso-monto me-3">$700</div>
+                <button class="btn-sh-danger" onclick="mostrarToast('Aviso enviado por WhatsApp')"><i class="bi bi-whatsapp"></i> Avisar</button>
+              </div>
+              <div class="moroso-item">
+                <div class="moroso-avatar">IR</div>
+                <div class="moroso-info">
+                  <div class="moroso-nombre">Isabel R. Flores — SHM-2022-00590</div>
+                  <div class="moroso-detalle">4 mensualidades vencidas · Último pago: 15 feb 2026 · 121 días de mora</div>
+                </div>
+                <div class="moroso-monto me-3">$1,400</div>
+                <button class="btn-sh-danger" onclick="mostrarToast('Aviso enviado por WhatsApp')"><i class="bi bi-whatsapp"></i> Avisar</button>
+              </div>
+              <div class="moroso-item">
+                <div class="moroso-avatar">GM</div>
+                <div class="moroso-info">
+                  <div class="moroso-nombre">Guadalupe M. Ortiz — SHM-2020-00315</div>
+                  <div class="moroso-detalle">2 mensualidades vencidas · Último pago: 01 may 2026 · 45 días de mora</div>
+                </div>
+                <div class="moroso-monto me-3">$700</div>
+                <button class="btn-sh-danger" onclick="mostrarToast('Aviso enviado por WhatsApp')"><i class="bi bi-whatsapp"></i> Avisar</button>
+              </div>
+
+              <div class="mt-3 d-flex gap-3 flex-wrap">
+                <button class="btn-sh-danger" onclick="mostrarToast('Avisos masivos enviados')"><i class="bi bi-megaphone"></i> Avisar a todos</button>
+                <button class="btn-sh-outline" onclick="mostrarToast('Exportando reporte…')"><i class="bi bi-download"></i> Exportar lista</button>
+              </div>
+            </div>
+
+            <!-- ── TAB: SERVICIOS FUNERARIOS ── -->
+            <div id="mod-servicios" class="mod-content">
+              <div class="card-section-title">
+                <i class="bi bi-tools" style="color:var(--naranja)"></i> Gestión de Servicios Funerarios
+              </div>
+              <!-- Nuevo servicio -->
+              <div class="mb-4">
+                <div style="font-size:0.84rem;font-weight:700;color:var(--gris-texto);margin-bottom:12px;">Registrar nuevo servicio</div>
+                <div class="row g-3">
+                  <div class="col-12 col-md-4">
+                    <label class="form-label-sh">Contrato / Socio *</label>
+                    <input type="text" class="form-control-sh" placeholder="No. contrato o nombre…"/>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <label class="form-label-sh">Tipo de Servicio *</label>
+                    <select class="form-select-sh">
+                      <option>Inhumación</option>
+                      <option>Cremación</option>
+                      <option>Sala Velatoria</option>
+                      <option>Traslado</option>
+                      <option>Ataúd</option>
+                      <option>Asesoría Legal</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <label class="form-label-sh">Fecha del Servicio *</label>
+                    <input type="date" class="form-control-sh"/>
+                  </div>
+                  <div class="col-12 col-md-2 d-flex align-items-end">
+                    <button class="btn-sh-primary w-100" style="justify-content:center;" onclick="mostrarToast('Servicio registrado ✓')"><i class="bi bi-plus-circle"></i> Agregar</button>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label-sh">Notas del Servicio</label>
+                    <textarea class="form-control-sh" rows="2" placeholder="Detalles adicionales del servicio…" style="resize:vertical;"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-section-title">
+                <i class="bi bi-list-ul" style="color:var(--naranja)"></i> Servicios Activos
+              </div>
+              <div class="table-responsive">
+                <table class="table tabla-admin mb-0">
+                  <thead>
+                    <tr><th>Contrato</th><th>Titular</th><th>Servicio</th><th>Fecha</th><th>Responsable</th><th>Estado</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2018-00045</span></td>
+                      <td><strong>Fam. Morales</strong></td>
+                      <td>Inhumación + Sala</td><td>12 jun 2026</td>
+                      <td>Lic. Ramírez</td>
+                      <td><span class="badge-estado badge-servicio">En proceso</span></td>
+                    </tr>
+                    <tr>
+                      <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2015-00011</span></td>
+                      <td><strong>Fam. Castillo</strong></td>
+                      <td>Cremación + Traslado</td><td>10 jun 2026</td>
+                      <td>Lic. Hernández</td>
+                      <td><span class="badge-estado badge-activo">Completado</span></td>
+                    </tr>
+                    <tr>
+                      <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2020-00289</span></td>
+                      <td><strong>Fam. Gutiérrez</strong></td>
+                      <td>Ataúd + Sala</td><td>08 jun 2026</td>
+                      <td>Lic. Ramírez</td>
+                      <td><span class="badge-estado badge-activo">Completado</span></td>
+                    </tr>
+                    <tr>
+                      <td><span style="font-size:0.75rem;color:var(--gris-medio)">SHM-2023-00901</span></td>
+                      <td><strong>Fam. Jiménez</strong></td>
+                      <td>Asesoría Legal</td><td>15 jun 2026</td>
+                      <td>Lic. Gómez</td>
+                      <td><span class="badge-estado badge-pendiente">Programado</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- ── TAB: REPORTES ── -->
+            <div id="mod-reportes" class="mod-content">
+              <div class="card-section-title">
+                <i class="bi bi-file-earmark-bar-graph" style="color:var(--azul-principal)"></i> Reportes Disponibles
+              </div>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <div class="reporte-item" onclick="mostrarToast('Generando reporte…')">
+                    <div class="reporte-icon" style="background:#fdecea;"><i class="bi bi-file-earmark-pdf-fill" style="color:#c0392b;"></i></div>
+                    <div class="reporte-info">
+                      <div class="reporte-nombre">Reporte Mensual de Cobros</div>
+                      <div class="reporte-desc">Ingresos, pagos recibidos y pendientes — Junio 2026</div>
+                    </div>
+                    <div class="reporte-dl"><i class="bi bi-download"></i> Generar</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="reporte-item" onclick="mostrarToast('Generando reporte…')">
+                    <div class="reporte-icon" style="background:#fdecea;"><i class="bi bi-file-earmark-pdf-fill" style="color:#c0392b;"></i></div>
+                    <div class="reporte-info">
+                      <div class="reporte-nombre">Reporte de Morosidad</div>
+                      <div class="reporte-desc">Listado de socios con adeudo mayor a 30 días</div>
+                    </div>
+                    <div class="reporte-dl"><i class="bi bi-download"></i> Generar</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="reporte-item" onclick="mostrarToast('Generando reporte…')">
+                    <div class="reporte-icon" style="background:var(--verde-suave);"><i class="bi bi-file-earmark-excel-fill" style="color:var(--verde);"></i></div>
+                    <div class="reporte-info">
+                      <div class="reporte-nombre">Padrón de Socios Activos</div>
+                      <div class="reporte-desc">Listado completo de contratos vigentes con datos de contacto</div>
+                    </div>
+                    <div class="reporte-dl"><i class="bi bi-download"></i> Generar</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="reporte-item" onclick="mostrarToast('Generando reporte…')">
+                    <div class="reporte-icon" style="background:var(--verde-suave);"><i class="bi bi-file-earmark-excel-fill" style="color:var(--verde);"></i></div>
+                    <div class="reporte-info">
+                      <div class="reporte-nombre">Historial de Pagos por Socio</div>
+                      <div class="reporte-desc">Exportar historial individual o global de mensualidades</div>
+                    </div>
+                    <div class="reporte-dl"><i class="bi bi-download"></i> Generar</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="reporte-item" onclick="mostrarToast('Generando reporte…')">
+                    <div class="reporte-icon" style="background:var(--azul-suave);"><i class="bi bi-file-earmark-pdf-fill" style="color:var(--azul-principal);"></i></div>
+                    <div class="reporte-info">
+                      <div class="reporte-nombre">Reporte de Servicios Funerarios</div>
+                      <div class="reporte-desc">Servicios prestados, en proceso y programados del periodo</div>
+                    </div>
+                    <div class="reporte-dl"><i class="bi bi-download"></i> Generar</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="reporte-item" onclick="mostrarToast('Generando reporte…')">
+                    <div class="reporte-icon" style="background:var(--morado-suave);"><i class="bi bi-file-earmark-pdf-fill" style="color:var(--morado);"></i></div>
+                    <div class="reporte-info">
+                      <div class="reporte-nombre">Reporte de Renovaciones</div>
+                      <div class="reporte-desc">Contratos por renovar en los próximos 60 días</div>
+                    </div>
+                    <div class="reporte-dl"><i class="bi bi-download"></i> Generar</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Rango personalizado -->
+              <div class="card-section-title mt-4">
+                <i class="bi bi-calendar-range" style="color:var(--azul-principal)"></i> Reporte Personalizado
+              </div>
+              <div class="row g-3">
+                <div class="col-12 col-md-3">
+                  <label class="form-label-sh">Desde</label>
+                  <input type="date" class="form-control-sh"/>
+                </div>
+                <div class="col-12 col-md-3">
+                  <label class="form-label-sh">Hasta</label>
+                  <input type="date" class="form-control-sh"/>
+                </div>
+                <div class="col-12 col-md-3">
+                  <label class="form-label-sh">Tipo de reporte</label>
+                  <select class="form-select-sh">
+                    <option>Cobros</option><option>Morosidad</option>
+                    <option>Socios</option><option>Servicios</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-3 d-flex align-items-end">
+                  <button class="btn-sh-primary w-100" style="justify-content:center;" onclick="mostrarToast('Generando reporte personalizado…')">
+                    <i class="bi bi-file-earmark-arrow-down"></i> Generar
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /info-card tabs -->
+        </div>
+      </div>
+
+    </div><!-- /container-lg -->
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════ -->
+  <footer class="footer-sh">
+    <div class="footer-logo"><img src="logo.png" alt="Logo"/></div>
+    <p><strong style="color:var(--gris-texto)">Sociedad Humanista Santa Martha S.A. de C.V.</strong></p>
+    <div class="footer-divider"></div>
+    <p>© 2026 Todos los derechos reservados.</p>
+  </footer>
+
+  <div class="toast-sh" id="toastSh"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function cambiarTab(nombre) {
+      // Ocultar todos los contenidos
+      document.querySelectorAll('.mod-content').forEach(el => el.classList.remove('activo'));
+      document.querySelectorAll('.mod-tab').forEach(el => el.classList.remove('activo'));
+      // Mostrar el seleccionado
+      document.getElementById('mod-' + nombre).classList.add('activo');
+      document.getElementById('tab-' + nombre).classList.add('activo');
+    }
+
+    function registrarSocio(e) {
+      e.preventDefault();
+      mostrarToast('Socio registrado exitosamente ✓');
+      e.target.reset();
+    }
+
+    function mostrarToast(msg) {
+      const t = document.getElementById('toastSh');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>

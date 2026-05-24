@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mis Datos — Sociedad Humanista Santa Martha</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --azul-principal: #3A8FC4;
+      --azul-suave:     #EBF4FB;
+      --azul-medio:     #2574A9;
+      --gris-texto:     #3D3D3D;
+      --gris-medio:     #7A8A99;
+      --gris-borde:     #D9E2EA;
+      --gris-fondo:     #F7F9FB;
+      --blanco:         #FFFFFF;
+      --verde:          #1e8449;
+      --verde-suave:    #eafaf1;
+      --amarillo:       #b7950b;
+      --amarillo-suave: #fef9e7;
+      --rojo:           #c0392b;
+      --rojo-suave:     #fdecea;
+      --morado:         #7d3c98;
+      --morado-suave:   #f5eef8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--gris-fondo);
+      color: var(--gris-texto);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,h2,h3,h4,h5 { font-family: 'Lora', serif; font-weight: 600; }
+
+    /* ── NAVBAR ── */
+    .navbar-sh {
+      background-color: var(--blanco);
+      border-bottom: 1px solid var(--gris-borde);
+      position: sticky; top: 0; z-index: 1000;
+      padding: 0.6rem 1.5rem;
+      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    }
+    .navbar-sh .navbar-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .navbar-sh .navbar-brand img { height: 42px; }
+    .navbar-sh .brand-text { line-height: 1.2; }
+    .navbar-sh .brand-text strong { display:block; font-size:0.82rem; font-weight:700; color:var(--gris-texto); letter-spacing:0.5px; text-transform:uppercase; }
+    .navbar-sh .brand-text span { font-size:0.72rem; color:var(--gris-medio); }
+    .navbar-sh .nav-link { color:var(--gris-texto) !important; font-size:0.75rem; font-weight:500; padding:0.4rem 0.55rem !important; border-radius:6px; transition:background 0.2s,color 0.2s; }
+    .navbar-sh .nav-link:hover { background-color:var(--azul-suave); color:var(--azul-principal) !important; }
+    .navbar-sh .nav-link.active { color:var(--azul-principal) !important; background-color:var(--azul-suave); }
+    .navbar-sh .nav-link-cerrar { color:#c0392b !important; border:1px solid #e74c3c; border-radius:6px; }
+    .navbar-sh .nav-link-cerrar:hover { background-color:#fdf0ef !important; color:#c0392b !important; border-color:#c0392b; }
+    .navbar-toggler { border:1px solid var(--gris-borde); padding:5px 9px; }
+    .navbar-toggler:focus { box-shadow:none; }
+    .navbar-toggler-icon { background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(58,143,196,1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+    @media (max-width:576px) { .navbar-sh .brand-text { display:none; } }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-principal) 60%, #5aaed4 100%);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .header-inner {
+      position: relative;
+      padding: 36px 24px 100px;
+      text-align: center;
+    }
+    .page-header h1 { color: var(--blanco); font-size: clamp(1.15rem,4vw,1.55rem); margin-bottom: 4px; }
+    .page-header p  { font-size: 0.88rem; color: rgba(255,255,255,0.85); margin: 0; }
+
+    /* Avatar flotante */
+    .avatar-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 14px;
+    }
+    .avatar-circle {
+      width: 88px; height: 88px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: 3px solid rgba(255,255,255,0.5);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; font-weight: 700;
+      color: var(--blanco); font-family: 'Inter', sans-serif;
+      margin: 0 auto;
+    }
+    .avatar-edit-btn {
+      position: absolute; bottom: 2px; right: 2px;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--blanco); border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: background 0.2s;
+    }
+    .avatar-edit-btn i { font-size: 0.75rem; color: var(--azul-principal); }
+    .avatar-edit-btn:hover { background: var(--azul-suave); }
+
+    /* Card perfil flotando sobre el header */
+    .perfil-card-wrap {
+      margin-top: -72px;
+      position: relative;
+      z-index: 10;
+      padding: 0 16px;
+    }
+
+    /* ── SECCIÓN ── */
+    .datos-section { padding: 24px 16px 56px; }
+
+    .seccion-titulo { margin-bottom: 20px; }
+    .seccion-titulo h2 { font-size: clamp(1rem,3vw,1.15rem); color: var(--gris-texto); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .linea-azul { width: 36px; height: 3px; background-color: var(--azul-principal); border-radius: 2px; margin: 8px 0 0; }
+
+    /* ── INFO CARD ── */
+    .info-card {
+      background: var(--blanco);
+      border-radius: 14px;
+      border: 1px solid var(--gris-borde);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+      padding: 24px;
+      height: auto;
+    }
+    .card-section-title {
+      font-size: 0.88rem; font-weight: 700; color: var(--gris-texto);
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 16px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--gris-borde);
+    }
+
+    /* ── DATO FILA ── */
+    .dato-fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--gris-borde);
+    gap: 8px;
+    flex-wrap: wrap;         /* ← permite wrap en móvil */
+  }
+  .dato-fila:last-child { border-bottom: none; }
+
+  .df-label {
+    font-size: 0.78rem;
+    color: var(--gris-medio);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+    width: 100%;             /* ← ocupa fila completa en móvil */
+    min-width: 130px;
+  }
+  .df-label i { color: var(--azul-principal); font-size: 0.9rem; }
+
+  .df-valor {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--gris-texto);
+    flex: 1;
+    word-break: break-word;  /* ← rompe correos/CURP largos */
+    min-width: 0;
+  }
+
+  .df-editar {
+    font-size: 0.75rem;
+    color: var(--azul-principal);
+    background: var(--azul-suave);
+    border: none;
+    border-radius: 50px;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    align-self: flex-end;    /* ← se alinea al final del grupo */
+    margin-top: 2px;
+  }
+  .df-editar:hover { background: #d0e9f7; }
+
+  /* En pantallas medianas y grandes recupera el layout horizontal */
+  @media (min-width: 480px) {
+    .df-label {
+      width: auto;
+      min-width: 150px;
+    }
+    .dato-fila {
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+    .df-editar {
+      align-self: center;
+      margin-top: 0;
+    }
+  }
+
+    /* ── CONTRATO HERO ── */
+    .contrato-hero {
+      background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-principal) 100%);
+      border-radius: 14px; padding: 22px 24px;
+      display: flex; align-items: center; gap: 18px;
+      margin-bottom: 0;
+    }
+    .contrato-hero .ch-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: rgba(255,255,255,0.18);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .contrato-hero .ch-icon i { font-size: 1.5rem; color: var(--blanco); }
+    .contrato-hero .ch-info { flex: 1; min-width: 0; }
+    .contrato-hero .ch-label { font-size: 0.74rem; color: rgba(255,255,255,0.75); margin-bottom: 2px; }
+    .contrato-hero .ch-numero { font-size: 1.1rem; font-weight: 700; color: var(--blanco); font-family: 'Inter', sans-serif; letter-spacing: 0.5px; }
+    .contrato-hero .ch-plan   { font-size: 0.76rem; color: rgba(255,255,255,0.8); margin-top: 2px; }
+    .badge-activo-c {
+      background: rgba(255,255,255,0.2); color: var(--blanco);
+      font-size: 0.72rem; font-weight: 700; padding: 3px 10px;
+      border-radius: 50px; border: 1px solid rgba(255,255,255,0.3);
+      white-space: nowrap;
+    }
+
+    /* ── BENEFICIARIOS MINI ── */
+    .benef-mini {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--gris-borde);
+    }
+    .benef-mini:last-child { border-bottom: none; }
+    .bm-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    .bm-info { flex: 1; min-width: 0; }
+    .bm-nombre { font-size: 0.86rem; font-weight: 600; color: var(--gris-texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bm-parent { font-size: 0.74rem; color: var(--gris-medio); }
+    .bm-pct    { font-size: 0.82rem; font-weight: 700; color: var(--azul-principal); white-space: nowrap; }
+
+    /* ── SEGURIDAD ── */
+    .seg-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 0; border-bottom: 1px solid var(--gris-borde);
+    }
+    .seg-item:last-child { border-bottom: none; }
+    .seg-icon {
+      width: 38px; height: 38px; border-radius: 9px;
+      background: var(--azul-suave);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .seg-icon i { font-size: 1rem; color: var(--azul-principal); }
+    .seg-info { flex: 1; min-width: 0; }
+    .seg-nombre  { font-size: 0.86rem; font-weight: 600; color: var(--gris-texto); }
+    .seg-detalle { font-size: 0.74rem; color: var(--gris-medio); }
+
+    /* ── BOTONES ── */
+    .btn-sh-primary {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 22px; border-radius: 50px;
+      background: var(--azul-principal); color: var(--blanco);
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+      border: none; cursor: pointer; transition: background 0.2s, transform 0.15s;
+      text-decoration: none;
+    }
+    .btn-sh-primary:hover { background: var(--azul-medio); transform: translateY(-1px); color: var(--blanco); }
+
+    .btn-sh-outline {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 20px; border: 1.5px solid var(--azul-principal);
+      border-radius: 50px; background: transparent; color: var(--azul-principal);
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: background 0.2s; text-decoration: none;
+    }
+    .btn-sh-outline:hover { background: var(--azul-suave); color: var(--azul-principal); }
+
+    .btn-sh-danger {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px; border-radius: 50px;
+      background: var(--rojo-suave); color: var(--rojo);
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+      border: 1px solid #f1948a; cursor: pointer; transition: background 0.2s;
+    }
+    .btn-sh-danger:hover { background: #fad7d3; }
+
+    /* ── FORMULARIO ── */
+    .form-label-sh { font-size: 0.8rem; font-weight: 600; color: var(--gris-texto); margin-bottom: 4px; }
+    .form-control-sh {
+      border: 1px solid var(--gris-borde); border-radius: 8px;
+      padding: 9px 13px; font-size: 0.86rem; color: var(--gris-texto);
+      background: var(--blanco); width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-control-sh:focus {
+      border-color: var(--azul-principal);
+      box-shadow: 0 0 0 3px rgba(58,143,196,0.15); outline: none;
+    }
+
+    /* ── MODAL ── */
+    .modal-content { border-radius: 14px; border: 1px solid var(--gris-borde); }
+    .modal-header  { border-bottom: 1px solid var(--gris-borde); padding: 18px 22px; }
+    .modal-footer  { border-top: 1px solid var(--gris-borde); padding: 14px 22px; }
+    .modal-title   { font-family: 'Lora', serif; font-size: 1rem; font-weight: 600; }
+    .btn-close:focus { box-shadow: none; }
+
+    /* ── FOOTER ── */
+    .footer-sh { background-color: var(--blanco); border-top: 1px solid var(--gris-borde); padding: 28px 20px; text-align: center; }
+    .footer-sh .footer-logo img { height: 34px; opacity: 0.7; margin-bottom: 10px; }
+    .footer-sh p { font-size: 0.8rem; color: var(--gris-medio); margin-bottom: 4px; }
+    .footer-sh a { color: var(--azul-principal); text-decoration: none; }
+    .footer-sh a:hover { text-decoration: underline; }
+    .footer-divider { width: 36px; height: 2px; background-color: var(--gris-borde); border-radius: 2px; margin: 12px auto; }
+
+    /* ── TOAST ── */
+    .toast-sh {
+      position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+      background: var(--gris-texto); color: var(--blanco);
+      padding: 11px 20px; border-radius: 10px; font-size: 0.84rem; font-weight: 500;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .toast-sh.show { opacity: 1; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════ -->
+  <nav class="navbar navbar-expand-lg navbar-sh">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="site.html">
+        <img src="logo.png" alt="Logo"/>
+        <div class="brand-text">
+          <strong>Sociedad Humanista</strong>
+          <span>Santa Martha S.A. de C.V.</span>
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav align-items-lg-center gap-1">
+          <li class="nav-item"><a class="nav-link active" href="misDatos.html"><i class="bi bi-house me-1"></i>Mis datos</a></li>
+          <li class="nav-item"><a class="nav-link" href="cobros.html"><i class="bi bi-credit-card me-1"></i>Cobros</a></li>
+          <li class="nav-item"><a class="nav-link" href="planFunerario.html"><i class="bi bi-file-earmark-heart me-1"></i>Mi plan funerario</a></li>
+          <li class="nav-item"><a class="nav-link" href="informacion.html"><i class="bi bi-info-circle me-1"></i>Información</a></li>
+          <li class="nav-item"><a class="nav-link" href="notificaciones.html"><i class="bi bi-bell me-1"></i>Notificaciones</a></li>
+          <li class="nav-item"><a class="nav-link" href="panelAdministrativo.html"><i class="bi bi-arrow-left-right me-1"></i>Movimientos</a></li>
+          <li class="nav-item"><a class="nav-link" href="beneficiarios.html"><i class="bi bi-people me-1"></i>Beneficiarios</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="nav-link nav-link-cerrar" href="index.html"><i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+       PAGE HEADER + AVATAR
+  ══════════════════════════════════════ -->
+  <div class="page-header">
+    <div class="header-inner">
+      <div class="avatar-wrap">
+        <div class="avatar-circle">ML</div>
+        <button class="avatar-edit-btn" title="Cambiar foto" onclick="mostrarToast('Función disponible próximamente')">
+          <i class="bi bi-camera"></i>
+        </button>
+      </div>
+      <h1>María Luisa López Pérez</h1>
+      <p>Socia activa desde enero 2023</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CONTRATO HERO FLOTANTE
+  ══════════════════════════════════════ -->
+  <div class="perfil-card-wrap">
+    <div class="container-lg">
+      <div class="contrato-hero">
+        <div class="ch-icon"><i class="bi bi-file-earmark-check"></i></div>
+        <div class="ch-info">
+          <div class="ch-label">Número de Contrato</div>
+          <div class="ch-numero">SHM-2023-00842</div>
+          <div class="ch-plan">Plan Básico — $350.00 / mes</div>
+        </div>
+        <span class="badge-activo-c"><i class="bi bi-circle-fill me-1" style="font-size:0.45rem;"></i>Activo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CONTENIDO
+  ══════════════════════════════════════ -->
+  <section class="datos-section">
+    <div class="container-lg">
+      <div class="row g-4">
+
+        <!-- ── COLUMNA IZQUIERDA ── -->
+        <div class="col-12 col-lg-7 d-flex flex-column gap-4">
+
+          <!-- ① DATOS PERSONALES -->
+          <div>
+            <div class="seccion-titulo">
+              <h2><i class="bi bi-person-circle" style="color:var(--azul-principal)"></i> Datos Personales</h2>
+              <div class="linea-azul"></div>
+            </div>
+            <div class="info-card">
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-person"></i> Nombre completo</div>
+                <div class="df-valor">María Luisa López Pérez</div>
+                <button class="df-editar" onclick="abrirEditar('nombre')"><i class="bi bi-pencil"></i> Editar</button>
+              </div>
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-card-text"></i> CURP</div>
+                <div class="df-valor">LOPM801215MDFPRS06</div>
+                <button class="df-editar" onclick="abrirEditar('curp')"><i class="bi bi-pencil"></i> Editar</button>
+              </div>
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-calendar3"></i> Fecha de nacimiento</div>
+                <div class="df-valor">15 de diciembre de 1980</div>
+                <button class="df-editar" onclick="abrirEditar('nacimiento')"><i class="bi bi-pencil"></i> Editar</button>
+              </div>
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-geo-alt"></i> Domicilio</div>
+                <div class="df-valor">Calle Hidalgo 42, Col. Centro, Tianguistenco</div>
+                <button class="df-editar" onclick="abrirEditar('domicilio')"><i class="bi bi-pencil"></i> Editar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ② CONTACTO -->
+          <div>
+            <div class="seccion-titulo">
+              <h2><i class="bi bi-telephone" style="color:var(--azul-principal)"></i> Información de Contacto</h2>
+              <div class="linea-azul"></div>
+            </div>
+            <div class="info-card">
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-telephone"></i> Teléfono</div>
+                <div class="df-valor">782 157 4801</div>
+                <button class="df-editar" onclick="abrirEditar('telefono')"><i class="bi bi-pencil"></i> Editar</button>
+              </div>
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-telephone-plus"></i> Teléfono alt.</div>
+                <div class="df-valor" style="color:var(--gris-medio);font-weight:400;">No registrado</div>
+                <button class="df-editar" onclick="abrirEditar('telefonoAlt')"><i class="bi bi-plus"></i> Agregar</button>
+              </div>
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-envelope"></i> Correo electrónico</div>
+                <div class="df-valor">maria.lopez@correo.com</div>
+                <button class="df-editar" onclick="abrirEditar('correo')"><i class="bi bi-pencil"></i> Editar</button>
+              </div>
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-whatsapp"></i> WhatsApp</div>
+                <div class="df-valor">782 157 4801</div>
+                <button class="df-editar" onclick="abrirEditar('whatsapp')"><i class="bi bi-pencil"></i> Editar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ③ SEGURIDAD -->
+          <div>
+            <div class="seccion-titulo">
+              <h2><i class="bi bi-shield-lock" style="color:var(--azul-principal)"></i> Seguridad de la Cuenta</h2>
+              <div class="linea-azul"></div>
+            </div>
+            <div class="info-card">
+              <div class="seg-item">
+                <div class="seg-icon"><i class="bi bi-lock"></i></div>
+                <div class="seg-info">
+                  <div class="seg-nombre">Contraseña</div>
+                  <div class="seg-detalle">Última actualización: hace 3 meses</div>
+                </div>
+                <button class="df-editar" data-bs-toggle="modal" data-bs-target="#modalContrasena">
+                  <i class="bi bi-pencil"></i> Cambiar
+                </button>
+              </div>
+              <div class="seg-item">
+                <div class="seg-icon" style="background:var(--verde-suave);"><i class="bi bi-shield-check" style="color:var(--verde);"></i></div>
+                <div class="seg-info">
+                  <div class="seg-nombre">Verificación por SMS</div>
+                  <div class="seg-detalle">Activada — 782 157 4801</div>
+                </div>
+                <span style="font-size:0.74rem;font-weight:700;color:var(--verde);background:var(--verde-suave);padding:3px 10px;border-radius:50px;">Activa</span>
+              </div>
+              <div class="seg-item">
+                <div class="seg-icon" style="background:var(--amarillo-suave);"><i class="bi bi-envelope-check" style="color:var(--amarillo);"></i></div>
+                <div class="seg-info">
+                  <div class="seg-nombre">Verificación por correo</div>
+                  <div class="seg-detalle">maria.lopez@correo.com</div>
+                </div>
+                <span style="font-size:0.74rem;font-weight:700;color:var(--amarillo);background:var(--amarillo-suave);padding:3px 10px;border-radius:50px;">Pendiente</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── COLUMNA DERECHA ── -->
+        <div class="col-12 col-lg-5 d-flex flex-column gap-4">
+
+          <!-- ④ RESUMEN CONTRATO -->
+          <div>
+            <div class="seccion-titulo">
+              <h2><i class="bi bi-file-earmark-text" style="color:var(--azul-principal)"></i> Mi Contrato</h2>
+              <div class="linea-azul"></div>
+            </div>
+            <div class="info-card">
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-hash"></i> No. contrato</div>
+                <div class="df-valor">SHM-2023-00842</div>
+              </div>
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-file-earmark-heart"></i> Plan</div>
+                <div class="df-valor">Plan Básico</div>
+              </div>
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-calendar-check"></i> Fecha de alta</div>
+                <div class="df-valor">15 ene 2023</div>
+              </div>
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-calendar-x"></i> Vigencia</div>
+                <div class="df-valor">15 ene 2031</div>
+              </div>
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-currency-dollar"></i> Mensualidad</div>
+                <div class="df-valor">$350.00 MXN</div>
+              </div>
+              <div class="dato-fila">
+                <div class="df-label"><i class="bi bi-credit-card"></i> Método de pago</div>
+                <div class="df-valor">Mercado Pago</div>
+              </div>
+              <div class="mt-3 d-flex gap-2 flex-wrap">
+                <a href="planFunerario.html" class="btn-sh-outline" style="font-size:0.8rem;padding:7px 14px;">
+                  <i class="bi bi-eye"></i> Ver plan completo
+                </a>
+                <a href="cobros.html" class="btn-sh-outline" style="font-size:0.8rem;padding:7px 14px;">
+                  <i class="bi bi-credit-card"></i> Ver cobros
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ⑤ BENEFICIARIOS -->
+          <div>
+            <div class="seccion-titulo d-flex align-items-center justify-content-between flex-wrap gap-2">
+              <div>
+                <h2><i class="bi bi-people" style="color:var(--azul-principal)"></i> Mis Beneficiarios</h2>
+                <div class="linea-azul"></div>
+              </div>
+              <a href="beneficiarios.html" class="btn-sh-outline" style="font-size:0.78rem;padding:6px 14px;">
+                <i class="bi bi-arrow-right"></i> Gestionar
+              </a>
+            </div>
+            <div class="info-card">
+              <div class="benef-mini">
+                <div class="bm-avatar" style="background:var(--azul-suave);color:var(--azul-principal);">MP</div>
+                <div class="bm-info">
+                  <div class="bm-nombre">María L. Pérez</div>
+                  <div class="bm-parent">Cónyuge · <span style="color:var(--azul-principal);font-weight:700;">Principal</span></div>
+                </div>
+                <div class="bm-pct">60%</div>
+              </div>
+              <div class="benef-mini">
+                <div class="bm-avatar" style="background:var(--verde-suave);color:var(--verde);">JR</div>
+                <div class="bm-info">
+                  <div class="bm-nombre">José R. Pérez</div>
+                  <div class="bm-parent">Hijo · Secundario</div>
+                </div>
+                <div class="bm-pct">25%</div>
+              </div>
+              <div class="benef-mini">
+                <div class="bm-avatar" style="background:var(--morado-suave);color:var(--morado);">AL</div>
+                <div class="bm-info">
+                  <div class="bm-nombre">Ana L. Pérez</div>
+                  <div class="bm-parent">Hija · Secundario</div>
+                </div>
+                <div class="bm-pct">15%</div>
+              </div>
+              <div class="mt-3 pt-2" style="border-top:1px solid var(--gris-borde);display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.76rem;color:var(--gris-medio);">3 de 4 beneficiarios registrados</span>
+                <a href="beneficiarios.html" class="btn-sh-primary" style="font-size:0.78rem;padding:6px 14px;">
+                  <i class="bi bi-person-plus"></i> Agregar
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════ -->
+  <footer class="footer-sh">
+    <div class="footer-logo"><img src="logo.png" alt="Logo"/></div>
+    <p><strong style="color:var(--gris-texto)">Sociedad Humanista Santa Martha S.A. de C.V.</strong></p>
+    <div class="footer-divider"></div>
+    <p>¿Necesita ayuda? <a href="https://api.whatsapp.com/send?phone=5217821574801" target="_blank">Contáctenos por WhatsApp</a></p>
+    <p class="mt-2">© 2026 Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- ══════════════════════════════════════
+       MODAL — EDITAR DATO
+  ══════════════════════════════════════ -->
+  <div class="modal fade" id="modalEditar" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarTitulo">
+            <i class="bi bi-pencil me-2" style="color:var(--azul-principal)"></i>Editar Dato
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="formEditar" onsubmit="guardarCambio(event)">
+            <label class="form-label-sh" id="editarLabel">Valor</label>
+            <input type="text" id="editarInput" class="form-control-sh" required/>
+            <div id="editarHelp" style="font-size:0.74rem;color:var(--gris-medio);margin-top:6px;"></div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-sh-outline" data-bs-dismiss="modal"><i class="bi bi-x"></i> Cancelar</button>
+          <button type="submit" form="formEditar" class="btn-sh-primary"><i class="bi bi-check2"></i> Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MODAL — CAMBIAR CONTRASEÑA
+  ══════════════════════════════════════ -->
+  <div class="modal fade" id="modalContrasena" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-lock me-2" style="color:var(--azul-principal)"></i>Cambiar Contraseña</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="formContrasena" onsubmit="cambiarContrasena(event)">
+            <div class="mb-3">
+              <label class="form-label-sh">Contraseña actual *</label>
+              <input type="password" class="form-control-sh" placeholder="••••••••" required/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label-sh">Nueva contraseña *</label>
+              <input type="password" class="form-control-sh" placeholder="Mínimo 8 caracteres" required/>
+            </div>
+            <div class="mb-1">
+              <label class="form-label-sh">Confirmar nueva contraseña *</label>
+              <input type="password" class="form-control-sh" placeholder="Repita la nueva contraseña" required/>
+            </div>
+            <div style="font-size:0.74rem;color:var(--gris-medio);margin-top:6px;">
+              <i class="bi bi-info-circle"></i> Use al menos 8 caracteres, una mayúscula y un número.
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-sh-outline" data-bs-dismiss="modal"><i class="bi bi-x"></i> Cancelar</button>
+          <button type="submit" form="formContrasena" class="btn-sh-primary"><i class="bi bi-shield-check"></i> Actualizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-sh" id="toastSh"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const camposConfig = {
+      nombre:      { titulo: 'Editar Nombre',             label: 'Nombre completo',       valor: 'María Luisa López Pérez',         help: '',                                   tipo: 'text'  },
+      curp:        { titulo: 'Editar CURP',               label: 'CURP',                  valor: 'LOPM801215MDFPRS06',              help: '18 caracteres alfanuméricos.',        tipo: 'text'  },
+      nacimiento:  { titulo: 'Editar Fecha de Nacimiento',label: 'Fecha de nacimiento',   valor: '1980-12-15',                      help: '',                                   tipo: 'date'  },
+      domicilio:   { titulo: 'Editar Domicilio',          label: 'Domicilio completo',    valor: 'Calle Hidalgo 42, Col. Centro',   help: 'Calle, número, colonia, municipio.', tipo: 'text'  },
+      telefono:    { titulo: 'Editar Teléfono',           label: 'Teléfono',              valor: '7821574801',                      help: 'Incluya lada sin espacios.',          tipo: 'tel'   },
+      telefonoAlt: { titulo: 'Agregar Teléfono Alternativo',label:'Teléfono alternativo', valor: '',                                help: 'Número de contacto adicional.',       tipo: 'tel'   },
+      correo:      { titulo: 'Editar Correo Electrónico', label: 'Correo electrónico',    valor: 'maria.lopez@correo.com',          help: 'Se usará para notificaciones.',       tipo: 'email' },
+      whatsapp:    { titulo: 'Editar WhatsApp',           label: 'Número de WhatsApp',    valor: '7821574801',                      help: 'Número con lada, sin espacios.',      tipo: 'tel'   },
+    };
+
+    function abrirEditar(campo) {
+      const cfg = camposConfig[campo];
+      if (!cfg) return;
+      document.getElementById('modalEditarTitulo').innerHTML =
+        `<i class="bi bi-pencil me-2" style="color:var(--azul-principal)"></i>${cfg.titulo}`;
+      document.getElementById('editarLabel').textContent  = cfg.label;
+      document.getElementById('editarInput').value        = cfg.valor;
+      document.getElementById('editarInput').type         = cfg.tipo;
+      document.getElementById('editarHelp').textContent   = cfg.help;
+      new bootstrap.Modal(document.getElementById('modalEditar')).show();
+    }
+
+    function guardarCambio(e) {
+      e.preventDefault();
+      bootstrap.Modal.getInstance(document.getElementById('modalEditar')).hide();
+      mostrarToast('Dato actualizado exitosamente ✓');
+    }
+
+    function cambiarContrasena(e) {
+      e.preventDefault();
+      bootstrap.Modal.getInstance(document.getElementById('modalContrasena')).hide();
+      mostrarToast('Contraseña actualizada exitosamente ✓');
+    }
+
+    function mostrarToast(msg) {
+      const t = document.getElementById('toastSh');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>

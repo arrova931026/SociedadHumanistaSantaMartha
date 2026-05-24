@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notificaciones — Sociedad Humanista Santa Martha</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --azul-principal: #3A8FC4;
+      --azul-suave:     #EBF4FB;
+      --azul-medio:     #2574A9;
+      --gris-texto:     #3D3D3D;
+      --gris-medio:     #7A8A99;
+      --gris-borde:     #D9E2EA;
+      --gris-fondo:     #F7F9FB;
+      --blanco:         #FFFFFF;
+      --verde:          #1e8449;
+      --verde-suave:    #eafaf1;
+      --amarillo:       #b7950b;
+      --amarillo-suave: #fef9e7;
+      --rojo:           #c0392b;
+      --rojo-suave:     #fdecea;
+      --naranja:        #d35400;
+      --naranja-suave:  #fef0e7;
+      --morado:         #6c3483;
+      --morado-suave:   #f5eef8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--gris-fondo);
+      color: var(--gris-texto);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,h2,h3,h4,h5 { font-family: 'Lora', serif; font-weight: 600; }
+
+    /* ── NAVBAR ── */
+    .navbar-sh {
+      background-color: var(--blanco);
+      border-bottom: 1px solid var(--gris-borde);
+      position: sticky; top: 0; z-index: 1000;
+      padding: 0.6rem 1.5rem;
+      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    }
+    .navbar-sh .navbar-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .navbar-sh .navbar-brand img { height: 42px; }
+    .navbar-sh .brand-text { line-height: 1.2; }
+    .navbar-sh .brand-text strong { display:block; font-size:0.82rem; font-weight:700; color:var(--gris-texto); letter-spacing:0.5px; text-transform:uppercase; }
+    .navbar-sh .brand-text span { font-size:0.72rem; color:var(--gris-medio); }
+    .navbar-sh .nav-link { color:var(--gris-texto) !important; font-size:0.75rem; font-weight:500; padding:0.4rem 0.55rem !important; border-radius:6px; transition:background 0.2s,color 0.2s; }
+    .navbar-sh .nav-link:hover { background-color:var(--azul-suave); color:var(--azul-principal) !important; }
+    .navbar-sh .nav-link.active { color:var(--azul-principal) !important; background-color:var(--azul-suave); }
+    .navbar-sh .nav-link-cerrar { color:#c0392b !important; border:1px solid #e74c3c; border-radius:6px; }
+    .navbar-sh .nav-link-cerrar:hover { background-color:#fdf0ef !important; color:#c0392b !important; border-color:#c0392b; }
+    .navbar-toggler { border:1px solid var(--gris-borde); padding:5px 9px; }
+    .navbar-toggler:focus { box-shadow:none; }
+    .navbar-toggler-icon { background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(58,143,196,1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+    @media (max-width:576px) { .navbar-sh .brand-text { display:none; } }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-principal) 60%, #5aaed4 100%);
+      padding: 40px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .page-header .header-icon {
+      width: 64px; height: 64px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      border: 2px solid rgba(255,255,255,0.25);
+      position: relative;
+    }
+    .page-header .header-icon i { font-size: 1.7rem; color: var(--blanco); }
+    .page-header h1 { color: var(--blanco); font-size: clamp(1.15rem, 4vw, 1.55rem); margin-bottom: 6px; position: relative; }
+    .page-header p { font-size: 0.88rem; color: rgba(255,255,255,0.85); margin: 0; position: relative; }
+
+    /* Badge de conteo en header */
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 50px;
+      padding: 4px 14px;
+      font-size: 0.8rem;
+      color: var(--blanco);
+      margin-top: 12px;
+      position: relative;
+    }
+
+    /* ── SECCIÓN ── */
+    .notif-section { padding: 36px 16px 56px; }
+
+    .seccion-titulo { margin-bottom: 20px; }
+    .seccion-titulo h2 { font-size: clamp(1rem, 3vw, 1.15rem); color: var(--gris-texto); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .linea-azul { width: 36px; height: 3px; background-color: var(--azul-principal); border-radius: 2px; margin: 8px 0 0; }
+
+    /* ── FILTROS ── */
+    .filtros-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .filtro-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border: 1.5px solid var(--gris-borde);
+      border-radius: 50px;
+      background: var(--blanco);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--gris-medio);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filtro-btn:hover { border-color: var(--azul-principal); color: var(--azul-principal); }
+    .filtro-btn.activo { border-color: var(--azul-principal); background: var(--azul-suave); color: var(--azul-principal); font-weight: 600; }
+    .filtro-btn .fbadge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 50px;
+      background: var(--azul-principal);
+      color: var(--blanco);
+      line-height: 1.4;
+    }
+    .filtro-btn.activo .fbadge { background: var(--azul-medio); }
+
+    /* ── TARJETA NOTIFICACIÓN ── */
+    .notif-card {
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      position: relative;
+    }
+    .notif-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+    .notif-card.no-leida { border-left: 4px solid var(--azul-principal); }
+    .notif-card.no-leida::after {
+      content: '';
+      position: absolute;
+      top: 18px; right: 18px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--azul-principal);
+    }
+
+    .notif-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .notif-icon i { font-size: 1.2rem; }
+
+    /* variantes de color por tipo */
+    .ni-amarillo  { background: var(--amarillo-suave); }
+    .ni-amarillo i{ color: var(--amarillo); }
+    .ni-rojo      { background: var(--rojo-suave); }
+    .ni-rojo i    { color: var(--rojo); }
+    .ni-verde     { background: var(--verde-suave); }
+    .ni-verde i   { color: var(--verde); }
+    .ni-azul      { background: var(--azul-suave); }
+    .ni-azul i    { color: var(--azul-principal); }
+    .ni-naranja   { background: var(--naranja-suave); }
+    .ni-naranja i { color: var(--naranja); }
+    .ni-morado    { background: var(--morado-suave); }
+    .ni-morado i  { color: var(--morado); }
+
+    .notif-body { flex: 1; min-width: 0; }
+    .notif-titulo {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gris-texto);
+      margin-bottom: 3px;
+      padding-right: 20px;
+    }
+    .notif-desc {
+      font-size: 0.82rem;
+      color: var(--gris-medio);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .notif-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    .notif-fecha {
+      font-size: 0.74rem;
+      color: var(--gris-medio);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .notif-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 50px;
+    }
+    .tag-pago-proximo  { background: var(--amarillo-suave); color: var(--amarillo); }
+    .tag-pago-vencido  { background: var(--rojo-suave);     color: var(--rojo); }
+    .tag-promo         { background: var(--morado-suave);   color: var(--morado); }
+    .tag-cobertura     { background: var(--azul-suave);     color: var(--azul-principal); }
+    .tag-aviso         { background: var(--verde-suave);    color: var(--verde); }
+    .tag-sistema       { background: #f0f0f0;               color: #555; }
+
+    .notif-action {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--azul-principal);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+    .notif-action:hover { text-decoration: underline; }
+
+    /* ── INFO CARD (preferencias) ── */
+    .pref-card {
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      border-radius: 14px;
+      padding: 24px;
+      height: auto;
+    }
+    .pref-card .pref-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gris-texto);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--gris-borde);
+    }
+
+    /* ── TOGGLE ── */
+    .pref-fila {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--gris-borde);
+      gap: 12px;
+    }
+    .pref-fila:last-child { border-bottom: none; }
+    .pref-info { flex: 1; min-width: 0; }
+    .pref-info .pf-titulo { font-size: 0.84rem; font-weight: 600; color: var(--gris-texto); margin-bottom: 1px; }
+    .pref-info .pf-desc   { font-size: 0.74rem; color: var(--gris-medio); line-height: 1.3; }
+
+    /* Switch Bootstrap override */
+    .form-check-input:checked { background-color: var(--azul-principal); border-color: var(--azul-principal); }
+    .form-check-input:focus { box-shadow: 0 0 0 3px rgba(58,143,196,0.15); border-color: var(--azul-principal); }
+
+    /* ── CANAL BADGE ── */
+    .canal-badges { display: flex; gap: 6px; flex-shrink: 0; }
+    .canal-badge {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 50px;
+      display: flex; align-items: center; gap: 3px;
+      white-space: nowrap;
+    }
+    .cb-whatsapp { background: #e8f8f0; color: #1a7a45; }
+    .cb-email    { background: var(--azul-suave); color: var(--azul-principal); }
+
+    /* ── RESUMEN STATS ── */
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .stat-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      border-radius: 12px;
+      padding: 12px 18px;
+      flex: 1;
+      min-width: 130px;
+    }
+    .stat-chip .sc-ico {
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-chip .sc-ico i { font-size: 1rem; }
+    .stat-chip .sc-val { font-size: 1.3rem; font-weight: 700; font-family: 'Inter', sans-serif; line-height: 1; }
+    .stat-chip .sc-lbl { font-size: 0.72rem; color: var(--gris-medio); line-height: 1.3; }
+
+    /* ── EMPTY STATE ── */
+    .empty-notif {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--gris-medio);
+    }
+    .empty-notif i { font-size: 2.8rem; opacity: 0.35; margin-bottom: 14px; display: block; }
+    .empty-notif p { font-size: 0.88rem; margin: 0; }
+
+    /* ── BTN ── */
+    .btn-sh-outline {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 20px;
+      border: 1.5px solid var(--azul-principal);
+      border-radius: 50px;
+      background: transparent;
+      color: var(--azul-principal);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem; font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+    .btn-sh-outline:hover { background: var(--azul-suave); color: var(--azul-principal); }
+
+    /* ── FOOTER ── */
+    .footer-sh { background-color:var(--blanco); border-top:1px solid var(--gris-borde); padding:28px 20px; text-align:center; }
+    .footer-sh .footer-logo img { height:34px; opacity:0.7; margin-bottom:10px; }
+    .footer-sh p { font-size:0.8rem; color:var(--gris-medio); margin-bottom:4px; }
+    .footer-sh a { color:var(--azul-principal); text-decoration:none; }
+    .footer-sh a:hover { text-decoration:underline; }
+    .footer-divider { width:36px; height:2px; background-color:var(--gris-borde); border-radius:2px; margin:12px auto; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════ -->
+  <nav class="navbar navbar-expand-lg navbar-sh">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="site.html">
+        <img src="logo.png" alt="Logo Sociedad Humanista Santa Martha"/>
+        <div class="brand-text">
+          <strong>Sociedad Humanista</strong>
+          <span>Santa Martha S.A. de C.V.</span>
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Abrir menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav align-items-lg-center gap-1">
+          <li class="nav-item"><a class="nav-link" href="misDatos.html"><i class="bi bi-house me-1"></i>Mis datos</a></li>
+          <li class="nav-item"><a class="nav-link" href="cobros.html"><i class="bi bi-credit-card me-1"></i>Cobros</a></li>
+          <li class="nav-item"><a class="nav-link" href="planFunerario.html"><i class="bi bi-file-earmark-heart me-1"></i>Mi plan funerario</a></li>
+          <li class="nav-item"><a class="nav-link" href="informacion.html"><i class="bi bi-info-circle me-1"></i>Información</a></li>
+          <li class="nav-item"><a class="nav-link active" href="notificaciones.html"><i class="bi bi-bell me-1"></i>Notificaciones</a></li>
+          <li class="nav-item"><a class="nav-link" href="panelAdministrativo.html"><i class="bi bi-arrow-left-right me-1"></i>Movimientos</a></li>
+          <li class="nav-item"><a class="nav-link" href="beneficiarios.html"><i class="bi bi-people me-1"></i>Beneficiarios</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="nav-link nav-link-cerrar" href="index.html"><i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+       PAGE HEADER
+  ══════════════════════════════════════ -->
+  <div class="page-header">
+    <div class="header-icon">
+      <i class="bi bi-bell"></i>
+    </div>
+    <h1>Notificaciones</h1>
+    <p>Centro de avisos de Sociedad Humanista Santa Martha</p>
+    <div>
+      <span class="header-badge"><i class="bi bi-circle-fill" style="font-size:0.5rem;color:#f39c12"></i> 3 sin leer</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CONTENIDO
+  ══════════════════════════════════════ -->
+  <section class="notif-section">
+    <div class="container-lg">
+
+      <!-- Stats resumen -->
+      <div class="stats-row">
+        <div class="stat-chip">
+          <div class="sc-ico" style="background:var(--amarillo-suave)">
+            <i class="bi bi-clock-history" style="color:var(--amarillo)"></i>
+          </div>
+          <div>
+            <div class="sc-val" style="color:var(--amarillo)">1</div>
+            <div class="sc-lbl">Pago próximo</div>
+          </div>
+        </div>
+        <div class="stat-chip">
+          <div class="sc-ico" style="background:var(--rojo-suave)">
+            <i class="bi bi-exclamation-triangle" style="color:var(--rojo)"></i>
+          </div>
+          <div>
+            <div class="sc-val" style="color:var(--rojo)">1</div>
+            <div class="sc-lbl">Pago vencido</div>
+          </div>
+        </div>
+        <div class="stat-chip">
+          <div class="sc-ico" style="background:var(--morado-suave)">
+            <i class="bi bi-tag" style="color:var(--morado)"></i>
+          </div>
+          <div>
+            <div class="sc-val" style="color:var(--morado)">2</div>
+            <div class="sc-lbl">Promociones</div>
+          </div>
+        </div>
+        <div class="stat-chip">
+          <div class="sc-ico" style="background:var(--azul-suave)">
+            <i class="bi bi-shield-check" style="color:var(--azul-principal)"></i>
+          </div>
+          <div>
+            <div class="sc-val" style="color:var(--azul-principal)">1</div>
+            <div class="sc-lbl">Cambios cobertura</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+
+        <!-- ══ COLUMNA IZQUIERDA: Listado ══ -->
+        <div class="col-12 col-lg-8">
+
+          <!-- Filtros -->
+          <div class="filtros-bar">
+            <button class="filtro-btn activo" onclick="filtrar(this,'todas')">
+              <i class="bi bi-grid-3x3-gap"></i> Todas <span class="fbadge">5</span>
+            </button>
+            <button class="filtro-btn" onclick="filtrar(this,'pago-proximo')">
+              <i class="bi bi-clock-history"></i> Pago próximo <span class="fbadge">1</span>
+            </button>
+            <button class="filtro-btn" onclick="filtrar(this,'pago-vencido')">
+              <i class="bi bi-exclamation-triangle"></i> Pago vencido <span class="fbadge">1</span>
+            </button>
+            <button class="filtro-btn" onclick="filtrar(this,'promo')">
+              <i class="bi bi-tag"></i> Promociones <span class="fbadge">2</span>
+            </button>
+            <button class="filtro-btn" onclick="filtrar(this,'cobertura')">
+              <i class="bi bi-shield-check"></i> Cobertura <span class="fbadge">1</span>
+            </button>
+          </div>
+
+          <!-- ① Pago próximo -->
+          <div class="notif-card no-leida" data-tipo="pago-proximo">
+            <div class="notif-icon ni-amarillo">
+              <i class="bi bi-clock-history"></i>
+            </div>
+            <div class="notif-body">
+              <div class="notif-titulo">Pago próximo a vencer — Junio 2026</div>
+              <div class="notif-desc">
+                Su mensualidad de <strong>$850.00 MXN</strong> correspondiente a <strong>junio 2026</strong> tiene fecha límite de pago el <strong>30 de junio de 2026</strong>. Realice su pago a tiempo para mantener su plan activo sin interrupciones.
+              </div>
+              <div class="notif-meta">
+                <span class="notif-tag tag-pago-proximo"><i class="bi bi-clock me-1"></i>Pago próximo</span>
+                <span class="notif-fecha"><i class="bi bi-calendar3"></i> 20 may 2026</span>
+                <a href="cobros.html" class="notif-action"><i class="bi bi-arrow-right-circle"></i> Ir a Cobros</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ② Pago vencido -->
+          <div class="notif-card no-leida" data-tipo="pago-vencido">
+            <div class="notif-icon ni-rojo">
+              <i class="bi bi-exclamation-triangle"></i>
+            </div>
+            <div class="notif-body">
+              <div class="notif-titulo">Pago vencido — Mayo 2026</div>
+              <div class="notif-desc">
+                La mensualidad de <strong>mayo 2026</strong> por <strong>$850.00 MXN</strong> se encuentra <strong>vencida desde el 30 de mayo de 2026</strong>. Su plan continúa activo en período de gracia de 30 días. Regularice su situación para evitar la suspensión del contrato.
+              </div>
+              <div class="notif-meta">
+                <span class="notif-tag tag-pago-vencido"><i class="bi bi-exclamation-triangle me-1"></i>Vencido</span>
+                <span class="notif-fecha"><i class="bi bi-calendar3"></i> 31 may 2026</span>
+                <a href="cobros.html" class="notif-action"><i class="bi bi-arrow-right-circle"></i> Realizar pago</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ③ Promoción especial -->
+          <div class="notif-card no-leida" data-tipo="promo">
+            <div class="notif-icon ni-morado">
+              <i class="bi bi-gift"></i>
+            </div>
+            <div class="notif-body">
+              <div class="notif-titulo">Promoción exclusiva — Referidos junio 2026</div>
+              <div class="notif-desc">
+                ¡Recomende a un familiar y obtenga <strong>2 mensualidades bonificadas</strong>! Por cada contrato nuevo que se active con su número de referido recibirá un mes de cortesía acreditado en su plan. Promoción válida del 1 al 30 de junio de 2026.
+              </div>
+              <div class="notif-meta">
+                <span class="notif-tag tag-promo"><i class="bi bi-tag me-1"></i>Promoción</span>
+                <span class="notif-fecha"><i class="bi bi-calendar3"></i> 01 jun 2026</span>
+                <a href="https://api.whatsapp.com/send?phone=5217821574801&text=Quiero%20información%20sobre%20la%20promoción%20de%20referidos" target="_blank" rel="noopener noreferrer" class="notif-action">
+                  <i class="bi bi-whatsapp"></i> Más información
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ④ Cambio de cobertura -->
+          <div class="notif-card" data-tipo="cobertura">
+            <div class="notif-icon ni-azul">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <div class="notif-body">
+              <div class="notif-titulo">Actualización de cobertura — Traslado ampliado</div>
+              <div class="notif-desc">
+                A partir del <strong>1 de enero de 2026</strong> su plan incluye traslado ampliado a un radio de <strong>150 km</strong> sin costo adicional (antes 80 km). Este beneficio se aplica automáticamente a todos los contratos activos. Consulte su plan actualizado para más detalles.
+              </div>
+              <div class="notif-meta">
+                <span class="notif-tag tag-cobertura"><i class="bi bi-shield-check me-1"></i>Cobertura</span>
+                <span class="notif-fecha"><i class="bi bi-calendar3"></i> 01 ene 2026</span>
+                <a href="planFunerario.html" class="notif-action"><i class="bi bi-arrow-right-circle"></i> Ver mi plan</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ⑤ Promoción 2 -->
+          <div class="notif-card" data-tipo="promo">
+            <div class="notif-icon ni-naranja">
+              <i class="bi bi-percent"></i>
+            </div>
+            <div class="notif-body">
+              <div class="notif-titulo">Descuento anual — Pago adelantado 2026</div>
+              <div class="notif-desc">
+                Pague las <strong>12 mensualidades del año 2026</strong> de forma anticipada y obtenga un <strong>10% de descuento</strong> sobre el total. Oferta disponible hasta el 30 de junio. Comuníquese con nosotros para aplicar este beneficio a su contrato.
+              </div>
+              <div class="notif-meta">
+                <span class="notif-tag tag-promo"><i class="bi bi-tag me-1"></i>Promoción</span>
+                <span class="notif-fecha"><i class="bi bi-calendar3"></i> 15 may 2026</span>
+                <a href="cobros.html" class="notif-action"><i class="bi bi-arrow-right-circle"></i> Ir a Cobros</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón marcar todas leídas -->
+          <div class="d-flex justify-content-end mt-3">
+            <button class="btn-sh-outline" onclick="marcarTodasLeidas()">
+              <i class="bi bi-check2-all"></i> Marcar todas como leídas
+            </button>
+          </div>
+
+        </div><!-- /col izquierda -->
+
+        <!-- ══ COLUMNA DERECHA: Preferencias ══ -->
+        <div class="col-12 col-lg-4 d-flex flex-column gap-4">
+
+          <!-- Preferencias WhatsApp -->
+          <div class="pref-card" style="height:auto;">
+            <div class="pref-title">
+              <i class="bi bi-whatsapp" style="color:#25d366; font-size:1.1rem"></i>
+              Avisos por WhatsApp
+            </div>
+            <p style="font-size:0.8rem; color:var(--gris-medio); margin-bottom:16px;">
+              Número registrado: <strong style="color:var(--gris-texto)">782 157 4801</strong>
+            </p>
+
+            <div class="pref-fila">
+              <div class="pref-info">
+                <div class="pf-titulo">Pago próximo</div>
+                <div class="pf-desc">Aviso 10 días antes del vencimiento</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" id="wpPagoProx" checked/>
+              </div>
+            </div>
+            <div class="pref-fila">
+              <div class="pref-info">
+                <div class="pf-titulo">Pago vencido</div>
+                <div class="pf-desc">Aviso inmediato al vencer el plazo</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" id="wpPagoVenc" checked/>
+              </div>
+            </div>
+            <div class="pref-fila">
+              <div class="pref-info">
+                <div class="pf-titulo">Promociones</div>
+                <div class="pf-desc">Ofertas y beneficios exclusivos</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" id="wpPromo" checked/>
+              </div>
+            </div>
+            <div class="pref-fila">
+              <div class="pref-info">
+                <div class="pf-titulo">Cambios de cobertura</div>
+                <div class="pf-desc">Actualizaciones a los servicios del plan</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" id="wpCobertura" checked/>
+              </div>
+            </div>
+            <div class="pref-fila">
+              <div class="pref-info">
+                <div class="pf-titulo">Confirmación de pago</div>
+                <div class="pf-desc">Recibo al registrar cada mensualidad</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" id="wpConfirm" checked/>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <a href="https://api.whatsapp.com/send?phone=5217821574801&text=Hola%2C%20quiero%20actualizar%20mis%20preferencias%20de%20notificación" target="_blank" rel="noopener noreferrer" class="btn-sh-outline w-100 justify-content-center">
+                <i class="bi bi-whatsapp"></i> Abrir WhatsApp
+              </a>
+            </div>
+          </div>
+
+          <!-- Preferencias Correo -->
+          <div class="pref-card" style="height:auto;">
+            <div class="pref-title">
+              <i class="bi bi-envelope-at" style="color:var(--azul-principal); font-size:1.1rem"></i>
+              Avisos por Correo Electrónico
+            </div>
+            <p style="font-size:0.8rem; color:var(--gris-medio); margin-bottom:16px;">
+              Correo registrado: <strong style="color:var(--gris-texto)">juan.ramirez@email.com</strong>
+            </p>
+
+            <div class="pref-fila">
+              <div class="pref-info">
+                <div class="pf-titulo">Pago próximo</div>
+                <div class="pf-desc">Recordatorio 5 días antes</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" id="emPagoProx" checked/>
+              </div>
+            </div>
+            <div class="pref-fila">
+              <div class="pref-info">
+                <div class="pf-titulo">Pago vencido</div>
+                <div class="pf-desc">Notificación al día siguiente de vencer</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" id="emPagoVenc" checked/>
+              </div>
+            </div>
+            <div class="pref-fila">
+              <div class="pref-info">
+                <div class="pf-titulo">Promociones</div>
+                <div class="pf-desc">Boletín mensual de beneficios</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" id="emPromo"/>
+              </div>
+            </div>
+            <div class="pref-fila">
+              <div class="pref-info">
+                <div class="pf-titulo">Cambios de cobertura</div>
+                <div class="pf-desc">Comunicado oficial de modificaciones</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" id="emCobertura" checked/>
+              </div>
+            </div>
+            <div class="pref-fila">
+              <div class="pref-info">
+                <div class="pf-titulo">Estado de cuenta mensual</div>
+                <div class="pf-desc">Resumen PDF al cierre de cada mes</div>
+              </div>
+              <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" id="emEstado" checked/>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <button class="btn-sh-outline w-100 justify-content-center" onclick="guardarPreferencias()">
+                <i class="bi bi-floppy"></i> Guardar preferencias
+              </button>
+            </div>
+          </div>
+
+        </div><!-- /col derecha -->
+      </div><!-- /row -->
+
+    </div><!-- /container-lg -->
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════ -->
+  <footer class="footer-sh">
+    <div class="footer-logo"><img src="logo.png" alt="Logo"/></div>
+    <p><strong style="color:var(--gris-texto)">Sociedad Humanista Santa Martha S.A. de C.V.</strong></p>
+    <div class="footer-divider"></div>
+    <p>¿Necesita ayuda? <a href="https://api.whatsapp.com/send?phone=5217821574801" target="_blank" rel="noopener noreferrer">Contáctenos por WhatsApp</a></p>
+    <p class="mt-2">© 2026 Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    /* ── Filtro por tipo ── */
+    function filtrar(btn, tipo) {
+      // actualizar botón activo
+      document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('activo'));
+      btn.classList.add('activo');
+
+      // mostrar/ocultar tarjetas
+      document.querySelectorAll('.notif-card').forEach(card => {
+        if (tipo === 'todas' || card.dataset.tipo === tipo) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    /* ── Marcar todas como leídas ── */
+    function marcarTodasLeidas() {
+      document.querySelectorAll('.notif-card.no-leida').forEach(card => {
+        card.classList.remove('no-leida');
+      });
+      // Actualizar conteo en header
+      const headerBadge = document.querySelector('.header-badge');
+      if (headerBadge) {
+        headerBadge.innerHTML = '<i class="bi bi-check-circle-fill" style="font-size:0.8rem;color:#27ae60"></i> Todo al día';
+      }
+    }
+
+    /* ── Guardar preferencias (UI feedback) ── */
+    function guardarPreferencias() {
+      const btn = event.currentTarget;
+      const original = btn.innerHTML;
+      btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> ¡Guardado!';
+      btn.style.borderColor = 'var(--verde)';
+      btn.style.color = 'var(--verde)';
+      setTimeout(() => {
+        btn.innerHTML = original;
+        btn.style.borderColor = '';
+        btn.style.color = '';
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>

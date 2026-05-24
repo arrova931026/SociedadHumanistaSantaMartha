@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Beneficiarios — Sociedad Humanista Santa Martha</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --azul-principal: #3A8FC4;
+      --azul-suave:     #EBF4FB;
+      --azul-medio:     #2574A9;
+      --gris-texto:     #3D3D3D;
+      --gris-medio:     #7A8A99;
+      --gris-borde:     #D9E2EA;
+      --gris-fondo:     #F7F9FB;
+      --blanco:         #FFFFFF;
+      --verde:          #1e8449;
+      --verde-suave:    #eafaf1;
+      --amarillo:       #b7950b;
+      --amarillo-suave: #fef9e7;
+      --rojo:           #c0392b;
+      --rojo-suave:     #fdecea;
+      --morado:         #7d3c98;
+      --morado-suave:   #f5eef8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--gris-fondo);
+      color: var(--gris-texto);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,h2,h3,h4,h5 { font-family: 'Lora', serif; font-weight: 600; }
+
+    /* ── NAVBAR ── */
+    .navbar-sh {
+      background-color: var(--blanco);
+      border-bottom: 1px solid var(--gris-borde);
+      position: sticky; top: 0; z-index: 1000;
+      padding: 0.6rem 1.5rem;
+      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+    }
+    .navbar-sh .navbar-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .navbar-sh .navbar-brand img { height: 42px; }
+    .navbar-sh .brand-text { line-height: 1.2; }
+    .navbar-sh .brand-text strong { display:block; font-size:0.82rem; font-weight:700; color:var(--gris-texto); letter-spacing:0.5px; text-transform:uppercase; }
+    .navbar-sh .brand-text span { font-size:0.72rem; color:var(--gris-medio); }
+    .navbar-sh .nav-link { color:var(--gris-texto) !important; font-size:0.75rem; font-weight:500; padding:0.4rem 0.55rem !important; border-radius:6px; transition:background 0.2s,color 0.2s; }
+    .navbar-sh .nav-link:hover { background-color:var(--azul-suave); color:var(--azul-principal) !important; }
+    .navbar-sh .nav-link.active { color:var(--azul-principal) !important; background-color:var(--azul-suave); }
+    .navbar-sh .nav-link-cerrar { color:#c0392b !important; border:1px solid #e74c3c; border-radius:6px; }
+    .navbar-sh .nav-link-cerrar:hover { background-color:#fdf0ef !important; color:#c0392b !important; border-color:#c0392b; }
+    .navbar-toggler { border:1px solid var(--gris-borde); padding:5px 9px; }
+    .navbar-toggler:focus { box-shadow:none; }
+    .navbar-toggler-icon { background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(58,143,196,1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+    @media (max-width:576px) { .navbar-sh .brand-text { display:none; } }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-principal) 60%, #5aaed4 100%);
+      padding: 40px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .page-header .header-icon {
+      width:64px; height:64px; background:rgba(255,255,255,0.15);
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      margin:0 auto 14px; border:2px solid rgba(255,255,255,0.25); position:relative;
+    }
+    .page-header .header-icon i { font-size:1.7rem; color:var(--blanco); }
+    .page-header h1 { color:var(--blanco); font-size:clamp(1.15rem,4vw,1.55rem); margin-bottom:6px; position:relative; }
+    .page-header p  { font-size:0.88rem; color:rgba(255,255,255,0.85); margin:0; position:relative; }
+
+    /* ── SECCIÓN ── */
+    .benef-section { padding: 36px 16px 56px; }
+
+    .seccion-titulo { margin-bottom: 20px; }
+    .seccion-titulo h2 { font-size:clamp(1rem,3vw,1.15rem); color:var(--gris-texto); margin-bottom:4px; display:flex; align-items:center; gap:8px; }
+    .linea-azul { width:36px; height:3px; background-color:var(--azul-principal); border-radius:2px; margin:8px 0 0; }
+
+    /* ── INFO CARD ── */
+    .info-card {
+      background:var(--blanco); border-radius:14px;
+      border:1px solid var(--gris-borde);
+      box-shadow:0 2px 16px rgba(0,0,0,0.05);
+      padding:24px; height:auto;
+    }
+    .card-section-title {
+      font-size:0.88rem; font-weight:700; color:var(--gris-texto);
+      display:flex; align-items:center; gap:8px;
+      margin-bottom:16px; padding-bottom:12px;
+      border-bottom:1px solid var(--gris-borde);
+    }
+
+    /* ── BENEFICIARIO CARD ── */
+    .benef-card {
+      background: var(--blanco);
+      border: 1px solid var(--gris-borde);
+      border-radius: 14px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+      padding: 20px;
+      transition: box-shadow 0.2s, transform 0.2s;
+      height: auto;
+    }
+    .benef-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(58,143,196,0.1); }
+    .benef-card.principal { border-top: 3px solid var(--azul-principal); }
+
+    .benef-avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 700;
+      flex-shrink: 0; font-family: 'Inter', sans-serif;
+    }
+    .av-azul   { background: var(--azul-suave);   color: var(--azul-principal); }
+    .av-verde  { background: var(--verde-suave);   color: var(--verde); }
+    .av-morado { background: var(--morado-suave);  color: var(--morado); }
+    .av-amarillo{ background: var(--amarillo-suave); color: var(--amarillo); }
+
+    .benef-nombre { font-size: 0.95rem; font-weight: 700; color: var(--gris-texto); margin-bottom: 2px; }
+    .benef-parentesco { font-size: 0.78rem; color: var(--gris-medio); margin-bottom: 8px; }
+
+    .benef-dato { font-size: 0.78rem; color: var(--gris-medio); display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+    .benef-dato i { color: var(--azul-principal); width: 14px; }
+
+    .porcentaje-barra { height: 6px; background: var(--gris-borde); border-radius: 50px; margin: 10px 0 4px; overflow: hidden; }
+    .porcentaje-fill  { height: 100%; border-radius: 50px; background: var(--azul-principal); }
+    .porcentaje-label { font-size: 0.74rem; color: var(--gris-medio); display: flex; justify-content: space-between; }
+
+    .badge-principal {
+      font-size: 0.68rem; font-weight: 700; padding: 2px 9px; border-radius: 50px;
+      background: var(--azul-suave); color: var(--azul-principal);
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .badge-secundario {
+      font-size: 0.68rem; font-weight: 700; padding: 2px 9px; border-radius: 50px;
+      background: var(--gris-fondo); color: var(--gris-medio);
+      border: 1px solid var(--gris-borde);
+    }
+    .badge-activo-b {
+      font-size: 0.68rem; font-weight: 700; padding: 2px 9px; border-radius: 50px;
+      background: var(--verde-suave); color: var(--verde);
+    }
+
+    .benef-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+
+    /* ── COBERTURA ITEM ── */
+    .cobertura-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 0; border-bottom: 1px solid var(--gris-borde);
+    }
+    .cobertura-item:last-child { border-bottom: none; }
+    .cob-icon {
+      width: 38px; height: 38px; border-radius: 9px;
+      background: var(--azul-suave);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .cob-icon i { font-size: 1rem; color: var(--azul-principal); }
+    .cob-info { flex: 1; min-width: 0; }
+    .cob-nombre  { font-size: 0.86rem; font-weight: 600; color: var(--gris-texto); }
+    .cob-detalle { font-size: 0.74rem; color: var(--gris-medio); }
+    .cob-monto   { font-size: 0.9rem; font-weight: 700; color: var(--azul-principal); white-space: nowrap; }
+
+    /* ── FORMULARIO ── */
+    .form-label-sh { font-size: 0.8rem; font-weight: 600; color: var(--gris-texto); margin-bottom: 4px; }
+    .form-control-sh {
+      border: 1px solid var(--gris-borde); border-radius: 8px;
+      padding: 9px 13px; font-size: 0.86rem; color: var(--gris-texto);
+      background: var(--blanco); width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-control-sh:focus {
+      border-color: var(--azul-principal);
+      box-shadow: 0 0 0 3px rgba(58,143,196,0.15); outline: none;
+    }
+    .form-select-sh {
+      border: 1px solid var(--gris-borde); border-radius: 8px;
+      padding: 9px 13px; font-size: 0.86rem; color: var(--gris-texto);
+      background: var(--blanco); width: 100%; appearance: auto;
+      transition: border-color 0.2s;
+    }
+    .form-select-sh:focus { border-color: var(--azul-principal); outline: none; box-shadow: 0 0 0 3px rgba(58,143,196,0.15); }
+
+    /* ── BOTONES ── */
+    .btn-sh-primary {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 22px; border-radius: 50px;
+      background: var(--azul-principal); color: var(--blanco);
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+      border: none; cursor: pointer; transition: background 0.2s, transform 0.15s;
+      text-decoration: none;
+    }
+    .btn-sh-primary:hover { background: var(--azul-medio); transform: translateY(-1px); color: var(--blanco); }
+
+    .btn-sh-outline {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 16px; border: 1.5px solid var(--azul-principal);
+      border-radius: 50px; background: transparent; color: var(--azul-principal);
+      font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; transition: background 0.2s; text-decoration: none;
+    }
+    .btn-sh-outline:hover { background: var(--azul-suave); color: var(--azul-principal); }
+
+    .btn-sh-danger {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 50px;
+      background: var(--rojo-suave); color: var(--rojo);
+      font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+      border: 1px solid #f1948a; cursor: pointer; transition: background 0.2s;
+    }
+    .btn-sh-danger:hover { background: #fad7d3; }
+
+    /* ── MODAL OVERRIDE ── */
+    .modal-content { border-radius: 14px; border: 1px solid var(--gris-borde); }
+    .modal-header  { border-bottom: 1px solid var(--gris-borde); padding: 18px 22px; }
+    .modal-footer  { border-top: 1px solid var(--gris-borde); padding: 14px 22px; }
+    .modal-title   { font-family: 'Lora', serif; font-size: 1rem; font-weight: 600; }
+    .btn-close:focus { box-shadow: none; }
+
+    /* ── RESUMEN COBERTURA (hero) ── */
+    .cobertura-hero {
+      background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-principal) 100%);
+      border-radius: 14px; padding: 24px; color: var(--blanco);
+      margin-bottom: 20px; position: relative; overflow: hidden;
+    }
+    .cobertura-hero::before {
+      content: '';
+      position: absolute; right: -20px; top: -20px;
+      width: 120px; height: 120px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .cobertura-hero .ch-label { font-size: 0.78rem; opacity: 0.8; margin-bottom: 4px; }
+    .cobertura-hero .ch-valor { font-size: 1.7rem; font-weight: 700; font-family: 'Inter', sans-serif; margin-bottom: 2px; }
+    .cobertura-hero .ch-desc  { font-size: 0.78rem; opacity: 0.75; }
+
+    /* ── ALERTA LÍMITE ── */
+    .alerta-limite {
+      background: var(--amarillo-suave); border: 1px solid #f0c060;
+      border-radius: 10px; padding: 12px 16px;
+      font-size: 0.82rem; color: var(--amarillo);
+      display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px;
+    }
+    .alerta-limite i { flex-shrink: 0; margin-top: 2px; font-size: 1rem; }
+
+    /* ── FOOTER ── */
+    .footer-sh { background-color:var(--blanco); border-top:1px solid var(--gris-borde); padding:28px 20px; text-align:center; }
+    .footer-sh .footer-logo img { height:34px; opacity:0.7; margin-bottom:10px; }
+    .footer-sh p { font-size:0.8rem; color:var(--gris-medio); margin-bottom:4px; }
+    .footer-sh a { color:var(--azul-principal); text-decoration:none; }
+    .footer-sh a:hover { text-decoration:underline; }
+    .footer-divider { width:36px; height:2px; background-color:var(--gris-borde); border-radius:2px; margin:12px auto; }
+
+    /* ── TOAST ── */
+    .toast-sh {
+      position:fixed; bottom:24px; right:24px; z-index:9999;
+      background:var(--gris-texto); color:var(--blanco);
+      padding:11px 20px; border-radius:10px; font-size:0.84rem; font-weight:500;
+      box-shadow:0 4px 20px rgba(0,0,0,0.15);
+      opacity:0; pointer-events:none; transition:opacity 0.3s;
+    }
+    .toast-sh.show { opacity:1; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════ -->
+  <nav class="navbar navbar-expand-lg navbar-sh">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="logo.png" alt="Logo"/>
+        <div class="brand-text">
+          <strong>Sociedad Humanista</strong>
+          <span>Santa Martha S.A. de C.V.</span>
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav align-items-lg-center gap-1">
+          <li class="nav-item"><a class="nav-link" href="misDatos.html"><i class="bi bi-house me-1"></i>Mis datos</a></li>
+          <li class="nav-item"><a class="nav-link" href="cobros.html"><i class="bi bi-credit-card me-1"></i>Cobros</a></li>
+          <li class="nav-item"><a class="nav-link" href="planFunerario.html"><i class="bi bi-file-earmark-heart me-1"></i>Mi plan funerario</a></li>
+          <li class="nav-item"><a class="nav-link" href="informacion.html"><i class="bi bi-info-circle me-1"></i>Información</a></li>
+          <li class="nav-item"><a class="nav-link" href="notificaciones.html"><i class="bi bi-bell me-1"></i>Notificaciones</a></li>
+          <li class="nav-item"><a class="nav-link" href="panelAdministrativo.html"><i class="bi bi-arrow-left-right me-1"></i>Movimientos</a></li>
+          <li class="nav-item"><a class="nav-link active" href="beneficiarios.html"><i class="bi bi-people me-1"></i>Beneficiarios</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="nav-link nav-link-cerrar" href="index.html"><i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════
+       PAGE HEADER
+  ══════════════════════════════════════ -->
+  <div class="page-header">
+    <div class="header-icon"><i class="bi bi-people"></i></div>
+    <h1>Beneficiarios</h1>
+    <p>Gestione los beneficiarios registrados en su contrato de previsión funeraria</p>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CONTENIDO
+  ══════════════════════════════════════ -->
+  <section class="benef-section">
+    <div class="container-lg">
+
+      <!-- ① BENEFICIARIOS REGISTRADOS -->
+      <div class="row g-4 mb-4">
+        <div class="col-12">
+          <div class="seccion-titulo d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+              <h2><i class="bi bi-people" style="color:var(--azul-principal)"></i> Beneficiarios Registrados</h2>
+              <div class="linea-azul"></div>
+            </div>
+            <button class="btn-sh-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">
+              <i class="bi bi-person-plus"></i> Agregar Beneficiario
+            </button>
+          </div>
+        </div>
+
+        <!-- Alerta límite -->
+        <div class="col-12">
+          <div class="alerta-limite">
+            <i class="bi bi-info-circle-fill"></i>
+            <div>
+              <strong>Límite de beneficiarios:</strong> Su plan permite hasta <strong>4 beneficiarios</strong>.
+              Actualmente tiene <strong>3 registrados</strong>. Puede agregar 1 más.
+            </div>
+          </div>
+        </div>
+
+        <!-- Beneficiario 1 — Principal -->
+        <div class="col-12 col-md-6 col-lg-4 d-flex flex-column">
+          <div class="benef-card principal">
+            <div class="d-flex align-items-center gap-3 mb-12" style="margin-bottom:12px;">
+              <div class="benef-avatar av-azul">MP</div>
+              <div>
+                <div class="benef-nombre">María L. Pérez</div>
+                <div class="benef-parentesco">Cónyuge</div>
+                <span class="badge-principal"><i class="bi bi-star-fill" style="font-size:0.55rem;"></i> Principal</span>
+              </div>
+            </div>
+            <div class="benef-dato"><i class="bi bi-telephone"></i> 782 157 4801</div>
+            <div class="benef-dato"><i class="bi bi-envelope"></i> maria.perez@correo.com</div>
+            <div class="benef-dato"><i class="bi bi-calendar3"></i> Nac. 15 mar 1975</div>
+            <div class="benef-dato"><i class="bi bi-card-text"></i> CURP: LOPM750315MDFPRS06</div>
+            <div class="porcentaje-barra"><div class="porcentaje-fill" style="width:60%; background:var(--azul-principal);"></div></div>
+            <div class="porcentaje-label"><span>Cobertura asignada</span><span style="font-weight:700;color:var(--azul-principal);">60%</span></div>
+            <div class="benef-actions">
+              <button class="btn-sh-outline" onclick="abrirEditar('María L. Pérez','Cónyuge','60')">
+                <i class="bi bi-pencil"></i> Editar
+              </button>
+              <button class="btn-sh-outline" data-bs-toggle="modal" data-bs-target="#modalCobertura">
+                <i class="bi bi-shield-check"></i> Cobertura
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Beneficiario 2 -->
+        <div class="col-12 col-md-6 col-lg-4 d-flex flex-column">
+          <div class="benef-card">
+            <div class="d-flex align-items-center gap-3 mb-12" style="margin-bottom:12px;">
+              <div class="benef-avatar av-verde">JR</div>
+              <div>
+                <div class="benef-nombre">José R. Pérez</div>
+                <div class="benef-parentesco">Hijo</div>
+                <span class="badge-secundario">Secundario</span>
+              </div>
+            </div>
+            <div class="benef-dato"><i class="bi bi-telephone"></i> 782 134 5600</div>
+            <div class="benef-dato"><i class="bi bi-envelope"></i> jose.perez@correo.com</div>
+            <div class="benef-dato"><i class="bi bi-calendar3"></i> Nac. 08 jun 1998</div>
+            <div class="benef-dato"><i class="bi bi-card-text"></i> CURP: PERJ980608HDFRZS01</div>
+            <div class="porcentaje-barra"><div class="porcentaje-fill" style="width:25%; background:var(--verde);"></div></div>
+            <div class="porcentaje-label"><span>Cobertura asignada</span><span style="font-weight:700;color:var(--verde);">25%</span></div>
+            <div class="benef-actions">
+              <button class="btn-sh-outline" onclick="abrirEditar('José R. Pérez','Hijo','25')">
+                <i class="bi bi-pencil"></i> Editar
+              </button>
+              <button class="btn-sh-outline" data-bs-toggle="modal" data-bs-target="#modalCobertura">
+                <i class="bi bi-shield-check"></i> Cobertura
+              </button>
+              <button class="btn-sh-danger" onclick="confirmarEliminar('José R. Pérez')">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Beneficiario 3 -->
+        <div class="col-12 col-md-6 col-lg-4 d-flex flex-column">
+          <div class="benef-card">
+            <div class="d-flex align-items-center gap-3 mb-12" style="margin-bottom:12px;">
+              <div class="benef-avatar av-morado">AL</div>
+              <div>
+                <div class="benef-nombre">Ana L. Pérez</div>
+                <div class="benef-parentesco">Hija</div>
+                <span class="badge-secundario">Secundario</span>
+              </div>
+            </div>
+            <div class="benef-dato"><i class="bi bi-telephone"></i> 782 198 3302</div>
+            <div class="benef-dato"><i class="bi bi-envelope"></i> ana.perez@correo.com</div>
+            <div class="benef-dato"><i class="bi bi-calendar3"></i> Nac. 22 sep 2001</div>
+            <div class="benef-dato"><i class="bi bi-card-text"></i> CURP: PELA010922MDFRZN09</div>
+            <div class="porcentaje-barra"><div class="porcentaje-fill" style="width:15%; background:var(--morado);"></div></div>
+            <div class="porcentaje-label"><span>Cobertura asignada</span><span style="font-weight:700;color:var(--morado);">15%</span></div>
+            <div class="benef-actions">
+              <button class="btn-sh-outline" onclick="abrirEditar('Ana L. Pérez','Hija','15')">
+                <i class="bi bi-pencil"></i> Editar
+              </button>
+              <button class="btn-sh-outline" data-bs-toggle="modal" data-bs-target="#modalCobertura">
+                <i class="bi bi-shield-check"></i> Cobertura
+              </button>
+              <button class="btn-sh-danger" onclick="confirmarEliminar('Ana L. Pérez')">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ② VER COBERTURA (resumen) -->
+      <div class="row g-4 mb-4">
+        <div class="col-12">
+          <div class="seccion-titulo">
+            <h2><i class="bi bi-shield-check" style="color:var(--azul-principal)"></i> Resumen de Cobertura</h2>
+            <div class="linea-azul"></div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-5 d-flex flex-column">
+          <!-- Hero cobertura -->
+          <div class="cobertura-hero">
+            <div class="row g-3">
+              <div class="col-6">
+                <div class="ch-label">Cobertura total del plan</div>
+                <div class="ch-valor">$45,000</div>
+                <div class="ch-desc">Plan Básico — SHM-2023-00842</div>
+              </div>
+              <div class="col-6">
+                <div class="ch-label">Beneficiarios registrados</div>
+                <div class="ch-valor">3 / 4</div>
+                <div class="ch-desc">1 disponible para agregar</div>
+              </div>
+              <div class="col-6">
+                <div class="ch-label">Cobertura distribuida</div>
+                <div class="ch-valor">100%</div>
+                <div class="ch-desc">Distribución completa</div>
+              </div>
+              <div class="col-6">
+                <div class="ch-label">Vigencia del contrato</div>
+                <div class="ch-valor">2031</div>
+                <div class="ch-desc">5 años restantes</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Distribución por beneficiario -->
+          <div class="info-card" style="flex:1;">
+            <div class="card-section-title">
+              <i class="bi bi-pie-chart" style="color:var(--azul-principal)"></i> Distribución por Beneficiario
+            </div>
+            <div style="margin-bottom:14px;">
+              <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:600;margin-bottom:4px;">
+                <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--azul-principal);margin-right:6px;"></span>María L. Pérez</span>
+                <span style="color:var(--azul-principal);">60% — $27,000</span>
+              </div>
+              <div class="porcentaje-barra"><div class="porcentaje-fill" style="width:60%;"></div></div>
+            </div>
+            <div style="margin-bottom:14px;">
+              <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:600;margin-bottom:4px;">
+                <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--verde);margin-right:6px;"></span>José R. Pérez</span>
+                <span style="color:var(--verde);">25% — $11,250</span>
+              </div>
+              <div class="porcentaje-barra"><div class="porcentaje-fill" style="width:25%;background:var(--verde);"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:600;margin-bottom:4px;">
+                <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--morado);margin-right:6px;"></span>Ana L. Pérez</span>
+                <span style="color:var(--morado);">15% — $6,750</span>
+              </div>
+              <div class="porcentaje-barra"><div class="porcentaje-fill" style="width:15%;background:var(--morado);"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Servicios cubiertos -->
+        <div class="col-12 col-lg-7 d-flex flex-column">
+          <div class="info-card" style="flex:1;">
+            <div class="card-section-title">
+              <i class="bi bi-list-check" style="color:var(--azul-principal)"></i> Servicios Cubiertos por el Plan
+            </div>
+            <div class="cobertura-item">
+              <div class="cob-icon"><i class="bi bi-box-seam"></i></div>
+              <div class="cob-info">
+                <div class="cob-nombre">Ataúd</div>
+                <div class="cob-detalle">Modelo estándar incluido en el plan básico</div>
+              </div>
+              <div class="cob-monto">$8,000</div>
+            </div>
+            <div class="cobertura-item">
+              <div class="cob-icon"><i class="bi bi-building"></i></div>
+              <div class="cob-info">
+                <div class="cob-nombre">Sala Velatoria</div>
+                <div class="cob-detalle">Hasta 12 horas en instalaciones propias</div>
+              </div>
+              <div class="cob-monto">$6,500</div>
+            </div>
+            <div class="cobertura-item">
+              <div class="cob-icon"><i class="bi bi-geo-alt"></i></div>
+              <div class="cob-info">
+                <div class="cob-nombre">Traslado</div>
+                <div class="cob-detalle">Traslado local hasta 50 km sin cargo adicional</div>
+              </div>
+              <div class="cob-monto">$4,500</div>
+            </div>
+            <div class="cobertura-item">
+              <div class="cob-icon"><i class="bi bi-flower1"></i></div>
+              <div class="cob-info">
+                <div class="cob-nombre">Inhumación</div>
+                <div class="cob-detalle">Servicio completo de inhumación en panteón convenio</div>
+              </div>
+              <div class="cob-monto">$12,000</div>
+            </div>
+            <div class="cobertura-item">
+              <div class="cob-icon"><i class="bi bi-fire"></i></div>
+              <div class="cob-info">
+                <div class="cob-nombre">Cremación</div>
+                <div class="cob-detalle">Servicio alternativo a inhumación (a elección)</div>
+              </div>
+              <div class="cob-monto">$10,000</div>
+            </div>
+            <div class="cobertura-item">
+              <div class="cob-icon"><i class="bi bi-file-earmark-text"></i></div>
+              <div class="cob-info">
+                <div class="cob-nombre">Asesoría Legal</div>
+                <div class="cob-detalle">Gestión de actas, permisos y documentación oficial</div>
+              </div>
+              <div class="cob-monto">$4,000</div>
+            </div>
+            <div style="padding-top:14px;border-top:1px solid var(--gris-borde);display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:0.82rem;color:var(--gris-medio);">Total cubierto</span>
+              <span style="font-size:1.1rem;font-weight:700;color:var(--azul-principal);">$45,000 MXN</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /container-lg -->
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════ -->
+  <footer class="footer-sh">
+    <div class="footer-logo"><img src="logo.png" alt="Logo"/></div>
+    <p><strong style="color:var(--gris-texto)">Sociedad Humanista Santa Martha S.A. de C.V.</strong></p>
+    <div class="footer-divider"></div>
+    <p>¿Necesita ayuda? <a href="https://api.whatsapp.com/send?phone=5217821574801" target="_blank">Contáctenos por WhatsApp</a></p>
+    <p class="mt-2">© 2026 Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- ══════════════════════════════════════
+       MODAL — AGREGAR BENEFICIARIO
+  ══════════════════════════════════════ -->
+  <div class="modal fade" id="modalAgregar" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-person-plus me-2" style="color:var(--azul-principal)"></i>Agregar Beneficiario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="formAgregar" onsubmit="guardarBeneficiario(event)">
+            <div class="row g-3">
+              <div class="col-12 col-md-4">
+                <label class="form-label-sh">Nombre(s) *</label>
+                <input type="text" class="form-control-sh" placeholder="Ej. María Luisa" required/>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label-sh">Apellido Paterno *</label>
+                <input type="text" class="form-control-sh" placeholder="Ej. López" required/>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label-sh">Apellido Materno</label>
+                <input type="text" class="form-control-sh" placeholder="Ej. Pérez"/>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label-sh">Parentesco *</label>
+                <select class="form-select-sh" required>
+                  <option value="">Seleccionar…</option>
+                  <option>Cónyuge</option>
+                  <option>Hijo/a</option>
+                  <option>Padre</option>
+                  <option>Madre</option>
+                  <option>Hermano/a</option>
+                  <option>Otro</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label-sh">Fecha de Nacimiento *</label>
+                <input type="date" class="form-control-sh" required/>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label-sh">CURP *</label>
+                <input type="text" class="form-control-sh" placeholder="18 caracteres" maxlength="18" style="text-transform:uppercase" required/>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label-sh">Teléfono</label>
+                <input type="tel" class="form-control-sh" placeholder="782 000 0000"/>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label-sh">Correo Electrónico</label>
+                <input type="email" class="form-control-sh" placeholder="correo@ejemplo.com"/>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label-sh">% de Cobertura Asignado *</label>
+                <input type="number" class="form-control-sh" placeholder="Ej. 25" min="1" max="100" required/>
+                <div style="font-size:0.74rem;color:var(--gris-medio);margin-top:4px;">
+                  <i class="bi bi-info-circle"></i> La suma de todos los beneficiarios debe ser 100%.
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label-sh">Tipo</label>
+                <select class="form-select-sh">
+                  <option>Secundario</option>
+                  <option>Principal</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-sh-outline" data-bs-dismiss="modal"><i class="bi bi-x"></i> Cancelar</button>
+          <button type="submit" form="formAgregar" class="btn-sh-primary"><i class="bi bi-person-check"></i> Guardar Beneficiario</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MODAL — EDITAR BENEFICIARIO
+  ══════════════════════════════════════ -->
+  <div class="modal fade" id="modalEditar" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-pencil me-2" style="color:var(--azul-principal)"></i>Editar Beneficiario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="formEditar" onsubmit="actualizarBeneficiario(event)">
+            <div class="row g-3">
+              <div class="col-12 col-md-4">
+                <label class="form-label-sh">Nombre(s) *</label>
+                <input type="text" id="edit-nombre" class="form-control-sh" required/>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label-sh">Apellido Paterno *</label>
+                <input type="text" id="edit-ap" class="form-control-sh" required/>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label-sh">Apellido Materno</label>
+                <input type="text" id="edit-am" class="form-control-sh"/>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label-sh">Parentesco *</label>
+                <select id="edit-parentesco" class="form-select-sh" required>
+                  <option>Cónyuge</option><option>Hijo/a</option>
+                  <option>Padre</option><option>Madre</option>
+                  <option>Hermano/a</option><option>Otro</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label-sh">Fecha de Nacimiento</label>
+                <input type="date" class="form-control-sh"/>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label-sh">CURP</label>
+                <input type="text" class="form-control-sh" maxlength="18" style="text-transform:uppercase"/>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label-sh">Teléfono</label>
+                <input type="tel" class="form-control-sh" placeholder="782 000 0000"/>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label-sh">Correo Electrónico</label>
+                <input type="email" class="form-control-sh"/>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label-sh">% de Cobertura Asignado *</label>
+                <input type="number" id="edit-porcentaje" class="form-control-sh" min="1" max="100" required/>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label-sh">Tipo</label>
+                <select class="form-select-sh">
+                  <option>Secundario</option><option>Principal</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-sh-danger" data-bs-dismiss="modal" onclick="mostrarToast('Cambios descartados')"><i class="bi bi-x"></i> Cancelar</button>
+          <button type="submit" form="formEditar" class="btn-sh-primary"><i class="bi bi-check2"></i> Actualizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MODAL — VER COBERTURA DETALLADA
+  ══════════════════════════════════════ -->
+  <div class="modal fade" id="modalCobertura" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-shield-check me-2" style="color:var(--azul-principal)"></i>Cobertura del Beneficiario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div style="background:var(--azul-suave);border-radius:10px;padding:16px;margin-bottom:18px;text-align:center;">
+            <div style="font-size:0.78rem;color:var(--gris-medio);margin-bottom:4px;">Monto total de cobertura asignado</div>
+            <div style="font-size:1.8rem;font-weight:700;color:var(--azul-principal);font-family:'Inter',sans-serif;">$27,000 MXN</div>
+            <div style="font-size:0.78rem;color:var(--gris-medio);">60% de la cobertura total del plan</div>
+          </div>
+          <div class="cobertura-item">
+            <div class="cob-icon"><i class="bi bi-box-seam"></i></div>
+            <div class="cob-info"><div class="cob-nombre">Ataúd</div><div class="cob-detalle">Incluido</div></div>
+            <div class="cob-monto">$8,000</div>
+          </div>
+          <div class="cobertura-item">
+            <div class="cob-icon"><i class="bi bi-building"></i></div>
+            <div class="cob-info"><div class="cob-nombre">Sala Velatoria</div><div class="cob-detalle">12 horas</div></div>
+            <div class="cob-monto">$6,500</div>
+          </div>
+          <div class="cobertura-item">
+            <div class="cob-icon"><i class="bi bi-geo-alt"></i></div>
+            <div class="cob-info"><div class="cob-nombre">Traslado</div><div class="cob-detalle">Hasta 50 km</div></div>
+            <div class="cob-monto">$4,500</div>
+          </div>
+          <div class="cobertura-item">
+            <div class="cob-icon"><i class="bi bi-flower1"></i></div>
+            <div class="cob-info"><div class="cob-nombre">Inhumación</div><div class="cob-detalle">Panteón convenio</div></div>
+            <div class="cob-monto">$8,000</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-sh-outline" data-bs-dismiss="modal"><i class="bi bi-x"></i> Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MODAL — CONFIRMAR ELIMINAR
+  ══════════════════════════════════════ -->
+  <div class="modal fade" id="modalEliminar" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2" style="color:var(--rojo)"></i>Eliminar Beneficiario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--rojo-suave);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+            <i class="bi bi-person-dash" style="font-size:1.4rem;color:var(--rojo);"></i>
+          </div>
+          <p style="font-size:0.88rem;color:var(--gris-texto);margin-bottom:6px;">¿Está seguro de eliminar a <strong id="eliminar-nombre"></strong> como beneficiario?</p>
+          <p style="font-size:0.78rem;color:var(--gris-medio);">Esta acción no se puede deshacer. El porcentaje de cobertura quedará sin asignar.</p>
+        </div>
+        <div class="modal-footer justify-content-center gap-3">
+          <button type="button" class="btn-sh-outline" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn-sh-danger" data-bs-dismiss="modal" onclick="mostrarToast('Beneficiario eliminado')">
+            <i class="bi bi-trash"></i> Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-sh" id="toastSh"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function abrirEditar(nombre, parentesco, porcentaje) {
+      const partes = nombre.split(' ');
+      document.getElementById('edit-nombre').value     = partes[0] || '';
+      document.getElementById('edit-ap').value         = partes[1] || '';
+      document.getElementById('edit-am').value         = partes[2] || '';
+      document.getElementById('edit-porcentaje').value = porcentaje;
+      // Seleccionar parentesco
+      const sel = document.getElementById('edit-parentesco');
+      for (let opt of sel.options) {
+        if (opt.value === parentesco || opt.text === parentesco) { opt.selected = true; break; }
+      }
+      new bootstrap.Modal(document.getElementById('modalEditar')).show();
+    }
+
+    function guardarBeneficiario(e) {
+      e.preventDefault();
+      bootstrap.Modal.getInstance(document.getElementById('modalAgregar')).hide();
+      mostrarToast('Beneficiario agregado exitosamente ✓');
+      e.target.reset();
+    }
+
+    function actualizarBeneficiario(e) {
+      e.preventDefault();
+      bootstrap.Modal.getInstance(document.getElementById('modalEditar')).hide();
+      mostrarToast('Beneficiario actualizado exitosamente ✓');
+    }
+
+    function confirmarEliminar(nombre) {
+      document.getElementById('eliminar-nombre').textContent = nombre;
+      new bootstrap.Modal(document.getElementById('modalEliminar')).show();
+    }
+
+    function mostrarToast(msg) {
+      const t = document.getElementById('toastSh');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>
